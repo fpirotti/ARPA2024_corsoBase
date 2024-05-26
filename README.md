@@ -1,7 +1,6 @@
-# ARPA 2024 corsoBase
+# Corso base geostatistica ARPA 2024
 
-## Corso base geostatistica ARPA 2024
-
+## Modulo 1
 
 
 ### Giorno 1 
@@ -18,7 +17,7 @@ asdfas
 
 -------------------------
 
-## Corso base geostatistica ARPA 2024
+## Modulo 2
 
 ### Giorno 1 
 
