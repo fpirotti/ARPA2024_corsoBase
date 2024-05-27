@@ -1,0 +1,374 @@
+---
+title: "Giorno 1 Geostatistica - corso base"
+author: "Francesco Pirotti"
+date: "`r Sys.Date()`"
+output: 
+  slidy_presentation:
+    fig_width: 6
+    fig_height: 4
+    footer: Copyright (c) 2014, Prof. Francesco Pirotti
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Cosa impareremo
+
+-   struttura di R (base e pacchetti), potenzialità
+-   RStudio: come funziona (panoramica)
+-   Documentazione, esempi, snippets per imparare
+-   assegnazione ed utilizzo variabili
+-   principali strutture dati: oggetti e funzioni in R
+-   leggere e scrivere dati tabellari e complessi
+
+## Introduzione
+
+-   struttura di R - percorso di installazione
+
+![](images/clipboard-431216307.png)
+
+## RStudio
+
+-   versione desktop/server
+-   vantaggi interfaccia:
+    -   console/terminale/background
+    -   progetti/packages/help
+    -   Environment/History/Connection/Tutorial
+
+![](images/clipboard-3935879104.png){width="10in"}
+
+## Immissione dei comandi
+
+R è un programma basato su righe di comando.
+
+L'utente immette i comandi al prompt ( \> ) e ciascun comando viene
+eseguito uno alla volta andando a capo.
+
+Le righe di comando solitamente vengono salvate in un file "script" con
+estensione "R" (.R) e vengono eseguite una alla volta mediante "invio" o
+con selezione multipla e "invio".
+
+Con RStudio è possibile eseguire l'intero file, fermandosi eventualmente
+in punti specifici "breakpoints" (lo vedremo durante il corso)
+
+### Esercizio:
+
+esegui comando della figura alla [slide precedente](#).
+
+```{r echo=TRUE}
+saluto <- "ciao"
+print(saluto)
+```
+
+## Documentazione, esempi, snippets per imparare
+
+Ogni singola funzione ha ampia documentazione con molti esempi.
+Chiamando una funzione dopo uno o due punti interrogativi richiama la
+documentazione. Quasi sempre gli esempi sono eseguibili facendo
+copia/incolla
+
+### Esercizio:
+
+esegui il primo esempio dalla documentazione della funzione *print*
+
+```{r}
+
+?print
+??print
+
+```
+
+## Variabili e funzioni (parte 1)
+
+Qui vediamo una variabile ed una funzione.
+
+**NB1** - la variabile "saluto" è nel environment
+("ambito/ambiente/campo") *globale\**. La funzione "print" è nel cmapo
+del package "base" - tieni premuto il tasto CTRL e seleziona il nome
+della funzione - vedi cosa succede.
+
+**NB2** - operatore di assegnazione `<-` (o `<<-` nel caso si voglia
+forzare l'assegnazione ad una variabile *globale\**)
+
+![](images/clipboard-3935879104.png){width="10in"}
+
+## Variabili e funzioni (parte 1) - Scope
+
+\*Le variabili create al di fuori di funzioni sono note come variabili
+***globali*****;** possono essere utilizzate sia all'interno delle
+funzioni che all'esterno.
+
+Sotto andiamo a creare una nostra funzione "salutami" che esegue il
+saluto. Provate a modificare l'operatore di assegnazione da `<<-` a
+`<<-` e rieseguire!!
+
+```{r}
+
+salutami <- function(){
+  saluto <- "ciao ARPA!!!"
+  print(saluto)
+}
+
+print(saluto)
+salutami()
+print(saluto)
+
+
+```
+
+## Strutture dati in R
+
+NB ogni elemento in R è considerato (ed è) un VETTORE. Le funzioni di R
+considerano ogni variabile un vettore. Cosa significa? Che le funzioni
+elaborano tutti gli elementi di un vettore "by default" e che ogni
+elemento è indicabile con un numero iniziando da 1 (non da 0 come
+solitamente succede in altri linguaggi).
+
+-   vector
+-   character
+-   integer
+-   numeric
+
+```{r   echo=T,  eval=FALSE, comment=F }
+
+miaVar <- FALSE
+class(miaVar)
+miaVar[[1]]
+miaVar[[2]]
+
+```
+
+## Strutture dati- vettori
+
+### Esercizio:
+
+perchè succede quello che vedete sotto?
+
+```{r  }
+
+miaVar <- c(1,4,6,8)
+class(miaVar)
+miaVar[[1]]
+miaVar[[2]]
+
+miaVar[[2]] <- "evviva"
+class(miaVar)
+print(miaVar)
+
+```
+
+## Strutture dati- matrix
+
+Matrix è un oggetto con struttura di matrice ovvero bidimensionale
+(righe × colonne); pensate a un gruppo di vettori impilati o affiancati.
+
+Si accede e si assegnano i valori con [r,c] dove r e ci sono gli indici
+di riga e colonna. Si può lasciare vuoto un indice per accedere alla
+riga/colonna
+
+```{r}
+mat <- matrix(c(1, 2, 3, 4), nrow = 2, ncol = 2)
+mat[[2]]
+mat[1,2]
+mat[1,]
+mat[1,2] <- 100
+
+
+```
+
+## Strutture dati- array
+
+Un array è una matrice multidimensionale.
+
+r=rows, c=columns, m=matrice.... etc...
+
+### Esercizio:
+
+Vedi sotto come creare un array a 3 dimensioni. Nota che duplica 9
+valori 2 volte. Prova a dare 8 valori invece che nove. Prova a dare 3
+valori. Cosa succede.
+
+```{r}
+ 
+# 2 vettori di valori 
+valori1 <- c(5, 9, 3) 
+valori2 <- c(10, 11, 12, 13, 14, 15) 
+column.names <- c("C1", "C2", "C3") 
+row.names <- c("R1", "R2", "R3") 
+matrix.names <- c("Matrix1", "Matrix2") 
+  
+# Take these vectors as input to the array. 
+result <- array(c(valori1, valori2), dim = c(3, 3, 2), 
+                  dimnames = list(row.names, 
+                                  column.names, 
+                                  matrix.names)) 
+print(result) 
+
+```
+
+## Strutture dati- list
+
+Le strutture vector/matrix/array, possono contenere solo una tipologia
+base (numeric, integer, character, logical...). Ma la struttura LIST no!
+
+La struttura *list* è un set di dati eterogenei; opzionalmente, è
+possibile assegnare dei nomi a ciascun elemento nel set.
+
+```{r  }
+
+lista <- list(1,4,6,8)
+class(lista)
+lista[[1]]
+lista[[2]]
+
+lista[[2]] <- "evviva"
+class(lista)
+lista[[1]]
+lista[[2]]
+print(lista)
+
+```
+
+## Strutture dati- list/nomi
+
+NB, la struttura LIST non è altro che un set, una "lista", di oggetti
+associata ad un indice. L'indice è un numero intero ma può essere un
+testo (simile al concetto di coppie "key-\>value"/chiave-\>valore).
+
+Può essere assegnato un indice/chiave per riferimento all'elemento nella
+lista
+
+```{r}
+
+names(lista)
+names(lista) <- c("primo", "secondo")
+lista[[1]]
+lista[["primo"]]
+
+```
+
+## Strutture dati- allocazione
+
+Svantaggi di strutture tipo *list*: usa più memoria!
+
+NB se dovete gestire volumi importanti di dati, considerate la
+pre-allocazione della memoria SE conoscete la dimensione. Vedi anche
+blog
+[qui](https://blog.sellorm.com/2019/12/16/vector-pre-allocation-in-r-a-simple-example/).
+
+```{r}
+
+vettoreMoltoGrande = numeric(1000)
+vettoreMoltoGrande[[100]]
+
+```
+
+## Strutture dati- Data frame 
+
+Un *data frame* è una struttura di tipo *list* ma con un numero uguale
+di “righe” per ogni colonna di attributi. È possibile manipolare i data
+frame filtrando sulle righe e operando sulle colonne.
+
+Sia righe che colonne possono avere identificativi.
+
+```{r}
+ c.lat <- c(45.1, 45.2, 45.3)
+ c.lon <- c(11.1, 11.2, 11.3)
+ 
+ geo.stz <- data.frame(stz=c("A", "B","C"),
+                          longitudine=c.lon,
+                          latitudine=c.lat)
+ 
+ colnames(geo.stz)
+ rownames(geo.stz)
+ rownames(geo.stz) <- geo.stz$stz
+ rownames(geo.stz)
+ 
+```
+
+## Strutture dati- Data frame 
+
+Le colonne sono *vettori* - si può richiamare e assegnare i valori di
+una colonna con `$` o `[[]]` o `[,"<nomecolonna>"]`
+
+```{r eval= FALSE }
+geo.stz$stz
+geo.stz[,"stz"]
+geo.stz[["stz"]]
+geo.stz$stz <- c("A1","B1", "C1")
+
+```
+
+## Strutture dati - Tibble
+
+Un data frame particolare, lo vedremo quando usiamo l'infrastruttura di
+librerie "tidyverse".
+
+NB - qio
+
+```{r echo=FALSE}
+library(tidyverse)
+geo.stz.tb <- tibble(geo.stz)
+class(geo.stz.tb)
+geo.stz.tb
+```
+
+## Salvare oggetti R
+
+Rstudio può salvare l'intero progetto con le variabili e le funzioni che
+vedete in alto a destra.
+
+Il comando `save` salva in un file con estensione "rda" che viene
+riconosciuto anche direttamente da RStudio. 
+
+Prova a cliccare sul file
+dopo aver lanciato la prima riga del comando seguente!
+
+```{r}
+save(geo.stz, miaVar, file="oggetti.rda")
+load("oggetti.rda")
+saveRDS(geo.stz, file = "geo.stz.RDS") 
+geo.stz <- readRDS("geo.stz.RDS")
+```
+
+## Operatori di R {#sec-gli-operatori-di-r}
+
+Gli operatori aritmetici e logici di R funzionano sia su singoli scalari che su vettori e strutture come array e matrix.
+
+NB questo vuol dire che si possono eseguire operazioni su tutti i singoli valori della struttura internamente (vectorization)!
+
+
+
+```{r}
+c.lat + 10
+c.lat == c.lon
+
+c.lat[[1]] <- 44
+c.lat <- c.lat - 1
+
+```
+
+
+
+
+
+
+## DOMANDE
+
+-   Se avete una serie di valori di concentrazione di CO2 con 1 milione
+    di valori come li assegnate ad una variabile? (....) indicano i
+    valori.
+
+    1.  val.co2 \<- list(.....)
+
+    2.  val.co2 \<- c(.....)
+
+    3.  val.co2 \<- numeric(1e6); val.co2
+
+## RISPOSTE
+
+-   1
