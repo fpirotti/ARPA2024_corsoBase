@@ -6,7 +6,10 @@ output:
   slidy_presentation:
     fig_width: 6
     fig_height: 4
-    footer: Copyright (c) 2014, Prof. Francesco Pirotti
+    footer: Copyright (c) 2024, Prof. Francesco Pirotti
+  pdf_document: 
+    fig_width: 6
+    fig_height: 4
 editor_options:
   markdown:
     wrap: 72
@@ -39,7 +42,7 @@ knitr::opts_chunk$set(echo = TRUE)
     -   progetti/packages/help
     -   Environment/History/Connection/Tutorial
 
-![](images/clipboard-3935879104.png){width="10in"}
+![](images/clipboard-3935879104.png)
 
 ## Immissione dei comandi
 
@@ -94,7 +97,7 @@ della funzione - vedi cosa succede.
 **NB2** - operatore di assegnazione `<-` (o `<<-` nel caso si voglia
 forzare l'assegnazione ad una variabile *globale\**)
 
-![](images/clipboard-3935879104.png){width="10in"}
+![](images/clipboard-3935879104.png)
 
 ## Variabili e funzioni (parte 1) - Scope
 

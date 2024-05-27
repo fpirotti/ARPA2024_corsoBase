@@ -2,36 +2,36 @@
 
 ## Modulo 1
 
+### Giorno 1
 
-### Giorno 1 
+**Materiale**: [slides](modulo1.html)- pdf
 
-asdfas
+Introduzione ad R/RStudio
 
-### Giorno 2 
+### Giorno 2
 
-asdfas
+**Materiale**: [slides](modulo1.html)- pdf
 
-### Giorno 3 
+### Giorno 3
 
-asdfas
+**Materiale**: [slides](modulo1.html)- pdf
 
--------------------------
+------------------------------------------------------------------------
 
 ## Modulo 2
 
-### Giorno 1 
+### Giorno 1
 
-asdfas
+**Materiale**: [slides](modulo1.html)- pdf
 
-### Giorno 2 
+### Giorno 2
 
-asdfas
+**Materiale**: [slides](modulo1.html)- pdf
 
-### Giorno 3 
+### Giorno 3
 
-asdfas
+**Materiale**: [slides](modulo1.html)- pdf
 
-### Giorno 4 
+### Giorno 4
 
-asdfas
-
+**Materiale**: [slides](modulo1.html)- pdf
