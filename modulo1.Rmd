@@ -1,15 +1,23 @@
 ---
-title: "Giorno 1 Geostatistica - corso base"
+title: "Modulo 1 Geostatistica - corso base"
 author: "Francesco Pirotti"
 date: "`r Sys.Date()`"
-output: 
-  slidy_presentation:
+output:
+  slidy_presentation: 
+    fig_width: 3
+    fig_height: 2
+    footer: 2024, Prof. Francesco Pirotti
+    css: style.css
+  pdf_document:
     fig_width: 6
     fig_height: 4
-    footer: Copyright (c) 2024, Prof. Francesco Pirotti
-  pdf_document: 
-    fig_width: 6
-    fig_height: 4
+  beamer_presentation: default
+  html_document:
+    toc: true 
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+      smooth_scroll: false 
 editor_options:
   markdown:
     wrap: 72
@@ -41,12 +49,15 @@ knitr::opts_chunk$set(echo = TRUE)
     -   console/terminale/background
     -   progetti/packages/help
     -   Environment/History/Connection/Tutorial
+-   Salvare un progetto, cartella di progetto, GIT e GitHub
+-   Working Directory predefinita, uso del tab per richiamare percorsi
 
 ![](images/clipboard-3935879104.png)
 
-## Immissione dei comandi
+## Righe codice - i comandi
 
-R è un programma basato su righe di comando.
+R è un programma basato su righe di codice con comandi che eseguono
+elaborazioni su dati.
 
 L'utente immette i comandi al prompt ( \> ) e ciascun comando viene
 eseguito uno alla volta andando a capo.
@@ -56,7 +67,7 @@ estensione "R" (.R) e vengono eseguite una alla volta mediante "invio" o
 con selezione multipla e "invio".
 
 Con RStudio è possibile eseguire l'intero file, fermandosi eventualmente
-in punti specifici "breakpoints" (lo vedremo durante il corso)
+in punti specifici "breakpoints" (lo vedremo durante il corso).
 
 ### Esercizio:
 
@@ -67,7 +78,19 @@ saluto <- "ciao"
 print(saluto)
 ```
 
-## Documentazione, esempi, snippets per imparare
+## Righe codice - commenti e sezioni
+
+Se non si vuole eseguire delle righe, basta mettere un carattere
+asterisco (`#`) all'inizio del testo che NON si vuole eseguire.
+
+NB se inserito all'inizio della riga, e seguito da testo e da 4 o più
+caratteri `-` o `#`, il testo diventa una sezione
+
+![](images/clipboard-2771987315.png){width="5in"}
+
+### 
+
+## Documentazione, esempi, snippets per imparare {#sec-documentazione-esempi-snippets-per-imparare}
 
 Ogni singola funzione ha ampia documentazione con molti esempi.
 Chiamando una funzione dopo uno o due punti interrogativi richiama la
@@ -78,19 +101,29 @@ copia/incolla
 
 esegui il primo esempio dalla documentazione della funzione *print*
 
-```{r}
+```{r eval=FALSE, echo=TRUE, include=FALSE}
 
 ?print
 ??print
 
 ```
 
+## Packages/Librerie
+
+Tantissime funzionalità aggiuntive sono disponibili su componenti
+aggiuntivi che vanno installate con il comando
+`install.packages(<nome libreria>)` e poi caricate con il comando
+`library(<nome libreria>)`. Da RStudio possiamo caricarle da interfaccia
+grafica.
+
+![](images/clipboard-348530046.png)
+
 ## Variabili e funzioni (parte 1)
 
 Qui vediamo una variabile ed una funzione.
 
-**NB1** - la variabile "saluto" è nel environment
-("ambito/ambiente/campo") *globale\**. La funzione "print" è nel cmapo
+**NB1** - la variabile "saluto" è nel Environment
+("ambito/ambiente/campo") *globale\**. La funzione "print" è nel campo
 del package "base" - tieni premuto il tasto CTRL e seleziona il nome
 della funzione - vedi cosa succede.
 
@@ -145,7 +178,7 @@ miaVar[[2]]
 
 ```
 
-## Strutture dati- vettori
+## Strutture dati: vettori
 
 ### Esercizio:
 
@@ -164,7 +197,7 @@ print(miaVar)
 
 ```
 
-## Strutture dati- matrix
+## Strutture dati: matrix
 
 Matrix è un oggetto con struttura di matrice ovvero bidimensionale
 (righe × colonne); pensate a un gruppo di vettori impilati o affiancati.
@@ -183,7 +216,7 @@ mat[1,2] <- 100
 
 ```
 
-## Strutture dati- array
+## Strutture dati: array
 
 Un array è una matrice multidimensionale.
 
@@ -204,16 +237,16 @@ column.names <- c("C1", "C2", "C3")
 row.names <- c("R1", "R2", "R3") 
 matrix.names <- c("Matrix1", "Matrix2") 
   
-# Take these vectors as input to the array. 
-result <- array(c(valori1, valori2), dim = c(3, 3, 2), 
+# Crea un array a tre dimensioni 
+arr <- array(c(valori1, valori2), dim = c(3, 3, 2), 
                   dimnames = list(row.names, 
                                   column.names, 
                                   matrix.names)) 
-print(result) 
+print(arr) 
 
 ```
 
-## Strutture dati- list
+## Strutture dati: list
 
 Le strutture vector/matrix/array, possono contenere solo una tipologia
 base (numeric, integer, character, logical...). Ma la struttura LIST no!
@@ -236,7 +269,7 @@ print(lista)
 
 ```
 
-## Strutture dati- list/nomi
+## Strutture dati: list/nomi
 
 NB, la struttura LIST non è altro che un set, una "lista", di oggetti
 associata ad un indice. L'indice è un numero intero ma può essere un
@@ -254,7 +287,7 @@ lista[["primo"]]
 
 ```
 
-## Strutture dati- allocazione
+## Strutture dati: allocazione
 
 Svantaggi di strutture tipo *list*: usa più memoria!
 
@@ -270,7 +303,7 @@ vettoreMoltoGrande[[100]]
 
 ```
 
-## Strutture dati- Data frame 
+## Strutture dati: Data frame
 
 Un *data frame* è una struttura di tipo *list* ma con un numero uguale
 di “righe” per ogni colonna di attributi. È possibile manipolare i data
@@ -282,27 +315,27 @@ Sia righe che colonne possono avere identificativi.
  c.lat <- c(45.1, 45.2, 45.3)
  c.lon <- c(11.1, 11.2, 11.3)
  
- geo.stz <- data.frame(stz=c("A", "B","C"),
+ df.geo.stz <- data.frame(stz=c("A", "B","C"),
                           longitudine=c.lon,
                           latitudine=c.lat)
  
- colnames(geo.stz)
- rownames(geo.stz)
- rownames(geo.stz) <- geo.stz$stz
- rownames(geo.stz)
+ colnames(df.geo.stz)
+ rownames(df.geo.stz)
+ rownames(df.geo.stz) <- df.geo.stz$stz
+ rownames(df.geo.stz)
  
 ```
 
-## Strutture dati- Data frame 
+## Strutture dati: Data frame
 
 Le colonne sono *vettori* - si può richiamare e assegnare i valori di
 una colonna con `$` o `[[]]` o `[,"<nomecolonna>"]`
 
 ```{r eval= FALSE }
-geo.stz$stz
-geo.stz[,"stz"]
-geo.stz[["stz"]]
-geo.stz$stz <- c("A1","B1", "C1")
+df.geo.stz$stz
+df.geo.stz[,"stz"]
+df.geo.stz[["stz"]]
+df.geo.stz$stz <- c("A1","B1", "C1")
 
 ```
 
@@ -313,11 +346,28 @@ librerie "tidyverse".
 
 NB - qio
 
-```{r echo=FALSE}
+```{r eval=FALSE, message=FALSE, warning=FALSE }
 library(tidyverse)
-geo.stz.tb <- tibble(geo.stz)
+geo.stz.tb <- tibble(df.geo.stz)
 class(geo.stz.tb)
 geo.stz.tb
+```
+
+## Convertire oggetti
+
+Oggetti tra loro compatibili si possono convertire; ad esempio tra
+matrix =\> data.frame usando il comando
+`as.data.frame(<oggetto matrix>)` viceversa attenzione che tutti i tipi
+di vettore vengono resi omogenei.
+
+Provate il seguente esercizio sotto.
+
+```{r eval=FALSE}
+mat
+df.mat <- as.data.frame(mat)
+as.matrix(df.mat)
+df.mat$nuovaColonna <- "testo"
+as.matrix(df.mat)
 ```
 
 ## Salvare oggetti R
@@ -326,25 +376,25 @@ Rstudio può salvare l'intero progetto con le variabili e le funzioni che
 vedete in alto a destra.
 
 Il comando `save` salva in un file con estensione "rda" che viene
-riconosciuto anche direttamente da RStudio. 
+riconosciuto anche direttamente da RStudio.
 
-Prova a cliccare sul file
-dopo aver lanciato la prima riga del comando seguente!
+Prova a cliccare sul file dopo aver lanciato la prima riga del comando
+seguente!
 
 ```{r}
-save(geo.stz, miaVar, file="oggetti.rda")
+save(df.geo.stz, miaVar, file="oggetti.rda")
 load("oggetti.rda")
-saveRDS(geo.stz, file = "geo.stz.RDS") 
-geo.stz <- readRDS("geo.stz.RDS")
+saveRDS(df.geo.stz, file = "geo.stz.RDS") 
+df.geo.stz <- readRDS("geo.stz.RDS")
 ```
 
 ## Operatori di R {#sec-gli-operatori-di-r}
 
-Gli operatori aritmetici e logici di R funzionano sia su singoli scalari che su vettori e strutture come array e matrix.
+Gli operatori aritmetici e logici di R funzionano sia su singoli scalari
+che su vettori e strutture come array e matrix.
 
-NB questo vuol dire che si possono eseguire operazioni su tutti i singoli valori della struttura internamente (vectorization)!
-
-
+NB questo vuol dire che si possono eseguire operazioni su tutti i
+singoli valori della struttura internamente (vectorization)!
 
 ```{r}
 c.lat + 10
@@ -354,11 +404,6 @@ c.lat[[1]] <- 44
 c.lat <- c.lat - 1
 
 ```
-
-
-
-
-
 
 ## DOMANDE
 
@@ -375,3 +420,66 @@ c.lat <- c.lat - 1
 ## RISPOSTE
 
 -   1
+
+# FINE SEZIONE
+
+## Caricare/salvare dati
+
+Dati in fogli di lavoro (**XLSX**) in file di testo strutturati
+(**CSV**) o non strutturati come **JSON** - come leggerli/scriverli.
+
+## Input dati: CSV
+
+I file CSV sono notoriamente file di testo strutturati come tabelle e
+molto utilizzati per condividere dati.
+
+Il comando standard è `read.csv` .
+
+NB non è ottimizzato per l'efficienza. Per dati massivi usare il comando
+`fread` dalla libreria data.table `data.table::fread()`.
+
+Facciamo un esercizio con dati ARPA! Scarichiamo dalla pagina
+[QUI](https://www.arpa.veneto.it/arpavinforma/indicatori-ambientali/indicatori_ambientali/clima-e-rischi-naturali/immagini-e-file-allegati/2021/prec_mensili_2020.csv)
+o direttamente da
+[QUI](https://www.arpa.veneto.it/arpavinforma/indicatori-ambientali/indicatori_ambientali/clima-e-rischi-naturali/immagini-e-file-allegati/2021/prec_mensili_2020.csv/@@download/file)
+i dati di precipitazione mensile - salvateli in una sottocartella "dati"
+e caricateli usando sia la funzione read.csv che fread dalla libreria
+data.table (se l'avete altrimenti vedete a schermo i risultati). Si
+vuole notare le differenze e come si chiama una funzione SENZA caricare
+una libreria, usando `::`.
+
+```{r eval=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+
+prec <- read.csv("dati/Prec_mensili_2020.csv")
+prec2 <- data.table::fread("dati/Prec_mensili_2020.csv")
+summary(prec2)
+```
+
+### Esercizio:
+
+Importate i dati inserendo i parametri corretti di read.csv - come
+noterete, la prima riga NON importa correttamente. La seconda si, ma è
+una funzione della libreria data.table. Usate la documentazione in R per
+capire come aggiungere argomenti alla funzione read.csv (vedi [sezione
+QUI](#sec-documentazione-esempi-snippets-per-imparare)). **NB** usate il
+tasto TAB per richiamare i percorsi, risparmiate tempo e fatica!
+
+## Input dati: Fogli excel
+
+I fogli di calcolo in formato MS Excel sono più strutturati rispetto ad
+un file CSV, dato che ogni colonna ha anche lo specifico tipo di dati
+(numero, testo, data ecc...).
+
+Per leggere/scrivere questi dati è necessario usare librerie aggiuntive.
+
+```{r eval=FALSE}
+prec3 <- prec2
+## nuova colonna 
+prec3$norm2020 <- prec3$`2020 (mm)` / prec3$`media 1993-2019 (mm)`
+writexl::write_xlsx( list("originale" =prec2, "elaborata"=prec3), path="dati/output.xlsx" )
+prec4 <- readxl::read_xlsx("dati/output.xlsx")
+
+
+```
+
+![](images/clipboard-2827995654.png)
