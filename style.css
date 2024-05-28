@@ -1,3 +1,7 @@
-code {
+code:not([class]) {
   color:red;
+}
+
+.obiettivo {
+  background: #eaea0055;
 }

@@ -4,9 +4,9 @@ author: "Francesco Pirotti"
 date: "`r Sys.Date()`"
 output:
   slidy_presentation: 
-    fig_width: 3
-    fig_height: 2
-    footer: 2024, Prof. Francesco Pirotti
+    fig_width: 6
+    fig_height: 4
+    footer:    "2024, Prof. Francesco Pirotti"
     css: style.css
   pdf_document:
     fig_width: 6
@@ -33,11 +33,12 @@ knitr::opts_chunk$set(echo = TRUE)
 -   RStudio: come funziona (panoramica)
 -   Documentazione, esempi, snippets per imparare
 -   assegnazione ed utilizzo variabili
--   principali strutture dati: oggetti e funzioni in R
+-   principali Tipo dati: oggetti e funzioni in R
 -   leggere e scrivere dati tabellari e complessi
 
-## Introduzione
+## R: panoramica
 
+-   Installazione di R, versioni
 -   struttura di R - percorso di installazione
 
 ![](images/clipboard-431216307.png)
@@ -52,7 +53,7 @@ knitr::opts_chunk$set(echo = TRUE)
 -   Salvare un progetto, cartella di progetto, GIT e GitHub
 -   Working Directory predefinita, uso del tab per richiamare percorsi
 
-![](images/clipboard-3935879104.png)
+![](images/clipboard-3935879104.png){width="6in"}
 
 ## Righe codice - i comandi
 
@@ -69,16 +70,14 @@ con selezione multipla e "invio".
 Con RStudio è possibile eseguire l'intero file, fermandosi eventualmente
 in punti specifici "breakpoints" (lo vedremo durante il corso).
 
-### Esercizio:
-
-esegui comando della figura alla [slide precedente](#).
+> Esercizio: esegui comando della figura alla [slide precedente](#).
 
 ```{r echo=TRUE}
 saluto <- "ciao"
 print(saluto)
 ```
 
-## Righe codice - commenti e sezioni
+## Commenti e sezioni
 
 Se non si vuole eseguire delle righe, basta mettere un carattere
 asterisco (`#`) all'inizio del testo che NON si vuole eseguire.
@@ -90,18 +89,17 @@ caratteri `-` o `#`, il testo diventa una sezione
 
 ### 
 
-## Documentazione, esempi, snippets per imparare {#sec-documentazione-esempi-snippets-per-imparare}
+## Documentazione/help {#sec-documentazione-esempi-snippets-per-imparare}
 
 Ogni singola funzione ha ampia documentazione con molti esempi.
 Chiamando una funzione dopo uno o due punti interrogativi richiama la
 documentazione. Quasi sempre gli esempi sono eseguibili facendo
 copia/incolla
 
-### Esercizio:
+> Esercizio: esegui il primo esempio dalla documentazione della funzione
+> *print*
 
-esegui il primo esempio dalla documentazione della funzione *print*
-
-```{r eval=FALSE, echo=TRUE, include=FALSE}
+```{r eval=FALSE, echo=TRUE  }
 
 ?print
 ??print
@@ -118,7 +116,7 @@ grafica.
 
 ![](images/clipboard-348530046.png)
 
-## Variabili e funzioni (parte 1)
+## Variabili e funzioni
 
 Qui vediamo una variabile ed una funzione.
 
@@ -132,7 +130,7 @@ forzare l'assegnazione ad una variabile *globale\**)
 
 ![](images/clipboard-3935879104.png)
 
-## Variabili e funzioni (parte 1) - Scope
+## Variabili e funzioni: Scope
 
 \*Le variabili create al di fuori di funzioni sono note come variabili
 ***globali*****;** possono essere utilizzate sia all'interno delle
@@ -178,7 +176,7 @@ miaVar[[2]]
 
 ```
 
-## Strutture dati: vettori
+## Tipo dati: vettori
 
 ### Esercizio:
 
@@ -197,7 +195,7 @@ print(miaVar)
 
 ```
 
-## Strutture dati: matrix
+## Tipo dati: matrix
 
 Matrix è un oggetto con struttura di matrice ovvero bidimensionale
 (righe × colonne); pensate a un gruppo di vettori impilati o affiancati.
@@ -216,17 +214,15 @@ mat[1,2] <- 100
 
 ```
 
-## Strutture dati: array
+## Tipo dati: array
 
 Un array è una matrice multidimensionale.
 
 r=rows, c=columns, m=matrice.... etc...
 
-### Esercizio:
-
-Vedi sotto come creare un array a 3 dimensioni. Nota che duplica 9
-valori 2 volte. Prova a dare 8 valori invece che nove. Prova a dare 3
-valori. Cosa succede.
+> Esercizio: vedi sotto come creare un array a 3 dimensioni. Nota che
+> duplica 9 valori 2 volte. Prova a dare 8 valori invece che nove. Prova
+> a dare 3 valori. Cosa succede.
 
 ```{r}
  
@@ -246,7 +242,7 @@ print(arr)
 
 ```
 
-## Strutture dati: list
+## Tipo dati: List
 
 Le strutture vector/matrix/array, possono contenere solo una tipologia
 base (numeric, integer, character, logical...). Ma la struttura LIST no!
@@ -269,7 +265,7 @@ print(lista)
 
 ```
 
-## Strutture dati: list/nomi
+## Tipo dati: List c/nomi
 
 NB, la struttura LIST non è altro che un set, una "lista", di oggetti
 associata ad un indice. L'indice è un numero intero ma può essere un
@@ -287,14 +283,12 @@ lista[["primo"]]
 
 ```
 
-## Strutture dati: allocazione
-
 Svantaggi di strutture tipo *list*: usa più memoria!
 
-NB se dovete gestire volumi importanti di dati, considerate la
-pre-allocazione della memoria SE conoscete la dimensione. Vedi anche
-blog
-[qui](https://blog.sellorm.com/2019/12/16/vector-pre-allocation-in-r-a-simple-example/).
+> **Nota su allocazione memoria**: se dovete gestire volumi importanti
+> di dati, considerate la pre-allocazione della memoria SE conoscete la
+> dimensione. Vedi anche blog
+> [qui](https://blog.sellorm.com/2019/12/16/vector-pre-allocation-in-r-a-simple-example/).
 
 ```{r}
 
@@ -303,7 +297,7 @@ vettoreMoltoGrande[[100]]
 
 ```
 
-## Strutture dati: Data frame
+## Tipo dati: Data frame
 
 Un *data frame* è una struttura di tipo *list* ma con un numero uguale
 di “righe” per ogni colonna di attributi. È possibile manipolare i data
@@ -326,10 +320,14 @@ Sia righe che colonne possono avere identificativi.
  
 ```
 
-## Strutture dati: Data frame
+## Tipo dati: Data frame
 
 Le colonne sono *vettori* - si può richiamare e assegnare i valori di
-una colonna con `$` o `[[]]` o `[,"<nomecolonna>"]`
+una colonna con `$` o `[[]]` o `[,"<nomecolonna>"]` o
+`[ riga,"<nomecolonna>"]`
+
+Come con [Tipo dati: matrix] si possono usare gli indici di
+riga/colonna.
 
 ```{r eval= FALSE }
 df.geo.stz$stz
@@ -339,18 +337,29 @@ df.geo.stz$stz <- c("A1","B1", "C1")
 
 ```
 
-## Strutture dati - Tibble
+## Tipo dati: Tibble
 
 Un data frame particolare, lo vedremo quando usiamo l'infrastruttura di
-librerie "tidyverse".
+librerie "tidyverse". Vantaggi:
 
-NB - qio
+-   Non modifica il nome mettendo un punto al posto degli spazi (Vedi
+    esempio)
 
-```{r eval=FALSE, message=FALSE, warning=FALSE }
+-   Non utilizza mai `row.names()`. Lo scopo di *tidyverse* è quello di
+    memorizzare le variabili in modo coerente. Quindi non memorizza mai
+    una variabile come attributo speciale (i.e. nomi riga).
+
+-   Ricicla solo vettori di lunghezza 1. Questo perché il riciclo di
+    vettori di lunghezza superiore è una fonte frequente di problemi
+    nascosti.
+
+```{r results='hide', message=FALSE, warning=FALSE }
 library(tidyverse)
 geo.stz.tb <- tibble(df.geo.stz)
 class(geo.stz.tb)
 geo.stz.tb
+names(data.frame(`nome colonna con spazi` = 1)) 
+names(tibble(`nome colonna con spazi` = 1))
 ```
 
 ## Convertire oggetti
@@ -376,13 +385,15 @@ Rstudio può salvare l'intero progetto con le variabili e le funzioni che
 vedete in alto a destra.
 
 Il comando `save` salva in un file con estensione "rda" che viene
-riconosciuto anche direttamente da RStudio.
+riconosciuto anche direttamente da RStudio. NB è possibile salvare
+qualiasi oggetto, anche funzioni!
 
 Prova a cliccare sul file dopo aver lanciato la prima riga del comando
 seguente!
 
 ```{r}
-save(df.geo.stz, miaVar, file="oggetti.rda")
+## NB salvo anche la funzione "salutami" fatta all'inizio!
+save(df.geo.stz, salutami, file="oggetti.rda")
 load("oggetti.rda")
 saveRDS(df.geo.stz, file = "geo.stz.RDS") 
 df.geo.stz <- readRDS("geo.stz.RDS")
@@ -391,10 +402,10 @@ df.geo.stz <- readRDS("geo.stz.RDS")
 ## Operatori di R {#sec-gli-operatori-di-r}
 
 Gli operatori aritmetici e logici di R funzionano sia su singoli scalari
-che su vettori e strutture come array e matrix.
+che su vettori e strutture come *array* e *matrix*.
 
 NB questo vuol dire che si possono eseguire operazioni su tutti i
-singoli valori della struttura internamente (vectorization)!
+singoli valori della struttura internamente (*vectorization*)!
 
 ```{r}
 c.lat + 10
@@ -405,28 +416,24 @@ c.lat <- c.lat - 1
 
 ```
 
-## DOMANDE
+## Esercizio
 
--   Se avete una serie di valori di concentrazione di CO2 con 1 milione
-    di valori come li assegnate ad una variabile? (....) indicano i
-    valori.
+-   Crea una funzione che esegue la seguente operazione:
+    -   Crea un oggetto data.frame con 2 colonne, (Stazione, ValoreX) e
+        4 righe. Calcola una terza colonna con il quadrato di ValoreX.
+-   
 
-    1.  val.co2 \<- list(.....)
+# Data in/out
 
-    2.  val.co2 \<- c(.....)
+## Cosa faremo
 
-    3.  val.co2 \<- numeric(1e6); val.co2
+Impareremo a leggere/scrivere in R dati semplici da fonti diverse:
 
-## RISPOSTE
+-   file di testo strutturati (**CSV**)
 
--   1
+-   fogli di lavoro (**XLSX**)
 
-# FINE SEZIONE
-
-## Caricare/salvare dati
-
-Dati in fogli di lavoro (**XLSX**) in file di testo strutturati
-(**CSV**) o non strutturati come **JSON** - come leggerli/scriverli.
+-   dati online non strutturati come **JSON**
 
 ## Input dati: CSV
 
@@ -455,14 +462,13 @@ prec2 <- data.table::fread("dati/Prec_mensili_2020.csv")
 summary(prec2)
 ```
 
-### Esercizio:
-
-Importate i dati inserendo i parametri corretti di read.csv - come
-noterete, la prima riga NON importa correttamente. La seconda si, ma è
-una funzione della libreria data.table. Usate la documentazione in R per
-capire come aggiungere argomenti alla funzione read.csv (vedi [sezione
-QUI](#sec-documentazione-esempi-snippets-per-imparare)). **NB** usate il
-tasto TAB per richiamare i percorsi, risparmiate tempo e fatica!
+> Esercizio: Importate i dati inserendo i parametri corretti di
+> read.csv - come noterete, la prima riga NON importa correttamente. La
+> seconda si, ma è una funzione della libreria data.table. Usate la
+> documentazione in R per capire come aggiungere argomenti alla funzione
+> read.csv (vedi [sezione
+> QUI](#sec-documentazione-esempi-snippets-per-imparare)). **NB** usate
+> il tasto TAB per richiamare i percorsi, risparmiate tempo e fatica!
 
 ## Input dati: Fogli excel
 
@@ -472,7 +478,7 @@ un file CSV, dato che ogni colonna ha anche lo specifico tipo di dati
 
 Per leggere/scrivere questi dati è necessario usare librerie aggiuntive.
 
-```{r eval=FALSE}
+```{r }
 prec3 <- prec2
 ## nuova colonna 
 prec3$norm2020 <- prec3$`2020 (mm)` / prec3$`media 1993-2019 (mm)`
@@ -483,3 +489,150 @@ prec4 <- readxl::read_xlsx("dati/output.xlsx")
 ```
 
 ![](images/clipboard-2827995654.png)
+
+## Grafici di base
+
+La funzione `plot` riesce a creare grafici di base. Andiamo a
+confrontare le precipitazioni del 2020 con quelle medie 1993-2019.
+
+```{r fig.height=6, fig.width=6}
+plot(prec3$`2020 (mm)`[1:12], prec3$`media 1993-2019 (mm)`[1:12], xlab="Prec. 2020 (mm)")
+abline(1,1)
+```
+
+## Grafici di base
+
+Miglioriamo un po' il grafico - ma utilizzeremo poi la libreria ggplot2
+per ottenere grafici migliori.
+
+```{r fig.height=6, fig.width=6}
+plot(prec3$`2020 (mm)`[1:12], prec3$`media 1993-2019 (mm)`[1:12], 
+     xlab="Prec. 2020 (mm)", ylab="Prec.media  (mm)",
+     xlim=c(0,300), ylim=c(0,300))
+abline(1,1)
+```
+
+## Input dati: JSON
+
+Oggigiorno i dati JSON sono molto utilizzati per trasferire dati non
+strutturati.
+
+Usiamo direttamente da API ARPAV "Anagrafica stazioni in formato JSON"
+dalla [pagina
+QUI](https://www.arpa.veneto.it/dati-ambientali/dati-in-diretta/meteo-idro-nivo/variabili_meteo)
+
+```{r}
+## Scarichiamo direttamente da API ARPAV
+api.url <- "https://api.arpa.veneto.it/REST/v1/meteo_meteogrammi?rete=MGRAMMI&coordcd=18&orario=0&rnd=0.9966091913301682"
+stazioni.meteo <- jsonlite::read_json(api.url)
+```
+
+## Manipolazione dati
+
+Chiamata anche "data wrangling" fondamentalmente è la trasformazione
+delle strutture dati (e.g. da liste a tabelle e viceversa, aggregando e
+disaggregando dati...).
+
+Ci "alleniamo con i dati JSON delle sezioni meteo.
+
+::: obiettivo
+**Obiettivo**: creare un grafico con la posizione delle stazioni e
+aggiungere qualche valore mediante unione con altri dati.
+:::
+
+## Iteratori
+
+Fondamentale saper utilizzare operazioni che eseguono su tutti gli
+elementi di un oggetto. E.g. tutte le colonne di un *data.frame*, tutte
+le righe di un *data.frame*, tutti gli oggetti di una *list*...
+
+```{r results='hide'}
+dati <- stazioni.meteo$data
+length(dati)
+## LOOP classico: visto male per 
+## performance bassa, 
+## ma non necessariamente vero
+for(i in 1:length(dati)){
+  print(dati[[i]])
+  break / next
+}
+
+funz <- function(x){
+  length(x)
+}
+# lapply/mapply/sapply/apply per righe/colonne
+# lapply(dati, funz)
+
+
+```
+
+## Iteratori tidy
+
+L'operatore "map" è simile agli "apply" ma con più funzionalità. Vedi
+sotto, usando *map_df* i risultati vengono raccolti su una tabella
+(tibble)!
+
+```{r   message=FALSE, warning=FALSE,  results='hide'}
+library(tidyverse)
+## i dati sono strutturati nell'oggetto "data" 
+##  come liste dentro altre liste
+# as.data.frame(stazioni.meteo$data)
+dt <- map(.x = stazioni.meteo$data, .f = function(x){ x } ) 
+dtf <- map_df (.x = stazioni.meteo$data, .f = function(x){ x } ) 
+
+```
+
+## Factor
+
+Mappando a tibble abbiamo solo colonne di tipo character... come mai?\*
+
+NB gli iteratori su tabelle (data.frame o tibble) lavorano per colonne.
+
+```{r}
+
+## richiamo la classe di ogni colonna
+map(.x = dtf, .f = function(x){ class(x) } ) 
+dtf$tipo <- as.factor(dtf$tipo)
+levels(dtf$tipo)
+```
+
+\*Perchè raccoglie ogni elemento della lista in un vettore ed il vettore
+può avere solo valori di un tipo base (*character, numeric, integer,
+logical...*) - sceglie sempre il *character* se valori misti
+
+## Grafici con GGplot
+
+Le funzioni di base "`plot`" sono utili ma ci sono librerie che
+forniscono più funzionalità. Introduciamo "ggplot". Notate che viene
+creato un grafico concatenando con l'operatore "`+`" gli oggetti del
+grafico. "`aes`" sta per *aestethics* e indica colori e valori degli
+assi, aggregazioni ecc...
+
+```{r fig.height=4, fig.width=8}
+library(ggplot2)
+ggplot(dtf) + geom_boxplot(aes(x=tipo, y=as.numeric(valore) )) + theme_bw()
+```
+
+## Grafici con GGplot
+
+NB. la parte "as.numeric" in quanto la colonna anche contiene numeri è
+di tipo "character". Modifichiamola con "as.numeric", ma vedrete due
+valori mancanti (NA=not available).
+
+```{r}
+dtf$valore <- as.numeric(dtf$valore)
+ggplot(dtf) + geom_boxplot(aes(x=tipo, y=valore )) + theme_bw()
+```
+
+## Grafici geo
+
+Abbiamo colonne con coordinate: possiamo creare un grafico con uno
+sfondo territoriale e considerare delle colonne come coordinate?
+
+```{r fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
+library(ggspatial, quietly = T)
+library(sf)
+theme_set(theme_bw())
+dtf.geo <- sf::st_as_sf(dtf,coords = c("longitudine","latitudine"), crs=4326 )
+ggplot(dtf.geo) + geom_sf() + coord_sf()
+```
