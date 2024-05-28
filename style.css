@@ -5,3 +5,8 @@ code:not([class]) {
 .obiettivo {
   background: #eaea0055;
 }
+
+.Section1{
+  text-align: center;
+  color:green;
+}

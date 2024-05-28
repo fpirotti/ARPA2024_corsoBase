@@ -2,15 +2,19 @@
 title: "Modulo 1 Geostatistica - corso base"
 author: "Francesco Pirotti"
 date: "`r Sys.Date()`"
+classoption: a4paper
+papersize: a4
 output:
+  pdf_document:
+    toc: true 
+    number_sections: true  
+    fig_width: 6
+    fig_height: 4
   slidy_presentation: 
     fig_width: 6
     fig_height: 4
     footer:    "2024, Prof. Francesco Pirotti"
     css: style.css
-  pdf_document:
-    fig_width: 6
-    fig_height: 4
   beamer_presentation: default
   html_document:
     toc: true 
@@ -27,14 +31,28 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Introduzione ad R {.Section1 .titlepage}
+
 ## Cosa impareremo
 
 -   struttura di R (base e pacchetti), potenzialità
 -   RStudio: come funziona (panoramica)
--   Documentazione, esempi, snippets per imparare
+-   documentazione, esempi, snippets per imparare
 -   assegnazione ed utilizzo variabili
--   principali Tipo dati: oggetti e funzioni in R
--   leggere e scrivere dati tabellari e complessi
+-   principali categorie di dati: oggetti e funzioni in R
+-   leggere, elaborare e scrivere dati strutturati (tabelle) e non
+
+## Materiale
+
+Trovate il materiale in una pagina GitHub QUI ed anche direttamente
+nello spazio web QUI. Troviamo:
+
+-   [slides in formato
+    HTML](https://www.cirgeo.unipd.it/archivio/shared/R/ARPA2024_corsoBase/modulo1.html)
+
+-   slides in formato Power Point
+
+-   contenuto slides in formato di documento A4 PDF
 
 ## R: panoramica
 
@@ -116,6 +134,23 @@ grafica.
 
 ![](images/clipboard-348530046.png)
 
+## Packages/Librerie
+
+Non tutti sono nella "repository" CRAN, alcuni sono su GitHub o
+scaricabili da altre fonti - vedi alcune cose sotto
+
+-   <https://github.com/fpirotti/rPET>
+
+-   <https://github.com/fpirotti/CloudGeometry>
+
+Per installare librarie presenti solo in CRAN si utilizza una libreria
+chiamata "devtools"
+
+```{r eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("fpirotti/CloudGeometry")
+```
+
 ## Variabili e funzioni
 
 Qui vediamo una variabile ed una funzione.
@@ -178,9 +213,8 @@ miaVar[[2]]
 
 ## Tipo dati: vettori
 
-### Esercizio:
-
-perchè succede quello che vedete sotto?
+Perchè succede quello che vedete sotto (dati *numeric* diventano
+*character*)?
 
 ```{r  }
 
@@ -413,21 +447,32 @@ c.lat == c.lon
 
 c.lat[[1]] <- 44
 c.lat <- c.lat - 1
+## AND / OR
+c.lat == c.lon & c.lat==0
+c.lat == c.lon | c.lat==45.1
 
+#c.lat == c.lon && c.lat==c.lat
+#c.lat == c.lon || c.lat==c.lat 
 ```
 
 ## Esercizio
 
--   Crea una funzione che esegue la seguente operazione:
-    -   Crea un oggetto data.frame con 2 colonne, (Stazione, ValoreX) e
-        4 righe. Calcola una terza colonna con il quadrato di ValoreX.
--   
+-   Creare una funzione chiamata *crea.df* che esegue la seguente
+    operazione:
+    -   creazione di un oggetto data.frame con 2 colonne, (Stazione,
+        ValoreX) e 4 righe. Inventate voi i valori. Calcolo una terza
+        colonna con il quadrato di ValoreX.
+-   Eseguire la funzione per creare un oggetto di tipo "tibble" chiamato
+    *tabella.tb*
+-   **Consegnate** un file RDA contenente i due oggetti, la funzione
+    *crea.df* e il tibble *tabella.tb -* chiamate il file con:
+    es1_cognome_nome.rda, e.g. *es1_pirotti_francesco.rda*
 
-# Data in/out
+# Data in/process/out {.Section1 .titlepage}
 
 ## Cosa faremo
 
-Impareremo a leggere/scrivere in R dati semplici da fonti diverse:
+Impareremo a leggere/trasformare/scrivere dati da fonti diverse:
 
 -   file di testo strutturati (**CSV**)
 
@@ -514,8 +559,13 @@ abline(1,1)
 
 ## Input dati: JSON
 
-Oggigiorno i dati JSON sono molto utilizzati per trasferire dati non
-strutturati.
+I dati JSON (**J**ava**S**cript **O**bject **N**otation) sono molto
+utilizzati per trasferire dati non strutturati. Vedi
+[QUI](https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON)
+e
+[QUI](https://www.freecodecamp.org/news/what-is-json-a-json-file-example/).
+Anche per dati "geo" con il GeoJSON (vedi esempio
+[QUI](https://it.wikipedia.org/wiki/GeoJSON)).
 
 Usiamo direttamente da API ARPAV "Anagrafica stazioni in formato JSON"
 dalla [pagina
@@ -527,11 +577,11 @@ api.url <- "https://api.arpa.veneto.it/REST/v1/meteo_meteogrammi?rete=MGRAMMI&co
 stazioni.meteo <- jsonlite::read_json(api.url)
 ```
 
-## Manipolazione dati
+## Trasformazione dati
 
-Chiamata anche "data wrangling" fondamentalmente è la trasformazione
-delle strutture dati (e.g. da liste a tabelle e viceversa, aggregando e
-disaggregando dati...).
+Chiamata anche manipolazione o "data wrangling" fondamentalmente è la
+trasformazione delle strutture dati (e.g. da liste a tabelle e
+viceversa, aggregando e disaggregando dati...).
 
 Ci "alleniamo con i dati JSON delle sezioni meteo.
 
@@ -584,13 +634,17 @@ dtf <- map_df (.x = stazioni.meteo$data, .f = function(x){ x } )
 
 ## Factor
 
-Mappando a tibble abbiamo solo colonne di tipo character... come mai?\*
+Mappando a data.frame con `map` abbiamo solo colonne di tipo
+character... come mai?\* NB con `map_df` questo non succede perchè la
+funzione `map_df` è "smart" e capisce qualche tipo usare per ogni
+colonna.
 
 NB gli iteratori su tabelle (data.frame o tibble) lavorano per colonne.
 
-```{r}
+```{r results='hide'}
 
 ## richiamo la classe di ogni colonna
+map(.x = dt, .f = function(x){ class(x) } ) 
 map(.x = dtf, .f = function(x){ class(x) } ) 
 dtf$tipo <- as.factor(dtf$tipo)
 levels(dtf$tipo)
@@ -599,6 +653,72 @@ levels(dtf$tipo)
 \*Perchè raccoglie ogni elemento della lista in un vettore ed il vettore
 può avere solo valori di un tipo base (*character, numeric, integer,
 logical...*) - sceglie sempre il *character* se valori misti
+
+## Filtro e selezione colonne
+
+Operazioni usando tidyverse (e altri sistemi) usano operatori di
+concatenzione di processi. In questo caso si usa `%>%` ovvero un
+operatore che indica di usare l'output di un processo come input al
+processo successivo. Un esempio con un'operazione di filtro con
+successiva selezione di colonne:
+
+```{r eval=FALSE}
+## Selezioniamo solo le stazioni in provincia di Belluno
+dtf.belluno <- dtf %>% filter( provincia =="BELLUNO")
+## Se aggiungiamo criteri di filtro divisi da virgola è come usare AND 
+dtf %>% filter( provincia !="BELLUNO", valore < 10)
+dtf %>% filter( provincia !="BELLUNO" & valore < 10)
+## Se aggiungiamo criteri di filtro è come usare AND
+dtf %>% filter( provincia =="BELLUNO" | valore < 12) %>% select(nome_stazione, valore)
+```
+
+## Mutate
+
+Il comando mutate consente di calcolare nuove colonne in funzione di
+quelle esistenti.
+
+```{r eval=FALSE}
+dtf %>% mutate(valore=valore^2)  %>% select(valore)
+```
+
+## Aggregazioni
+
+Operazioni di aggregazione con `group_by`
+
+Attenzione - la funzione `mean` restituisce `NA` se tra i valori trova
+degli `NA`, per evitare questo comportamente mettere "`na.rm = TRUE`".
+
+```{r}
+dtf %>% group_by(tipo)  %>% summarise(valore=mean(valore))
+dtf %>% group_by(tipo)  %>% summarise(valore=mean(valore, na.rm = TRUE))
+```
+
+## Unire tabelle (join)
+
+I join sono operazioni note in ambito di gestione dei dati, servono per
+aggiungere in senso orizzontale valori usando una o più colonne con
+valori corrispondenti.
+
+![](images/clipboard-420454527.png)
+
+![](images/clipboard-2456461929.png)
+
+## Unire tabelle (join)
+
+Vediamo un esempio pratico: andiamo ad unire i valori di oggi a quelli
+di alcuni giorni fa alle nostre stazioni. [Scarica qui il dato
+CSV](https://www.cirgeo.unipd.it/archivio/shared/R/ARPA2024_corsoBase/dati/ARPA_temperatura_20240528.csv).
+
+```{r}
+dt.past <- read.csv("dati/ARPA_temperatura_20240528.csv")
+dt.past <- dt.past %>% select(statnm, statcd, dataora, media)
+dt.joined <- dt.past %>%  left_join(dtf, by=c("statcd"="codice_stazione") ) 
+```
+
+## Ristrutturazione wide/long
+
+Questo tipo di modifica è molto comune per rappresentare i dati in modo
+differente. Vediamo un esempio.
 
 ## Grafici con GGplot
 
@@ -624,15 +744,18 @@ dtf$valore <- as.numeric(dtf$valore)
 ggplot(dtf) + geom_boxplot(aes(x=tipo, y=valore )) + theme_bw()
 ```
 
-## Grafici geo
+## Grafici e dati geo
 
 Abbiamo colonne con coordinate: possiamo creare un grafico con uno
-sfondo territoriale e considerare delle colonne come coordinate?
+sfondo territoriale e considerare delle colonne come coordinate? Per
+dati geo usiamo libreria *sf* e *terra*. Non indispensabili per
+geostatistica, ma fortemente consigliati.
 
-```{r fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
+```{r fig.height=5, fig.width=6, message=FALSE, warning=FALSE}
 library(ggspatial, quietly = T)
-library(sf)
+library(sf)  ## se non l'avete installata non vi preoccupate 
 theme_set(theme_bw())
+ggplot(dtf) + geom_point(aes(x=longitudine, y=latitudine, color=valore, size=valore )) 
 dtf.geo <- sf::st_as_sf(dtf,coords = c("longitudine","latitudine"), crs=4326 )
-ggplot(dtf.geo) + geom_sf() + coord_sf()
+ggplot(dtf.geo) + geom_sf(aes(color=valore, size=valore )) + coord_sf()
 ```

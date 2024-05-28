@@ -1,0 +1,192 @@
+FID,statcd,statnm,descrizione,dataora,media,minimo,massimo,media_lbl,geom,cd
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7860,551,Sant'Elena,Temperatura aria a 2m,2024-05-27T00:00:00,21.1,14.1,26.7,21.1,POINT (1711682.798 5008331.604),9670
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7861,111,Legnaro,Temperatura aria a 2m,2024-05-27T00:00:00,21.1,14,26,21.1,POINT (1731296.001 5025798.95),222
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7862,117,Sorga',Temperatura aria a 2m,2024-05-27T00:00:00,21.7,16.2,26.9,21.7,POINT (1657714.071 5009099.344),349
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7863,197,Maser,Temperatura aria a 2m,2024-05-27T00:00:00,21.4,13.3,28.3,21.4,POINT (1728768 5073718),1495
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7864,201,Monte Grande (Teolo),Temperatura aria a 2m,2024-05-27T00:00:00,19.4,15.3,24.1,19.4,POINT (1709358 5026653),1527
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7865,223,Falcade,Temperatura aria a 2m,2024-05-27T00:00:00,12.7,7.2,18.4,12.7,POINT (1720787 5137567),2312
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7866,224,Valle di Cadore,Temperatura aria a 2m,2024-05-27T00:00:00,14.6,9.8,21.5,14.6,POINT (1756116 5145629),2324
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7867,569,Rovina di Cancia (Q1690),Temperatura aria a 2m,2024-05-27T00:00:00,9.6,7.2,14.2,9.6,POINT (1749324.701 5148324.136),10755
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7868,252,Venezia - Istituto Cavanis,Temperatura aria a 2m,2024-05-27T00:00:00,21.7,18.4,24.8,21.7,POINT (1760369.039 5036126.286),1654
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7869,227,Mogliano Veneto,Temperatura aria a 2m,2024-05-27T00:00:00,20.9,13.9,26.6,20.9,POINT (1758086 5052812),1606
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_786a,104,Villafranca di Verona,Temperatura aria a 2m,2024-05-27T00:00:00,21,13.4,27,21,POINT (1643529 5025977),756
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_786b,572,Ospedaletto Euganeo,Temperatura aria a 2m,2024-05-27T00:00:00,21.5,13.1,27.2,21.5,POINT (1704622.117 5012334.365),10970
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_786c,253,Valeggio sul Mincio,Temperatura aria a 2m,2024-05-27T00:00:00,21.6,15.4,28,21.6,POINT (1635662 5024463),3186
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_786d,113,Castelnovo Bariano,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,14.4,26.7,21.3,POINT (1681406.966 4988994.954),266
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_786e,260,Colognola ai Colli,Temperatura aria a 2m,2024-05-27T00:00:00,20.7,11.1,27.4,20.7,POINT (1673956.575 5032590.667),4747
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_786f,262,Valpore (Seren del Grappa),Temperatura aria a 2m,2024-05-27T00:00:00,12.3,7.6,17.9,12.3,POINT (1717711 5086478),5188
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7870,577,Breda di Piave - Via Bovon,Temperatura aria a 2m,2024-05-27T00:00:00,20.8,13.2,26.8,20.8,POINT (1762883.785 5069049.771),11268
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7871,163,Noventa di Piave - Grassaga,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,14.2,27.6,21.3,POINT (1779549.393 5063494.425),1104
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7872,118,Bardolino - Calmasino,Temperatura aria a 2m,2024-05-27T00:00:00,20.6,14.6,26.1,20.6,POINT (1637949.071 5042029.344),377
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7873,600,Grumolo delle Abbadesse,Temperatura aria a 2m,2024-05-27T00:00:00,21.5,14,27.5,21.5,POINT (1707321.877 5043798.998),11950
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7874,56,Forno di Zoldo - Campo,Temperatura aria a 2m,2024-05-27T00:00:00,13.9,8.1,21,13.9,POINT (1745068 5137519),1894
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7875,164,Eraclea,Temperatura aria a 2m,2024-05-27T00:00:00,20.5,13.8,26.3,20.5,POINT (1789119.182 5056666.995),1120
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7876,167,Mira,Temperatura aria a 2m,2024-05-27T00:00:00,20.8,14.2,25.8,20.8,POINT (1743805.888 5036506.366),1172
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7877,105,Lonigo,Temperatura aria a 2m,2024-05-27T00:00:00,21.9,14.1,27.4,21.9,POINT (1686303 5029102),775
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7878,602,Monte Cherz,Temperatura aria a 8m,2024-05-27T00:00:00,7.4,4.9,12.3,7.4,POINT (1720814.652 5155350.617),12549
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7879,388,Faverghera,Temperatura aria a 8m,2024-05-27T00:00:00,10.6,8.4,12.7,10.6,POINT (1755302.991 5107712.729),6406
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_787a,232,Bassano del Grappa,Temperatura aria a 2m,2024-05-27T00:00:00,21,15.1,26.6,21,POINT (1712249 5073813),1630
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_787b,134,Malo,Temperatura aria a 2m,2024-05-27T00:00:00,21.5,14.8,27.1,21.5,POINT (1691985.467 5060282.519),824
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_787c,119,Roverchiara,Temperatura aria a 2m,2024-05-27T00:00:00,21.7,15.7,27,21.7,POINT (1676635.071 5014964.344),401
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_787d,393,Passo Campogrosso,Temperatura aria a 8m,2024-05-27T00:00:00,11.5,9.3,13.3,11.5,POINT (1668750.693 5066191.047),6505
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_787e,120,Dolce',Temperatura aria a 2m,2024-05-27T00:00:00,20.4,13,27.4,20.4,POINT (1644210.071 5051241.484),430
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_787f,394,Monte Piana,Temperatura aria a 8m,2024-05-27T00:00:00,5.7,3.9,8.7,5.7,POINT (1748902.037 5167363.899),6527
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7880,106,Montagnana,Temperatura aria a 2m,2024-05-27T00:00:00,21.4,14.8,26.9,21.4,POINT (1690157.903 5013351.165),190
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7881,68,Castana,Temperatura aria a 2m,2024-05-27T00:00:00,16.5,8.8,23.9,16.5,POINT (1679369 5076164),1944
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7882,132,Pescul,Temperatura aria a 2m,2024-05-27T00:00:00,10.8,6.2,17.6,10.8,POINT (1735786.071 5147226.344),3225
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7883,126,Illasi,Temperatura aria a 2m,2024-05-27T00:00:00,21.1,14.8,26.9,21.1,POINT (1669805 5036401),523
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7884,135,Rifugio la Guardia (Recoaro Terme),Temperatura aria a 2m,2024-05-27T00:00:00,14.4,10.3,17.7,14.4,POINT (1669785.742 5065150.862),2166
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7885,159,Portogruaro - Lison,Temperatura aria a 2m,2024-05-27T00:00:00,20.6,13.6,26.8,20.6,POINT (1792602.086 5072674.756),1047
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7886,170,Teolo,Temperatura aria a 2m,2024-05-27T00:00:00,20.9,14.9,26.5,20.9,POINT (1709767.071 5024532.344),1245
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7887,160,Cavallino Treporti,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,16.7,25,21.3,POINT (1772598.51 5039845.609),1079
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7888,102,Castelfranco Veneto,Temperatura aria a 2m,2024-05-27T00:00:00,21.1,12.7,27.8,21.1,POINT (1729533 5064401),182
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7889,101,Porto Tolle - Pradon,Temperatura aria a 2m,2024-05-27T00:00:00,20.8,13.9,27,20.8,POINT (1765950.677 4979312.085),708
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_788a,178,Cavarzere,Temperatura aria a 2m,2024-05-27T00:00:00,20.8,14.5,25.7,20.8,POINT (1742665 5005550),1664
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_788b,179,Campodarsego,Temperatura aria a 2m,2024-05-27T00:00:00,21,13.3,26.8,21,POINT (1727659 5042149),2462
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_788c,183,Volpago del Montello,Temperatura aria a 2m,2024-05-27T00:00:00,20.2,13.6,27.9,20.2,POINT (1742010 5074899),1349
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_788d,190,Brustole' (Velo d'Astico),Temperatura aria a 2m,2024-05-27T00:00:00,18.1,12.2,24.9,18.1,POINT (1682124.122 5074666.18),2214
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_788e,124,Marano di Valpolicella,Temperatura aria a 2m,2024-05-27T00:00:00,20.4,14.5,25.4,20.4,POINT (1650162.324 5045636.709),497
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_788f,199,Longarone,Temperatura aria a 2m,2024-05-27T00:00:00,17,13.4,24.4,17,POINT (1754615 5128434),2234
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7890,149,Montegalda,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,15,27.3,21.3,POINT (1708187.6 5036362.286),949
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7891,156,Crespano del Grappa,Temperatura aria a 2m,2024-05-27T00:00:00,18.4,12.4,24.2,18.4,POINT (1720613.246 5080406.556),3250
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7892,231,Sant'Apollinare (Rovigo),Temperatura aria a 2m,2024-05-27T00:00:00,20.7,14.9,26.6,20.7,POINT (1722631 4990567),1622
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7893,182,Tribano,Temperatura aria a 2m,2024-05-27T00:00:00,21,14.5,26.8,21,POINT (1723829 5007659),46
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7894,204,Ponte di Piave,Temperatura aria a 2m,2024-05-27T00:00:00,20.3,12.3,26.8,20.3,POINT (1774281 5068682),1534
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7895,216,Cansiglio - Tramedere,Temperatura aria a 2m,2024-05-27T00:00:00,12.8,4.2,19,12.8,POINT (1764069 5108350),2277
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7896,165,Fossalta di Portogruaro,Temperatura aria a 2m,2024-05-27T00:00:00,20.9,14.2,26.7,20.9,POINT (1802758.801 5076523.391),1137
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7897,568,Rovina di Cancia (Q2267),Temperatura aria a 2m,2024-05-27T00:00:00,5.8,4.4,8.3,5.8,POINT (1749674.159 5148920.924),10752
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7898,217,Feltre,Temperatura aria a 2m,2024-05-27T00:00:00,18,10.1,25.9,18,POINT (1724099 5099945),2285
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7899,218,Asiago - aeroporto,Temperatura aria a 2m,2024-05-27T00:00:00,13.2,4.4,19.5,13.2,POINT (1694869 5084184),2296
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_789a,219,Rovina di Cancia (Borca di Cadore Q1335),Temperatura aria a 2m,2024-05-27T00:00:00,11,7.6,17.6,11,POINT (1749124 5147757),2306
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_789b,220,Treviso,Temperatura aria a 2m,2024-05-27T00:00:00,21,13.4,27.5,21,POINT (1750910 5063669),3262
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_789c,185,Vazzola - Tezze,Temperatura aria a 2m,2024-05-27T00:00:00,20.7,13.2,26.6,20.7,POINT (1759674.711 5078580.111),1383
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_789d,574,Follina,Temperatura aria a 2m,2024-05-27T00:00:00,18.1,9.7,25.8,18.1,POINT (1741931.736 5094402.068),11150
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_789e,186,Gaiarine,Temperatura aria a 2m,2024-05-27T00:00:00,20.7,13,27.2,20.7,POINT (1771060 5088027),1398
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_789f,238,Misurina,Temperatura aria a 2m,2024-05-27T00:00:00,8.6,5.2,14.2,8.6,POINT (1749057 5163251),2352
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a0,237,Cortina d'Ampezzo - Gilardon,Temperatura aria a 2m,2024-05-27T00:00:00,11.7,7.9,17.5,11.7,POINT (1739833 5158457),2340
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a1,348,Roncadin (Chies d'Alpago),Temperatura aria a 2m,2024-05-27T00:00:00,13.9,10.3,19.3,13.9,POINT (1762997 5120910),5885
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a2,454,Favaro Veneto,Temperatura aria a 2m,2024-05-27T00:00:00,20,12.8,25.2,20,POINT (1756087.591 5045670.614),8470
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a3,384,Col dei Baldi,Temperatura aria a 8m,2024-05-27T00:00:00,8.1,5.6,12.5,8.1,POINT (1736197.915 5144796.393),6313
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a4,505,Ponte Rio Cordon (Selva di Cadore),Temperatura aria a 2m,2024-05-27T00:00:00,7.4,4.4,14.3,7.4,POINT (1737793.597 5148836.153),8930
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a5,382,Monti Alti di Ornella,Temperatura aria a 8m,2024-05-27T00:00:00,6.2,4.1,9.1,6.2,POINT (1721592.895 5150974.668),6229
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a6,451,Vicenza - Sant'Agostino,Temperatura aria a 2m,2024-05-27T00:00:00,21,12.7,27.2,21,POINT (1696854 5044313),8276
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a7,510,Caprino Veronese - Platano,Temperatura aria a 2m,2024-05-27T00:00:00,19.7,13.7,25.1,19.7,POINT (1641524.856 5052119.2),9050
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a8,575,Rio Chiesa Alto (Livinallongo),Temperatura aria a 2m,2024-05-27T00:00:00,7.2,4.6,13.4,7.2,POINT (1727456.964 5152722.629),11188
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78a9,28,Monte Cesen,Temperatura aria a 2m,2024-05-27T00:00:00,10.8,8.9,12.9,10.8,POINT (1734164.931 5092424.458),1819
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78aa,386,Monte Lisser,Termometro compensazione infrarossi,2024-05-27T00:00:00,12.7,8,19.6,12.7,POINT (1705467.624 5092404.541),13468
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ab,386,Monte Lisser,Temperatura aria a 8m,2024-05-27T00:00:00,11.8,8.7,15.5,11.8,POINT (1705467.624 5092404.541),6360
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ac,387,Monte Baldo,Temperatura aria a 8m,2024-05-27T00:00:00,9.3,7.8,11.6,9.3,POINT (1645081.983 5070556.458),6383
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ad,391,Monte Grappa,Temperatura aria a 8m,2024-05-27T00:00:00,11.1,9.6,12.5,11.1,POINT (1715986.894 5083324.798),6473
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ae,392,Monte Tomba,Temperatura aria a 8m,2024-05-27T00:00:00,10.6,7.6,12.8,10.6,POINT (1661138.07 5060977.011),6483
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78af,53,Auronzo,Temperatura aria a 2m,2024-05-27T00:00:00,13.7,8.5,20.4,13.7,POINT (1762629 5161582),1876
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b0,19,Agordo,Temperatura aria a 2m,2024-05-27T00:00:00,15.2,9.5,22.5,15.2,POINT (1733713 5129437),1786
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b1,395,Casera Coltrondo,Termometro compensazione infrarossi,2024-05-27T00:00:00,8.4,4.1,16.5,8.4,POINT (1763447.832 5173745.318),13470
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b2,395,Casera Coltrondo,Temperatura aria a 8m,2024-05-27T00:00:00,7.8,5.2,11.9,7.8,POINT (1763447.832 5173745.318),6549
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b3,396,Campomolon,Termometro compensazione infrarossi,2024-05-27T00:00:00,10,6.5,13.9,10,POINT (1676426.741 5082490.073),13489
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b4,396,Campomolon,Temperatura aria a 8m,2024-05-27T00:00:00,9.5,7.3,11.7,9.5,POINT (1676426.741 5082490.073),6571
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b5,397,Casera Palantina,Termometro compensazione infrarossi,2024-05-27T00:00:00,12,7.2,19.1,12,POINT (1768593.421 5113161.875),13491
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b6,397,Casera Palantina,Temperatura aria a 8m,2024-05-27T00:00:00,11.4,8.2,14.9,11.4,POINT (1768593.421 5113161.875),6579
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b7,58,Santo Stefano di Cadore,Temperatura aria a 2m,2024-05-27T00:00:00,13.8,10.4,20.7,13.8,POINT (1772328.375 5162116.437),1908
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b8,398,Malga Larici,Termometro compensazione infrarossi,2024-05-27T00:00:00,11.2,7.2,15.9,11.2,POINT (1687482.477 5092873.794),13492
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78b9,398,Malga Larici,Temperatura aria a 8m,2024-05-27T00:00:00,10.8,8.2,13.7,10.8,POINT (1687482.477 5092873.794),6600
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ba,144,Rosa',Temperatura aria a 2m,2024-05-27T00:00:00,21.8,13.8,28.1,21.8,POINT (1716095 5066330),864
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78bb,136,Sappada,Temperatura aria a 2m,2024-05-27T00:00:00,11.9,8.2,17.8,11.9,POINT (1784183 5164164),2178
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78bc,137,Valli del Pasubio,Temperatura aria a 2m,2024-05-27T00:00:00,17.4,12.5,21.9,17.4,POINT (1672182.737 5069540.963),3130
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78bd,76,Turcati (Recoaro Terme),Temperatura aria a 2m,2024-05-27T00:00:00,17.5,12.6,23.1,17.5,POINT (1670124.49 5063510.027),1978
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78be,59,Domegge di Cadore,Temperatura aria a 2m,2024-05-27T00:00:00,14.3,10.1,21,14.3,POINT (1761890.685 5150944.043),3108
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78bf,83,Montecchio Precalcino,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,14.8,27.3,21.3,POINT (1698514 5059321),7
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c0,87,San Bortolo,Temperatura aria a 2m,2024-05-27T00:00:00,16.4,12.5,20.5,16.4,POINT (1670124 5052891),2780
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c1,166,Lugugnana (Portogruaro),Temperatura aria a 2m,2024-05-27T00:00:00,20.7,14.8,26,20.7,POINT (1807248 5068864),1155
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c2,425,Bibione,Temperatura aria a 2m,2024-05-27T00:00:00,20.1,14,24.3,20.1,POINT (1817788 5062316.333),7636
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c3,240,Vittorio Veneto,Temperatura aria a 2m,2024-05-27T00:00:00,21.1,15.2,26.7,21.1,POINT (1756209 5097768),2364
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c4,389,Casera Doana,Temperatura aria a 8m,2024-05-27T00:00:00,8.1,6.1,11.8,8.1,POINT (1771820.685 5153632.062),6428
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c5,390,Malga Losch,Temperatura aria a 8m,2024-05-27T00:00:00,9.5,7.4,12.9,9.5,POINT (1728098.729 5127482.565),6450
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c6,3,Arabba,Temperatura aria a 2m,2024-05-27T00:00:00,9.6,5.7,15.1,9.6,POINT (1720711.174 5153644.921),1701
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c7,9,Caprile,Temperatura aria a 2m,2024-05-27T00:00:00,13,7.7,20.3,13,POINT (1729706.442 5147353.788),1737
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c8,11,Malga Ciapela,Temperatura aria a 2m,2024-05-27T00:00:00,10.1,5.1,17.1,10.1,POINT (1723206 5145802),1759
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78c9,17,Perarolo,Temperatura aria a 2m,2024-05-27T00:00:00,14.9,10.7,22.8,14.9,POINT (1758079 5143342),3280
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ca,41,Marmolada - Punta Rocca,Temperatura aria a 2m,2024-05-27T00:00:00,-1.5,-4.7,0.6,-1.5,POINT (1719960 5146229),3099
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78cb,47,Faloria,Temperatura aria a 2m,2024-05-27T00:00:00,5.9,3.6,10.5,5.9,POINT (1743531 5157576),1844
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78cc,50,Villanova (Borca di Cadore),Temperatura aria a 2m,2024-05-27T00:00:00,12.3,8,19.3,12.3,POINT (1746301.73 5148320.301),1862
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78cd,100,Conegliano,Temperatura aria a 2m,2024-05-27T00:00:00,21.6,16.3,26.3,21.6,POINT (1754728 5086125),681
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ce,91,Passo Monte Croce Comelico,Temperatura aria a 2m,2024-05-27T00:00:00,9.7,5.8,14.5,9.7,POINT (1762015 5172231),2121
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78cf,92,Col Indes (Tambre),Temperatura aria a 2m,2024-05-27T00:00:00,13.6,9.6,18.9,13.6,POINT (1765830.069 5113060.948),2129
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d0,148,Brendola,Temperatura aria a 2m,2024-05-27T00:00:00,21.7,14.2,27,21.7,POINT (1693036.753 5038382.979),932
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d1,168,Chioggia - Sant'Anna,Temperatura aria a 2m,2024-05-27T00:00:00,20.5,15,24.3,20.5,POINT (1757563.547 5004260.566),1189
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d2,251,Bosco Chiesanuova,Temperatura aria a 2m,2024-05-27T00:00:00,15.1,10.7,18.8,15.1,POINT (1658960 5053799),2406
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d3,264,Belluno - aeroporto,Temperatura aria a 2m,2024-05-27T00:00:00,17.4,10,25.6,17.4,POINT (1750560.407 5117458.213),5286
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d4,383,Cima Pradazzo,Temperatura aria a 8m,2024-05-27T00:00:00,6.4,4.6,8.4,6.4,POINT (1717185.547 5137487.527),6268
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d5,15,Gares,Temperatura aria a 2m,2024-05-27T00:00:00,11.2,7.4,16.9,11.2,POINT (1721980 5132902),0
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d6,409,Chiampo,Temperatura aria a 2m,2024-05-27T00:00:00,20.9,14.3,26.6,20.9,POINT (1679122 5045128),7134
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d7,21,Sant'Andrea (Gosaldo),Temperatura aria a 2m,2024-05-27T00:00:00,11.5,7.9,16.6,11.5,POINT (1728100.043 5123840.175),1800
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d8,22,Sant'Antonio Tortal,Temperatura aria a 2m,2024-05-27T00:00:00,16.6,11.5,22.7,16.6,POINT (1744072 5104281),1810
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78d9,37,Passo Falzarego,Temperatura aria a 2m,2024-05-27T00:00:00,6.5,3.5,10.4,6.5,POINT (1730665 5156102),1836
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78da,25,Sospirolo,Temperatura aria a 2m,2024-05-27T00:00:00,17.2,12,23.8,17.2,POINT (1737556.679 5114295.114),3093
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78db,48,Podestagno (Cortina d'Ampezzo),Temperatura aria a 2m,2024-05-27T00:00:00,10.8,6.3,18.2,10.8,POINT (1738424.428 5164737.027),1854
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78dc,55,Pian del Crep (Val di Zoldo),Temperatura aria a 2m,2024-05-27T00:00:00,9.7,6.5,15.6,9.7,POINT (1737890 5140871),1888
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78dd,385,Ra Valles,Termometro compensazione infrarossi,2024-05-27T00:00:00,3.7,0.9,10.8,3.7,POINT (1735908.482 5159691.334),13469
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78de,385,Ra Valles,Temperatura aria a 8m,2024-05-27T00:00:00,3.1,1.7,5,3.1,POINT (1735908.482 5159691.334),6338
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78df,145,Barbarano Vicentino,Temperatura aria a 2m,2024-05-27T00:00:00,21.2,12.3,27.9,21.2,POINT (1701220.172 5030372.636),881
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e0,146,Trissino,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,16.2,26.7,21.3,POINT (1683984 5050025),898
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e1,147,Breganze,Temperatura aria a 2m,2024-05-27T00:00:00,21,14.6,26.6,21,POINT (1700518.647 5066235.074),915
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e2,140,Passo Santa Caterina (Valdagno),Temperatura aria a 2m,2024-05-27T00:00:00,17.8,12.6,22.4,17.8,POINT (1676150.145 5054312.593),2202
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e3,142,Faedo (Cinto Euganeo),Temperatura aria a 2m,2024-05-27T00:00:00,20.2,15.1,25.6,20.2,POINT (1711521.295 5020363.087),852
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e4,139,Lusiana,Temperatura aria a 2m,2024-05-27T00:00:00,17.1,12.1,21.6,17.1,POINT (1701210 5073345),2190
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e5,60,Malga Campobon (San Pietro di Cadore),Temperatura aria a 2m,2024-05-27T00:00:00,7.9,6,11.2,7.9,POINT (1775801 5172010),1918
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e6,61,Cordevole di Visdende a Cima Canale,Temperatura aria a 2m,2024-05-27T00:00:00,11.3,7.9,18.4,11.3,POINT (1778097 5167374),1922
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e7,151,Masi,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,13.5,27.4,21.3,POINT (1695161.436 4999004.169),981
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e8,152,Balduina (Sant'Urbano),Temperatura aria a 2m,2024-05-27T00:00:00,21.2,13.9,27.6,21.2,POINT (1703223.341 5001186.28),998
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78e9,67,Monte Avena,Temperatura aria a 2m,2024-05-27T00:00:00,12.1,9.6,15,12.1,POINT (1718812 5101524),1934
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ea,169,Agna,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,13.9,27.5,21.3,POINT (1732500.309 5004919.995),1206
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78eb,175,Codevigo,Temperatura aria a 2m,2024-05-27T00:00:00,20.6,13.8,25.6,20.6,POINT (1743297 5014716),1289
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ec,177,Grantorto,Temperatura aria a 2m,2024-05-27T00:00:00,20.8,13,26.8,20.8,POINT (1714687 5052726),1319
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ed,184,Zero Branco,Temperatura aria a 2m,2024-05-27T00:00:00,20.7,14,27.4,20.7,POINT (1747670 5053495),1366
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ee,71,San Giovanni Ilarione,Temperatura aria a 2m,2024-05-27T00:00:00,19.3,11.8,25,19.3,POINT (1673701 5046294),1960
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ef,73,Contra' Doppio (Posina),Temperatura aria a 2m,2024-05-27T00:00:00,16.2,10.7,23.1,16.2,POINT (1672922.125 5075033.113),1972
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f0,74,Monte Verena,Temperatura aria a 2m,2024-05-27T00:00:00,7.8,5.7,11,7.8,POINT (1687174.398 5089191.197),3446
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f1,187,Roncade,Temperatura aria a 2m,2024-05-27T00:00:00,20.3,12.2,27.2,20.3,POINT (1764673 5059839),1415
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f2,188,Villorba,Temperatura aria a 2m,2024-05-27T00:00:00,20.9,13.7,28.4,20.9,POINT (1751649 5071267),1432
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f3,189,Valdobbiadene - Bigolino,Temperatura aria a 2m,2024-05-27T00:00:00,20.4,14,25.7,20.4,POINT (1733368 5085364),1449
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f4,191,Molini (Laghi),Temperatura aria a 2m,2024-05-27T00:00:00,16.1,10.6,21.5,16.1,POINT (1675242 5078025),2222
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f5,192,Passo Xomo (Posina),Temperatura aria a 2m,2024-05-27T00:00:00,14.5,10.5,18.4,14.5,POINT (1673988 5071814),2226
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f6,195,Farra di Soligo,Temperatura aria a 2m,2024-05-27T00:00:00,19.9,12.8,25.7,19.9,POINT (1740836 5087883),1466
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f7,200,Lamon - Sala,Temperatura aria a 2m,2024-05-27T00:00:00,16.6,11.2,22.9,16.6,POINT (1712502 5103278),2246
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f8,203,Passo Valles,Temperatura aria a 2m,2024-05-27T00:00:00,7.4,4.3,11.7,7.4,POINT (1715631 5135568),2258
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78f9,211,Codevigo - Ca' di Mezzo,Temperatura aria a 2m,2024-05-27T00:00:00,20.8,15.6,25.6,20.8,POINT (1746929 5012991),1540
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78fa,77,Recoaro Mille,Temperatura aria a 2m,2024-05-27T00:00:00,15.1,11.8,18.8,15.1,POINT (1673345 5060968),1992
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78fb,79,Valdagno,Temperatura aria a 2m,2024-05-27T00:00:00,20.1,12.6,26.5,20.1,POINT (1679975 5055697),2046
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78fc,230,Campagna Lupia - Valle Averto,Temperatura aria a 2m,2024-05-27T00:00:00,20.7,14.1,25.2,20.7,POINT (1746123 5026591),2014
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78fd,234,Padova,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,14.4,26.4,21.3,POINT (1727642.038 5032075.048),2000
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78fe,235,Soffranco,Temperatura aria a 2m,2024-05-27T00:00:00,15.3,10.6,22.4,15.3,POINT (1749859 5130094),2330
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_78ff,236,San Martino d'Alpago,Temperatura aria a 2m,2024-05-27T00:00:00,15.7,11.7,20.9,15.7,POINT (1762192 5119729),2334
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7900,239,Col di Pra',Temperatura aria a 2m,2024-05-27T00:00:00,13.8,9.6,20.7,13.8,POINT (1725606 5131117),3297
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7901,80,Passo Pordoi,Temperatura aria a 2m,2024-05-27T00:00:00,6.3,4.1,11,6.3,POINT (1716666 5151658),2058
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7902,221,Trecenta,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,14.7,27,21.3,POINT (1691214 4988242),1559
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7903,245,Quero,Temperatura aria a 2m,2024-05-27T00:00:00,18.8,12.3,24.4,18.8,POINT (1727966 5089998),3237
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7904,246,Costalta,Temperatura aria a 2m,2024-05-27T00:00:00,12,9.1,18.3,12,POINT (1773984 5164594),2376
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7905,247,Casamazzagno,Temperatura aria a 2m,2024-05-27T00:00:00,11.8,7.9,17.3,11.8,POINT (1769316 5166067),2382
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7906,248,Piana di Marcesina - Rendole,Temperatura aria a 2m,2024-05-27T00:00:00,10.3,2,16.4,10.3,POINT (1702486 5091759),2394
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7907,88,Crespadoro,Temperatura aria a 2m,2024-05-27T00:00:00,17.5,10.5,24.3,17.5,POINT (1672229.86 5054913.186),2109
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7908,82,Pove del Grappa - Costalunga,Temperatura aria a 2m,2024-05-27T00:00:00,18.4,14.3,25.2,18.4,POINT (1712943 5076136),2078
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7909,266,Santa Giustina Bellunese,Temperatura aria a 2m,2024-05-27T00:00:00,17.2,9.6,25.3,17.2,POINT (1737599 5107373),5570
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_790a,268,Sella Ciampigotto,Temperatura aria a 2m,2024-05-27T00:00:00,8.3,5.6,12.3,8.3,POINT (1775147.611 5154417.328),5629
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_790b,81,Monte Summano,Temperatura aria a 2m,2024-05-27T00:00:00,18.1,13.5,23.2,18.1,POINT (1687851 5069238),2068
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_790c,110,Cittadella,Temperatura aria a 2m,2024-05-27T00:00:00,21.2,12.5,27.4,21.2,POINT (1717673.915 5059697.673),216
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_790d,112,Rosolina - Po di Tramontana,Temperatura aria a 2m,2024-05-27T00:00:00,20.4,14.3,24.8,20.4,POINT (1756791.071 4996051.344),230
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_790e,108,Salizzole,Temperatura aria a 2m,2024-05-27T00:00:00,22.1,16.6,27.5,22.1,POINT (1665611.88 5010656.484),208
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_790f,265,Galzignano - Ca' Demia,Temperatura aria a 2m,2024-05-27T00:00:00,21,12,28.4,21,POINT (1715069.362 5019991.542),5348
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7910,93,Torch,Temperatura aria a 2m,2024-05-27T00:00:00,16.5,12.5,21.8,16.5,POINT (1759719 5116409),2153
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7911,114,Villadose,Temperatura aria a 2m,2024-05-27T00:00:00,20.9,12.9,26.9,20.9,POINT (1730059 4995063),283
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7912,96,Bagnolo di Po - Pellizzare,Temperatura aria a 2m,2024-05-27T00:00:00,20.9,14.7,26.7,20.9,POINT (1699431 4984911),630
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7913,98,Concadirame (Rovigo),Temperatura aria a 2m,2024-05-27T00:00:00,21.2,15.5,27.6,21.2,POINT (1714125 4996919),14
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7914,115,Adria - Bellombra,Temperatura aria a 2m,2024-05-27T00:00:00,20.4,13.8,25.8,20.4,POINT (1737017.833 4989114.01),301
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7915,116,Frassinelle Polesine,Temperatura aria a 2m,2024-05-27T00:00:00,21.2,14.7,26.9,21.2,POINT (1711183.248 4985415.406),334
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7916,99,San Bellino,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,14.5,27.2,21.3,POINT (1702997 4989700),653
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7917,121,Lusia,Temperatura aria a 2m,2024-05-27T00:00:00,21,14.7,27,21,POINT (1707266.166 4996611.55),446
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7918,122,Trebaseleghe,Temperatura aria a 2m,2024-05-27T00:00:00,21.3,13.3,28.9,21.3,POINT (1735991.071 5054349.344),461
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_7919,123,Arcole,Temperatura aria a 2m,2024-05-27T00:00:00,21.4,14.1,27.3,21.4,POINT (1679787.748 5027249.815),477
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_791a,125,San Pietro in Cariano,Temperatura aria a 2m,2024-05-27T00:00:00,20.6,13.4,26.5,20.6,POINT (1647512.814 5041285.815),506
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_791b,131,Vangadizza (Legnago),Temperatura aria a 2m,2024-05-27T00:00:00,21.5,14.9,27.1,21.5,POINT (1679844.451 5003003.162),3042
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_791c,127,Buttapietra,Temperatura aria a 2m,2024-05-27T00:00:00,21.2,13.8,26.7,21.2,POINT (1657524.664 5023912.798),546
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_791d,128,Grezzana,Temperatura aria a 2m,2024-05-27T00:00:00,20.4,12.9,26,20.4,POINT (1657309.716 5041573.724),564
+v_ieri_temperatura.fid--6f9816dd_18fbfc802c1_791e,129,Castelnuovo del Garda,Temperatura aria a 2m,2024-05-27T00:00:00,21.1,13.9,27,21.1,POINT (1638553.146 5035030.222),585
