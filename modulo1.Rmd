@@ -65,6 +65,14 @@ Verrà fornito un link GDrive per caricare gli esercizi per le verifiche.
 
 ## R: panoramica
 
+-   Ma R serve solo per analisi statistiche? No!
+    -   E.g. questo materiale è creato con R (vedi *rmarkdown*)
+    -   Le analisi possono diventare interattive con *Shiny* (esempi
+        progetti InforSAT, VARCITIES...)
+    -   ....
+
+## R: panoramica
+
 -   Installazione di R, versioni
 -   struttura di R - percorso di installazione
 
@@ -391,8 +399,8 @@ librerie "tidyverse". Vantaggi:
 -   Non utilizza mai `row.names()`. Lo scopo di *tidyverse* è quello di
     memorizzare le variabili in modo coerente. Quindi non memorizza mai
     una variabile come attributo speciale (i.e. nomi riga).
- 
-``` {r message="FALSE", warning="FALSE"}
+
+```{r message="FALSE", warning="FALSE"}
 library(tidyverse)
 geo.stz.tb <- tibble(df.geo.stz)
 class(geo.stz.tb)
@@ -400,9 +408,10 @@ class(geo.stz.tb)
 names(data.frame(`nome colonna con spazi` = 1)) 
 names(tibble(`nome colonna con spazi` = 1))
 ```
+
 -   Ricicla solo vettori di lunghezza 1. Questo perché il riciclo di
     vettori di lunghezza superiore è una fonte frequente di problemi
-    nascosti. Riciclo: prova i seguenti comandi: 
+    nascosti. Riciclo: prova i seguenti comandi:
 
 ```{r}
 v <- 1:10
@@ -416,7 +425,6 @@ v[]
 
 ```
 
-    
 ## Convertire oggetti
 
 Oggetti tra loro compatibili si possono convertire; ad esempio tra
@@ -426,12 +434,13 @@ di vettore vengono resi omogenei.
 
 Provate il seguente esercizio sotto.
 
-```{r eval=FALSE}
+```{r message=FALSE, warning=FALSE}
 mat
 df.mat <- as.data.frame(mat)
 as.matrix(df.mat)
 df.mat$nuovaColonna <- "testo"
 as.matrix(df.mat)
+df.mat
 ```
 
 ## Salvare oggetti R
@@ -462,7 +471,7 @@ che su vettori e strutture come *array* e *matrix*.
 NB questo vuol dire che si possono eseguire operazioni su tutti i
 singoli valori della struttura internamente (*vectorization*)!
 
-```{r}
+```{r results='hide'}
 c.lat + 10
 c.lat == c.lon
 
@@ -471,12 +480,12 @@ c.lat <- c.lat - 1
 ## AND / OR
 c.lat == c.lon & c.lat==0
 c.lat == c.lon | c.lat==45.1
-
+df.mat$V3 <- df.mat$V2**2
 #c.lat == c.lon && c.lat==c.lat
 #c.lat == c.lon || c.lat==c.lat 
 ```
 
-## Esercizio 1 
+## Esercizio 1
 
 -   Creare una funzione chiamata *crea.df* che esegue la seguente
     operazione:
@@ -600,7 +609,8 @@ stazioni.meteo <- jsonlite::read_json(api.url)
 
 ## Esercizio 2
 
-dd
+Esportare un foglio excel ed un file CSV separato da TAB. Nominateli
+*es2_cognome_nome.xlsx* e *es2_cognome_nome.csv* rispettivamente.
 
 # Trasformazione dei dati {.Section1 .titlepage}
 
