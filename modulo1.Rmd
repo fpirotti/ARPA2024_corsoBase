@@ -607,11 +607,6 @@ api.url <- "https://api.arpa.veneto.it/REST/v1/meteo_meteogrammi?rete=MGRAMMI&co
 stazioni.meteo <- jsonlite::read_json(api.url)
 ```
 
-## Esercizio 2
-
-Esportare un foglio excel ed un file CSV separato da TAB. Nominateli
-*es2_cognome_nome.xlsx* e *es2_cognome_nome.csv* rispettivamente.
-
 # Trasformazione dei dati {.Section1 .titlepage}
 
 ## Introduzione
@@ -759,6 +754,20 @@ dt.past <- read.csv("dati/ARPA_temperatura_20240528.csv")
 dt.past <- dt.past %>% select(statnm, statcd, dataora, media)
 dt.joined <- dt.past %>%  left_join(dtf, by=c("statcd"="codice_stazione") ) 
 ```
+
+## Esercizio 2
+
+-   Esportare un foglio excel ed un file CSV separato da TAB con i dati
+    di precipitazione in Veneto fatti fino a questo punto (df.joined) ed
+    un file di R che li legge in 2 oggetti tibble.
+
+-   consegnate: i seguenti file:
+
+    -   *es2_cognome_nome.xlsx*
+
+    -   *es2_cognome_nome.csv*
+
+    -   *es2_cognome_nome.R*
 
 ## Ristrutturazione: wide=\>long
 
