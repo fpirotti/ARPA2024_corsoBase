@@ -4,12 +4,7 @@ author: "Francesco Pirotti"
 date: "`r Sys.Date()`"
 classoption: a4paper
 papersize: a4
-output:
-  pdf_document:
-    toc: true 
-    number_sections: true  
-    fig_width: 6
-    fig_height: 4
+output: 
   slidy_presentation: 
     fig_width: 6
     fig_height: 4
@@ -22,6 +17,11 @@ output:
     toc_float:
       collapsed: true
       smooth_scroll: false 
+  pdf_document:
+    toc: true 
+    number_sections: true  
+    fig_width: 6
+    fig_height: 4
 editor_options:
   markdown:
     wrap: 72
@@ -38,21 +38,30 @@ knitr::opts_chunk$set(echo = TRUE)
 -   struttura di R (base e pacchetti), potenzialità
 -   RStudio: come funziona (panoramica)
 -   documentazione, esempi, snippets per imparare
+-   principali categorie di dati: oggetti, variabili e funzioni in R
 -   assegnazione ed utilizzo variabili
--   principali categorie di dati: oggetti e funzioni in R
--   leggere, elaborare e scrivere dati strutturati (tabelle) e non
+-   leggere, rielaborare e scrivere dati strutturati (tabelle) e non
+-   leggere ed interpretare dati *geo-spaziali*
+-   rappresentare dati con grafici e mappe
 
 ## Materiale
 
-Trovate il materiale in una pagina GitHub QUI ed anche direttamente
-nello spazio web QUI. Troviamo:
+Trovate il materiale in una pagina GitHub
+[QUI](https://github.com/fpirotti/ARPA2024_corsoBase/)e potrete
+scaricarlo anche come zip ed anche direttamente nello spazio web
+[QUI](https://www.cirgeo.unipd.it/archivio/shared/R/ARPA2024_corsoBase/).
+Troviamo:
 
 -   [slides in formato
     HTML](https://www.cirgeo.unipd.it/archivio/shared/R/ARPA2024_corsoBase/modulo1.html)
 
--   slides in formato Power Point
+-   [contenuto slides in formato di documento A4
+    PDF](https://www.cirgeo.unipd.it/archivio/shared/R/ARPA2024_corsoBase/modulo1.pdf)
 
--   contenuto slides in formato di documento A4 PDF
+-   [materiale per gli
+    esercizi](https://www.cirgeo.unipd.it/archivio/shared/R/ARPA2024_corsoBase/dati)
+
+Verrà fornito un link GDrive per caricare gli esercizi per le verifiche.
 
 ## R: panoramica
 
@@ -382,20 +391,32 @@ librerie "tidyverse". Vantaggi:
 -   Non utilizza mai `row.names()`. Lo scopo di *tidyverse* è quello di
     memorizzare le variabili in modo coerente. Quindi non memorizza mai
     una variabile come attributo speciale (i.e. nomi riga).
-
--   Ricicla solo vettori di lunghezza 1. Questo perché il riciclo di
-    vettori di lunghezza superiore è una fonte frequente di problemi
-    nascosti.
-
-```{r results='hide', message=FALSE, warning=FALSE }
+ 
+``` {r message="FALSE", warning="FALSE"}
 library(tidyverse)
 geo.stz.tb <- tibble(df.geo.stz)
 class(geo.stz.tb)
-geo.stz.tb
+#geo.stz.tb
 names(data.frame(`nome colonna con spazi` = 1)) 
 names(tibble(`nome colonna con spazi` = 1))
 ```
+-   Ricicla solo vettori di lunghezza 1. Questo perché il riciclo di
+    vettori di lunghezza superiore è una fonte frequente di problemi
+    nascosti. Riciclo: prova i seguenti comandi: 
 
+```{r}
+v <- 1:10
+v[]
+v[] <- 1
+v[]
+v[] <- 1:5
+v[]
+# sotto non funziona!
+#v[] <- 1:3
+
+```
+
+    
 ## Convertire oggetti
 
 Oggetti tra loro compatibili si possono convertire; ad esempio tra
@@ -455,7 +476,7 @@ c.lat == c.lon | c.lat==45.1
 #c.lat == c.lon || c.lat==c.lat 
 ```
 
-## Esercizio
+## Esercizio 1 
 
 -   Creare una funzione chiamata *crea.df* che esegue la seguente
     operazione:
@@ -577,13 +598,21 @@ api.url <- "https://api.arpa.veneto.it/REST/v1/meteo_meteogrammi?rete=MGRAMMI&co
 stazioni.meteo <- jsonlite::read_json(api.url)
 ```
 
-## Trasformazione dati
+## Esercizio 2
 
-Chiamata anche manipolazione o "data wrangling" fondamentalmente è la
-trasformazione delle strutture dati (e.g. da liste a tabelle e
-viceversa, aggregando e disaggregando dati...).
+dd
 
-Ci "alleniamo con i dati JSON delle sezioni meteo.
+# Trasformazione dei dati {.Section1 .titlepage}
+
+## Introduzione
+
+Modificare dati significa aggiungere, togliere, filtrare, manipolare
+colonne, creare sommari e statistiche di interesse aggreando dati.
+Insomma il dato viene "manipolato". In inglese viene anche usato "data
+wrangling"
+
+Ci "alleniamo" con i dati JSON delle stazioni meteo ARPAV scaricati dal
+JSON.
 
 ::: obiettivo
 **Obiettivo**: creare un grafico con la posizione delle stazioni e
@@ -632,20 +661,22 @@ dtf <- map_df (.x = stazioni.meteo$data, .f = function(x){ x } )
 
 ```
 
-## Factor
+## Convertire tipologie di colonne
 
 Mappando a data.frame con `map` abbiamo solo colonne di tipo
 character... come mai?\* NB con `map_df` questo non succede perchè la
 funzione `map_df` è "smart" e capisce qualche tipo usare per ogni
-colonna.
+colonna. TRANNE che per la colonna valore. Perchè?\*\*
 
 NB gli iteratori su tabelle (data.frame o tibble) lavorano per colonne.
 
 ```{r results='hide'}
 
 ## richiamo la classe di ogni colonna
-map(.x = dt, .f = function(x){ class(x) } ) 
+# map(.x = dt, .f = function(x){ class(x) } ) 
 map(.x = dtf, .f = function(x){ class(x) } ) 
+## ATTENZIONE - colonna valore è corretta?
+dtf$valore <- as.numeric(dtf$valore)
 dtf$tipo <- as.factor(dtf$tipo)
 levels(dtf$tipo)
 ```
@@ -653,6 +684,10 @@ levels(dtf$tipo)
 \*Perchè raccoglie ogni elemento della lista in un vettore ed il vettore
 può avere solo valori di un tipo base (*character, numeric, integer,
 logical...*) - sceglie sempre il *character* se valori misti
+
+\*\* Nota che nel JSON il numero in "valore" è tra virgolette, dunque
+viene visto come testo (character) e non come numerico. Confronta con
+latitudine e longitudine!
 
 ## Filtro e selezione colonne
 
@@ -715,10 +750,46 @@ dt.past <- dt.past %>% select(statnm, statcd, dataora, media)
 dt.joined <- dt.past %>%  left_join(dtf, by=c("statcd"="codice_stazione") ) 
 ```
 
-## Ristrutturazione wide/long
+## Ristrutturazione: wide=\>long
 
 Questo tipo di modifica è molto comune per rappresentare i dati in modo
-differente. Vediamo un esempio.
+differente. Vediamo un esempio pratico:
+
+```{r}
+## andiamo a creare classi di temperatura
+classi <- cut(dtf$valore, breaks = c(-10,0,10,20,30))
+## mappatura con tabella a doppia entrata
+tb.wide <- table(dtf$provincia, classi)
+## nota che è un oggetto "table", trasformiomo in data.frame
+tb.wide <- as.data.frame.matrix(tb.wide)
+rownames(tb.wide)
+## nota ancora che le provincie sono rownames - se converto 
+## a tibble non ci sono pià 
+rownames(as_tibble(tb.wide) )
+## creo colonna e relacate la mette all'inizio (provate senza "relocate")
+tb.wide <- tb.wide %>% mutate(Provincie = rownames(tb.wide))%>%  relocate(Provincie)
+## tabella con numero di stazioni per classe espressa "wide" 
+tb.wide
+
+## trasformo 
+tb.long <- tb.wide  %>% pivot_longer(!Provincie, 
+    names_to = "Classe Temp. °C", values_to = "Numero"
+    )
+tb.long
+
+```
+
+## Ristrutturazione: long=\>wide
+
+Operazione inversa per tornare alla tabella di origine
+
+```{r}
+
+tb.long2wide <- tb.long  %>% pivot_wider( 
+  names_from = "Classe Temp. °C", values_from = "Numero"
+  )
+tb.long2wide
+```
 
 ## Grafici con GGplot
 
@@ -759,3 +830,34 @@ ggplot(dtf) + geom_point(aes(x=longitudine, y=latitudine, color=valore, size=val
 dtf.geo <- sf::st_as_sf(dtf,coords = c("longitudine","latitudine"), crs=4326 )
 ggplot(dtf.geo) + geom_sf(aes(color=valore, size=valore )) + coord_sf()
 ```
+
+# Dati geospaziali {.Section1 .titlepage}
+
+## Introduzione
+
+A grandi linee i dati spaziali sono interpretati digitalmente mediante
+due modelli: il modello vettoriale ed il modello raster. In entrambi i
+casi va comunque compreso che ogni elemento è georiferito, ovvero ha una
+localizzazione in un sistema di riferimento, quindi delle coordinate.
+
+## Dati vettoriali
+
+I dati vettoriali hanno tre primitive geometriche di base: punti linee e
+poligoni. La base è sempre il punto con una coordinate, in 2d o 3d.
+
+Ci sono decine di formati di file che rappresentano dati vettoriali. Ne
+abbiamo visto uno all'inizio, il file JSON! Per un riferimento vedete la
+[pagina QUI](https://gdal.org/drivers/vector/index.html)
+
+## Raster
+
+Il formato raster è molto semplice: sono nodi a passo costante, quindi
+una "griglia" georiferita mediante uno o più punti. Il passo della
+griglia è spesso identico nelle due direzioni (ma non necessariamente),
+e ne determina la risoluzione spaziale.
+
+Ci sono decine di formati di file che rappresentano dati raster. Per un
+riferimento vedete la [pagina
+QUI](https://gdal.org/drivers/raster/index.html)
+
+![](images/clipboard-3919052629.png)
