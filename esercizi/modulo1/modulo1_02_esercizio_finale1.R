@@ -1,6 +1,8 @@
-## usiamo un iteratore per richiedere le temperature di
-## tutte le stazioni ARPAV per l'anno 2014!
-##
+## OBIETTIVO:
+## 1. usiamo un iteratore tidy per richiedere le temperature di
+## tutte le stazioni ARPAV per l'anno 2014 dalle API ARPAV!
+## 2. ripuliamo la tabella finale con grammatica tidy
+## 3. salviamo un RDA
 
 # TEMPERATURA giornaliera anno 2020 ----
 ## prepariamo la stringa per l'API ----
@@ -117,5 +119,6 @@ meteo.df.sp <- meteo.df %>% left_join(stazioni.meteo %>% select(codice_stazione,
 #
 #
 #
-# CONTINUAZIONE - grafici - modulo1_esercizio_finale2.R
 save(meteo,meteo.df, file = "esercizi/modulo1/modulo1esercizio1.rda")
+
+# CONTINUAZIONE - visualizzazione e stampa grafici - modulo1_03_esercizio_finale2.R

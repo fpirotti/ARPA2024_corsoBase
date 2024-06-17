@@ -5,23 +5,23 @@ date: "`r Sys.Date()`"
 classoption: a4paper
 papersize: a4
 output: 
+  pdf_document:
+    toc: true 
+    number_sections: true  
+    fig_width: 6
+    fig_height: 4
   slidy_presentation: 
     fig_width: 6
     fig_height: 4
     footer:    "2024, Prof. Francesco Pirotti"
     css: style.css
-  beamer_presentation: default
   html_document:
     toc: true 
     toc_depth: 2
     toc_float:
       collapsed: true
       smooth_scroll: false 
-  pdf_document:
-    toc: true 
-    number_sections: true  
-    fig_width: 6
-    fig_height: 4
+  beamer_presentation: default
 editor_options:
   markdown:
     wrap: 72
