@@ -652,7 +652,7 @@ funz <- function(x){
 
 # Tidyverse
 
-## Introduzione 
+## Introduzione
 
 Tidyverse, dal [sito](https://www.tidyverse.org/): "un set di funzioni e
 librerie di R per la *data science*. Tutti i pacchetti condividono una
@@ -677,7 +677,7 @@ Combinando con **`group_by()`** questa operazione viene stratificata
 "per gruppo" aggregando le operazioni. Ci sono molti altri operatori ma
 questi sono quelli di base.
 
-## Iteratori: map 
+## Iteratori: map
 
 L'operatore "map" è simile agli "apply" ma con più funzionalità. Vedi
 sotto, usando *map_df* i risultati vengono raccolti su una tabella
@@ -693,7 +693,7 @@ dtf <- map_df (.x = stazioni.meteo$data, .f = function(x){ x } )
 
 ```
 
-## Iteratori: map 
+## Iteratori: map
 
 Mappando a data.frame con `map` abbiamo solo colonne di tipo
 character... come mai?\* NB con `map_df` questo non succede perchè la
@@ -865,7 +865,7 @@ dtf$valore <- as.numeric(dtf$valore)
 ggplot(dtf) + geom_boxplot(aes(x=tipo, y=valore )) + theme_bw()
 ```
 
-## Grafici multipli  (facets) 
+## Grafici multipli (facets)
 
 `facet_wrap` e `facet_grid` consentono di "esplodere" per una o più
 variabili di raggruppamento. Qui un esempio con una stima della funzione
@@ -876,7 +876,7 @@ ggplot(dtf) + geom_density(aes(x=valore )) + theme_bw()
 ggplot(dtf) + geom_density(aes(x=valore)) + facet_wrap(vars(tipo)) + theme_bw() 
 ```
 
-## Grafici multipli  (facets) 
+## Grafici multipli (facets)
 
 `facet_wrap` e `facet_grid` consentono di "esplodere" per una o più
 variabili di raggruppamento.
@@ -923,7 +923,7 @@ png("fileGrafico300dpi.png", width=2000, height=2000, res=300)
 dev.off()
 ```
 
-##  Grafici e stampe PDF
+## Grafici e stampe PDF
 
 Il formato PDF ha il vantaggio/svantaggio di essere vettoriale (non
 perde definizione) - provate a vedere la definizione. Perchè non usiamo
