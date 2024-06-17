@@ -22,7 +22,7 @@ ggplot(meteo.df) + geom_line(aes(x=dataora, y=tempMedia)) +
   facet_wrap(vars(nome_stazione))
 
 
-## stampate un PNG ed un PDF come nelle slides
+## stampate un PNG ed un PDF come da indicazioni nelle slides del corso
 ##  e salvate nei file seguenti
 # es3_cognome_nome.png
 # es3_cognome_nome300dpi.png

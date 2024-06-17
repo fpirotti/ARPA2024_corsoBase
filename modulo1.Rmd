@@ -5,16 +5,16 @@ date: "`r Sys.Date()`"
 classoption: a4paper
 papersize: a4
 output: 
-  pdf_document:
-    toc: true 
-    number_sections: true  
-    fig_width: 6
-    fig_height: 4
   slidy_presentation: 
     fig_width: 6
     fig_height: 4
     footer:    "2024, Prof. Francesco Pirotti"
     css: style.css
+  pdf_document:
+    toc: true 
+    number_sections: true  
+    fig_width: 6
+    fig_height: 4
   html_document:
     toc: true 
     toc_depth: 2
@@ -931,8 +931,27 @@ SEMPRE pdf? Immaginatevi a inserire milioni di punti... perde efficacia.
 
 ```{r eval=FALSE, message=FALSE, warning=FALSE}
 pdf("fileGrafico.pdf")  
-p <- ggplot(dtf.geo) + geom_sf(aes(color=valore, size=valore )) + coord_sf()  
-print(p) 
+  p <- ggplot(dtf.geo) + geom_sf(aes(color=valore, size=valore )) + coord_sf()  
+  print(p) 
+dev.off()
+```
+
+NB possiamo creare un iterazione per fare un grafico per foglio in un
+singolo file PDF!
+
+```{r eval=FALSE, message=FALSE, warning=FALSE}
+
+plotMe <- function(tipoStazione){
+  dati <- dtf.geo %>% filter(tipo==tipoStazione) 
+  p <- ggplot(dati) + geom_sf(aes(color=valore)) + ggtitle(paste("Tipo: ", tipoStazione)) + coord_sf() 
+  p
+}
+## NB la colonna "tipo" è di tipo FACTOR
+pdf("fileGraficoMulti.pdf")  
+    for(tipoStz in levels(dtf.geo$tipo) ){
+      p <- plotMe(tipoStz)
+      print(p)
+    } 
 dev.off()
 ```
 
@@ -984,10 +1003,3 @@ riferimento per leggere questi dati è la [libreria
 terra](https://rspatial.github.io/terra/).
 
 ![](images/clipboard-3919052629.png)
-
-## Per la seconda parte:
-
-Andremo ad imparare come usare i dati vettoriali e raster per applicare
-interpolazioni con kriging.
-
-<https://clima.arpa.veneto.it/?variable=TAS&forecast_model=ens5&scenario=Rcp85&data_series=no&year_period=djf&time_window=tw1&value_type=anomaly&city=&lat=&lng=>
