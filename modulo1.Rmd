@@ -650,7 +650,7 @@ funz <- function(x){
 
 ```
 
-# Tidyverse
+# Tidyverse {.Section1 .titlepage}
 
 ## Introduzione
 
@@ -838,7 +838,7 @@ tb.long2wide <- tb.long  %>% pivot_wider(
 tb.long2wide
 ```
 
-# Grafici
+# Grafici {.Section1 .titlepage}
 
 ## Grafici con GGplot - dispersione
 

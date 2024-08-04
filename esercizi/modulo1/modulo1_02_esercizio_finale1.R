@@ -1,8 +1,9 @@
 ## OBIETTIVO:
-## 1. usiamo un iteratore tidy per richiedere le temperature di
+## 1. usare un iteratore tidy per richiedere le temperature di
 ## tutte le stazioni ARPAV per l'anno 2014 dalle API ARPAV!
-## 2. ripuliamo la tabella finale con grammatica tidy
-## 3. salviamo un RDA
+## 2. ripulire la tabella finale con grammatica tidy
+## 3. salvare un RDA con il vostro e consegnare sul drive
+##    e.g. finale_pirotti_francesco.rda
 
 # TEMPERATURA giornaliera anno 2020 ----
 ## prepariamo la stringa per l'API ----
@@ -17,13 +18,16 @@ anno <- 2023
 ## ...da recap Bressan usiamo flatten
 stazioni.meteo <- jsonlite::fromJSON(url.stz, flatten = TRUE)$data
 
+interrogaAPI <- function(IDstazione){
+  # browser()
+  message("Faccio stz=", IDstazione)
+  url <- sprintf(baseurl, IDstazione, anno)
+  meteo <- jsonlite::fromJSON(url, flatten = TRUE)$data
+  meteo
+}
 ## iterazione (vedi slide 40 parte 1)
 ## può essere usata anche per fare chiamate alla rete
-meteo <- stazioni.meteo$codseqst %>% map(function(IDstazione){
-        url <- sprintf(baseurl, IDstazione, anno)
-        meteo <- jsonlite::fromJSON(url, flatten = TRUE)$data
-        meteo
-    })
+meteo <- stazioni.meteo$codseqst %>% map(interrogaAPI)
 
 ## pulizia tabella per mantenere solo temperatura,
 ## diversi passaggi...
@@ -80,7 +84,7 @@ meteo.df <- meteo %>%
   # è contenuta in quella
   filter( grepl("Temperatura", nome_sensore ) ) %>%
   # i dati sono
-  mutate( temp= map(valore, function(x){ jsonlite::fromJSON(x, flatten = TRUE)$MEDIO  }) %>% unlist()   )
+  mutate( temp = map(valore, function(x){ jsonlite::fromJSON(x, flatten = TRUE)$MEDIO  }) %>% unlist()   )
   ## il seguente non funziona come mai?
   # mutate( temperaturaMedia= jsonlite::fromJSON(valore) )
 
@@ -90,6 +94,7 @@ meteo.df <- meteo %>%
 # ............
 # ............
 meteo.df <- meteo %>%
+  ## converte lista di tabelle in unica tabella ----
   bind_rows()  %>%
   ## qui prima filtro, provate a vedere la differenza (factor stazione)
   filter( grepl("Temperatura", nome_sensore ) ) %>%
@@ -103,7 +108,7 @@ meteo.df <- meteo %>%
   mutate( tempMax= map(valore, function(x){ jsonlite::fromJSON(x)$MASSIMO }) %>% unlist() ) %>%
   ## il seguente non funziona come mai?
   #mutate( temperaturaMedia= jsonlite::fromJSON(valore) )
-  select( codice_stazione, nome_stazione, tempMedia,tempMin, tempMax, dataora, tipo )
+  select( codice_stazione, nome_stazione, tempMedia, tempMin, tempMax, dataora, tipo )
 # mutate( temperaturaMedia= map(valore, jsonlite::fromJSON) )
 
 # ultimo passaggio - associamo latitudine e longitudine ----
@@ -119,6 +124,6 @@ meteo.df.sp <- meteo.df %>% left_join(stazioni.meteo %>% select(codice_stazione,
 #
 #
 #
-save(meteo,meteo.df, file = "esercizi/modulo1/modulo1esercizio1.rda")
+save(meteo, meteo.df, file = "esercizi/modulo1/modulo1esercizio1.rda")
 
 # CONTINUAZIONE - visualizzazione e stampa grafici - modulo1_03_esercizio_finale2.R

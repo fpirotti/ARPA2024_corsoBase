@@ -1,0 +1,58 @@
+---
+title: "Modulo 2 - TECNICHE DI KRIGING (GEOSTATISTICA LIVELLO BASE)"
+author: "Francesco Pirotti"
+date: "`r Sys.Date()`"
+classoption: a4paper
+papersize: a4
+output: 
+  slidy_presentation: 
+    fig_width: 6
+    fig_height: 4
+    footer:    "2024, Prof. Francesco Pirotti"
+    css: style.css
+  pdf_document:
+    toc: true 
+    number_sections: true  
+    fig_width: 6
+    fig_height: 4
+  html_document:
+    toc: true 
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+      smooth_scroll: false 
+  beamer_presentation: default
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# TECNICHE DI KRIGING (GEOSTATISTICA LIVELLO BASE {.Section1 .titlepage}
+
+## Basi teoriche
+
+ff
+
+## Varianza
+
+ff
+
+## Covarianza
+
+ff
+
+## Correlazione
+
+ff
+
+## Autocorrelazione
+
+ff
+
+## Fondamenti di algebra lineare nella regressione lineare
+
+ff
