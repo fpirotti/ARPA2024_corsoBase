@@ -62,28 +62,21 @@ Vediamo come valutare alcuni momenti di una distribuzione - media e
 varianza ci danno il primo e secondo momento. X è la variabile
 aleatoria.
 
-
-
 $$ M(X)=\mu_X=\mathbb E[X]$$
 
 $$M(X)=\mu_X=\frac{1}{n}\sum_{j=1}^n x_j$$
 
-
 $$Var(X)=\sigma^2_X=\mathbb{E}\Big[\big(X-\mathbb{E}[X]\big)^2\Big].$$
-$$Var(X)=\sigma^2_X=\frac{\sum_i(x_i-M_X)^2}{n}$$
-Formula più pratica
+$$Var(X)=\sigma^2_X=\frac{\sum_i(x_i-M_X)^2}{n}$$ Formula più pratica
 
 $$Var(X)=\sigma^2_X=\mathbb{E}[X^2]-\mathbb{E}[X]^2$$
 
 $$Var(X)=\sigma^2_X=M(X^2)-M(X)^2 $$
 
-
-
-
-
 ## Varianza esempio
 
-Carichiamo i valori del transetto e calcoliamo la varianza con tre formule diverse:
+Carichiamo i valori del transetto e calcoliamo la varianza con tre
+formule diverse:
 
 ```{r  load}
 
@@ -109,7 +102,8 @@ rect(0, MX-VarX^0.5, length(t2),
 
 ## Covarianza
 
-Tra due variabili, X e Y, come dice il nome stesso, se e quanto "variano insieme nella stessa direzione" (NB lineare e dello stesso segno).
+Tra due variabili, X e Y, come dice il nome stesso, se e quanto "variano
+insieme nella stessa direzione" (NB lineare e dello stesso segno).
 
 $$\mathrm{Cov}(X,Y)=\mathbb{E}\Big[\big(X-\mathbb{E}[X]\big)(Y-\mathbb{E}[Y]\big)\Big]$$
 
@@ -124,10 +118,9 @@ VarX
 
 ## Covarianza (2)
 
-MA se misuriamo come "Co-varia" con la misura subito dopo lungo il transetto?  Ovvero "trasliamo" di uno e correliamo con il dato originale
+MA se misuriamo come "Co-varia" con la misura subito dopo lungo il
+transetto? Ovvero "trasliamo" di uno e correliamo con il dato originale
 
- 
- 
 ```{r covar2}
 nm <- length(t2)
 plot(t2[1:(nm-1)], type="l", xlab="km", ylab="temperatura") 
@@ -137,10 +130,11 @@ plot(t2[1:(nm-1)], t2[2:nm], pch="x" )
 
 ```
 
+## Covarianza (3) {#covarianza-3}
 
-## Covarianza (3)
-
-Più aumentiamo la distanza del lag, come è ragionevole pensare per dati spazialmente correlati, più diminuisce il valore di covarianza (si allontana dal valore della varianza == covarianza ).
+Più aumentiamo la distanza del lag, come è ragionevole pensare per dati
+spazialmente correlati, più diminuisce il valore di covarianza (si
+allontana dal valore della varianza == covarianza ).
 
 ```{r covar3}
 
@@ -160,11 +154,10 @@ plot(names(covs),  unlist(covs), type="b",
 
 ```
 
+## Covarianza (4) {#covarianza-4}
 
-
-## Covarianza (4)
-
-Non ci crediamo? Rifacciamolo per un dato casuale con media e varianza uguale a quella del nostro dato:
+Non ci crediamo? Rifacciamolo per un dato casuale con media e varianza
+uguale a quella del nostro dato:
 
 ```{r covar4}
 
@@ -189,19 +182,21 @@ plot(names(covs.rand),  unlist(covs.rand), type="b",
 
 ```
 
-
-
 ## Correlazione
 
 Relazione lineare tra due variabili, cosiddetta di Pearson:
 
 $$-1\le\rho_{XY}=\frac{Cov(XY)}{\sqrt{Var(X)}\cdot\sqrt{Var(Y)}}=\frac{\sum_{i=1}^n(X_i-\mu_X)(Y_i-\mu_Y)}{\sqrt{\sum_{i=1}^n(X_i-\mu_X)^2}\sqrt{\sum_{i=1}^n(Y_i-\mu_Y)^2}}\le+1$$
 
-
 ## Autocorrelazione
 
-Come indicato nelle slide della Covarianza, indica quanto una variabile è correlata a se stessa data una modifica nel dominio dei valori. In una dimensione:
-
+Come indicato anche nelle slide della Covarianza ([Covarianza
+(3)](#covarianza-3) e [Covarianza (4)](#covarianza-4)), indica quanto
+una variabile è correlata a se stessa data una modifica nel dominio dei
+valori. In una dimensione, che sia tempo o spazio come nel nostro
+transetto, si dice anche "lag" che può essere tradotto come "sfasamento"
+delle linee nel dominio spaziale o temporale. Viene analizzato con la
+funzione CCF :
 
 ```{r autocorr}
 
@@ -209,10 +204,38 @@ Come indicato nelle slide della Covarianza, indica quanto una variabile è corre
 
 ```
 
-
 ## Fondamenti di algebra lineare nella regressione lineare
 
+Perchè iniziamo con la regressione lineare? Perchè molti fenomeni sono
+affetti da "trend" o tendenze di segno positivo o negativo. Ovvero
+all'aumentare di X la variabile Y aumenta o diminuisce (correlazione
+positiva o negativa). Vediamo i nostri 2 plot dei 2 transetti...
 
+![](images/clipboard-3490118236.png)
+
+## Fondamenti di algebra lineare nella regressione lineare (2)
+
+E' chiaro che ci sia un trend molto marcato nel transetto 1 (linea
+nera)... se vediamo la slide [Basi teoriche] è dato dalla evidente
+correlazione tra temperatura e quota, muovendoci verso nord direttamente
+si intercettano le Alpi. Nota che ci possono essere trend diversi a
+seconda della finestra considerata nel dominio X. Come facciamo a
+capirlo?
+
+![](images/clipboard-3602532247.png)
+
+## Fondamenti di algebra lineare nella regressione lineare (3)
+
+Un metodo noto è il metodo dei minimi quadrati per stimare un modello
+lineare che "spiega" al meglio i valori osservati minimizzando gli
+errori espressi in valore assoluto o come quadrato degli scarti sotto
+illustrato\*
+
+$$Y_i = \beta_0 + \beta_1 X_i + u_i$$
+
+![](images/clipboard-2945833548.png)
+
+\*fonte: [wikipedia](https://it.wikipedia.org/wiki/Regressione_lineare)
 
 ## Stazionarietà e isotropia
 
