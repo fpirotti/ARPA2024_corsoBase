@@ -50,7 +50,7 @@ t1.values <- terra::extractAlong(modisTemp, t1)
 plot(t1.values$mean, ylim=c(2,15), xlab="km",
      ylab="Temperatura °C",  type="l")
 t2.values <- terra::extractAlong(modisTemp, t2, online = T, bilinear = T)
-lines(t2.values$mean,  type="l", col="red", add=T)
+lines(t2.values$mean,  type="l", col="red" )
 
 
 # a static map

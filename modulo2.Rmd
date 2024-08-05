@@ -32,6 +32,7 @@ editor_options:
 knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) 
 library(zoo)
+library(ggplot2)
 ```
 
 # TECNICHE DI KRIGING: Parte 1 - Basi Teoriche {.Section1 .titlepage}
@@ -42,13 +43,41 @@ Proprietà specifiche delle misure geostatistiche di **variabilità
 spaziale**. Cosa si intende per variabilità spaziale? Cosa vogliamo
 studiare?
 
-In questo esempio usiamo un transetto (quello in rosso nella figura
-sotto) della mappa di temperatura media della superficie del suolo del
-2017 estratta da sensore MODIS\*
+In questo esempio usiamo due transetti: t1=nero, t2=rosso estratti dalla della mappa di temperatura media della superficie del suolo del
+2017 estratta da sensore MODIS\*. Carichiamo i valori di temperatura dei due transetti:
+
+
+
+```{r transect }
+library(terra)
+load("esercizi/modulo2/data/modulo2.rda")
+modisTemp <- terra::rast("esercizi/modulo2/data/VenetoCorrectedMODIS_LST_Avg2017.tif")
+
+
+```
+
+
+```{r transectb, eval=FALSE }
+plot(modisTemp)
+plot(t1, type="l", xlab="km", ylab="temperatura", ylim=c(0,15)) 
+lines(t2, col="red" )
+legend(270, 4, "t1", box.col = "lightgrey", bg = "#cccccc44" )
+legend(270, 14, "t2", box.col = "red", bg = "#ff000044" )
+
+```
+
 
 ![](images/clipboard-4119654622.png){style="float:left;"}
 
-![](images/clipboard-3490118236.png)
+
+```{r transect2, echo=FALSE}
+plot(t1, type="l", xlab="km", ylab="temperatura", ylim=c(0,15)) 
+lines(t2, col="red" )
+legend(270, 4, "t1", box.col = "lightgrey", bg = "#cccccc44" )
+legend(270, 14, "t2", box.col = "red", bg = "#ff000044" )
+
+```
+
 
 \*Il sensore MODIS non misura la temperatura dell'aria ma l'emissione di
 calore delle superfici. Questa mappa è stata estratta con un fattore di
@@ -60,27 +89,26 @@ l'estrazione.
 
 Vediamo come valutare alcuni momenti di una distribuzione - media e
 varianza ci danno il primo e secondo momento. X è la variabile
-aleatoria.
+aleatoria, nel nostro caso la temperatura.
 
-$$ M(X)=\mu_X=\mathbb E[X]$$
+$$ M(Y)=\mu_Y=\mathbb E[Y]$$
 
-$$M(X)=\mu_X=\frac{1}{n}\sum_{j=1}^n x_j$$
+$$M(Y)=\mu_Y=\frac{1}{n}\sum_{j=1}^n _j$$
 
-$$Var(X)=\sigma^2_X=\mathbb{E}\Big[\big(X-\mathbb{E}[X]\big)^2\Big].$$
-$$Var(X)=\sigma^2_X=\frac{\sum_i(x_i-M_X)^2}{n}$$ Formula più pratica
+$$Var(Y)=\sigma^2_Y=\mathbb{E}\Big[\big(Y-\mathbb{E}[Y]\big)^2\Big].$$
+$$Var(Y)=\sigma^2_Y=\frac{\sum_{j=1}^n(y_j-M_Y)^2}{n}$$ Formula più pratica
 
-$$Var(X)=\sigma^2_X=\mathbb{E}[X^2]-\mathbb{E}[X]^2$$
+$$Var(Y)=\sigma^2_Y=\mathbb{E}[Y^2]-\mathbb{E}[Y]^2$$
 
-$$Var(X)=\sigma^2_X=M(X^2)-M(X)^2 $$
+$$Var(Y)=\sigma^2_Y=M(Y^2)-M(Y)^2 $$
 
 ## Varianza esempio
 
-Carichiamo i valori del transetto e calcoliamo la varianza con tre
-formule diverse:
+Calcoliamo la 
+varianza con tre formule diverse:
 
 ```{r  load}
 
-load("esercizi/modulo2/data/modulo2.rda")
 MX<-mean(t2) 
 VarX <- var(t2)
 MX2<-mean(t2^2) 
@@ -97,6 +125,23 @@ rect(0, MX-VarX^0.5, length(t2),
      MX+VarX^0.5, col = "#ff000045", border = "#ffffff00")
 # varianza  = (dev std)^2
 
+
+```
+
+## Varianza esempio (2)
+
+```{r varianza2}
+
+hist(t2)
+rect(MX-VarX^0.5, 10000, 
+     MX+VarX^0.5, 0, col = "#ff000045", border = "#ffffff00")
+abline(v=MX, col="red", lwd=2)
+
+plot(t2, xlab="km", ylab="temperatura", pch="+")
+abline(a = MX,0 )
+rect(0, MX-VarX^0.5, length(t2), 
+     MX+VarX^0.5, col = "#ff000045", border = "#ffffff00")
+# varianza  = (dev std)^2
 
 ```
 
@@ -237,6 +282,19 @@ $$Y_i = \beta_0 + \beta_1 X_i + u_i$$
 
 \*fonte: [wikipedia](https://it.wikipedia.org/wiki/Regressione_lineare)
 
+## Fondamenti di algebra lineare nella regressione lineare (5)
+
+```{r lineareReg }
+
+dati<- data.frame(Temperatura=t2, Distanza_Km=1:length(t2) )
+modello.lm <- lm(data = dati)
+summary(modello.lm)
+
+ggplot(dati, aes(x = Distanza_Km, y = Temperatura)) + 
+  geom_point() +
+  stat_smooth(method = "lm") + theme_bw()
+```
+
 ## Stazionarietà e isotropia
 
 Si vuole studiare l'associazione tra le osservazioni della variabile
@@ -277,8 +335,16 @@ non impossibile per le seguenti ragioni:
 
 3.  **Dipendenza dalla scala:** I pattern spaziali possono cambiare con
     la scala, complicando la valutazione della stazionarietà.
+    
+Siccome abbiamo simulato un dataset  completo, vediamo effettivamente 
+la difficoltà nel soddisfare queste condizioni:
 
-### Approcci pratici per valutare la stazionarietà
+
+![](images/clipboard-3602532247.png)
+
+
+
+## Stazionarietà: Approcci pratici
 
 Metodi per valutare il grado di stazionarietà:
 
@@ -308,7 +374,7 @@ Metodi per valutare il grado di stazionarietà:
     -   Applicare trasformazioni (ad esempio, logaritmo, radice
         quadrata) ai dati per migliorare la stazionarietà.
 
-### Considerazioni importanti
+## Stazionarietà: Considerazioni importanti
 
 -   **La stazionarietà è spesso un'approssimazione:** In pratica, spesso
     si assume una stazionarietà approssimativa per applicare i metodi
