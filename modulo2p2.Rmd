@@ -1,0 +1,133 @@
+---
+title: "Modulo 2 parte 2 - TECNICHE DI KRIGING GEOSTATISTICA LIVELLO BASE"
+author: "Francesco Pirotti"
+date: "`r Sys.Date()`"
+output:
+  slidy_presentation:
+    fig_width: 6
+    fig_height: 4
+    footer: 2024, Prof. Francesco Pirotti
+    css: style.css
+  pdf_document:
+    toc: true
+    number_sections: true
+    fig_width: 6
+    fig_height: 4
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+      smooth_scroll: false
+  beamer_presentation: default
+  ioslides_presentation: default
+papersize: a4
+classoption: a4paper
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+
+# TECNICHE DI KRIGING: Parte 2 - Analisi spaziale dei dati {.Section1 .titlepage}
+
+## Metodi deterministici
+
+inverso pesato sulla distanza
+
+## Kriging
+
+tecnica di interpolazione "esatta" che onora i punti - ma anche le medie
+nell'area Bayesiana di maggiore probabilità ()
+
+-   attenti: si presuppone un processo stocastico "stazionario", ovvero:
+
+    -   media costante in tutta l'area analizzata
+
+    -   la varianza delle differenze dei valori analizzati dipende solo
+        dalla **distanza** tra coppie di punti e non dalla loro
+        posizione
+
+[![Fonte:
+wikipedia](images/clipboard-2657392152.png)](https://en.wikipedia.org/wiki/Kriging)
+
+## Kriging: tipologie
+
+Importante dividere in tre gruppi il Kriging (K) per scegliere quello
+corretto:
+
+-   **Simple K** - si presuppone una media costante nota nell'area di
+    lavoro
+
+-   **Ordinary K** - si presuppone una media costante ma ignota
+
+-   **Universal K** - si presuppone una media ignota non costante ma con
+    un trend lineare
+
+## Covarianza, correlogramma
+
+jjj
+
+## Variogramma {#variogramma}
+
+Il semivariogramma... \|h\| indica la distanza di lag dove la covarianza
+rimane costante. Questo viene rappresentato in modelli
+
+[![Esempio di semivariogramma [vedi
+https://doi.org/10.14214/sf.369]](images/clipboard-110321721.png)](https://www.silvafennica.fi/article/369)
+
+## Modelli di variogramma
+
+[![Courtesy of: GSTAT manual -
+https://www.gstat.org/gstat.pdf](images/clipboard-407483668.png)](https://www.gstat.org/gstat.pdf)
+
+## Modelli di variogramma (2)
+
+[![Courtesy of E.J. Pebesma -
+https://www.gstat.org/gstat.pdf](images/clipboard-101695801.png)](https://www.gstat.org/gstat.pdf)
+
+## Kriging variance, come viene calcolata
+
+ff
+
+## Studio variografico di una variabile georeferenziata
+
+ff
+
+## Variogramma sperimentale
+
+ff
+
+## Modello di variogramma: range, sill e nugget
+
+ff
+
+## Effetto nugget
+
+fff
+
+# TECNICHE DI KRIGING: Parte 3 - Diversi Kriging {.Section1 .titlepage}
+
+## Ordinary Kriging (OK)
+
+kkk
+
+## Universal Kriging (UK)
+
+kkkk
+
+## Co-Kriging (CK)
+
+kkkk
+
+## External drift Kriging (KED)
+
+kkkk
+
+## Regression Kriging (RK)
+
+kkkk
+
+## Indicator Kriging (IK)
+
+kkkkk

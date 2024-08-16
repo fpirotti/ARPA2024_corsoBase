@@ -1,0 +1,683 @@
+---
+title: "Modulo 2 parte 1 - TECNICHE DI KRIGING GEOSTATISTICA LIVELLO BASE"
+author: "Francesco Pirotti"
+date: "`r Sys.Date()`"
+output:
+  slidy_presentation:
+    fig_width: 6
+    fig_height: 4
+    footer: 2024, Prof. Francesco Pirotti
+    css: style.css
+  pdf_document:
+    toc: true
+    number_sections: true
+    toc_depth: 3
+    fig_width: 6
+    fig_height: 4
+  html_document:
+    toc: true
+    toc_depth: 2
+    toc_float:
+      collapsed: true
+      smooth_scroll: false 
+papersize: a4
+classoption: a4paper
+editor_options:
+  markdown:
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse) 
+library(zoo)
+library(ggplot2)
+suppressMessages(library(sjPlot))
+```
+
+# TECNICHE DI KRIGING: Parte 1 - Basi Teoriche {.Section1 .titlepage}
+
+## Basi teoriche
+
+Proprietà specifiche delle misure geostatistiche di **variabilità
+spaziale**. Cosa si intende per variabilità spaziale? Cosa vogliamo
+studiare?
+
+Vogliamo un modello per "spiegare" la variabilità e dunque interpolare
+al meglio dove non abbiamo
+
+E' possibile costruire un modello di regressione utilizzando le
+coordinate dei dati come covariate per descrivere la variazione spaziale
+della variabile di interesse. In molti casi, per descrivere
+adeguatamente l'effetto della posizione sarà necessaria una funzione
+**non** lineare basata sulle coordinate.
+
+In questo esempio usiamo due transetti: t1=nero, t2=rosso estratti dalla
+della mappa di temperatura media della superficie del suolo del 2017
+estratta da sensore MODIS\*. Carichiamo i valori di temperatura dei due
+transetti:
+
+```{r transect }
+library(terra)
+load("esercizi/modulo2/data/modulo2.rda")
+modisTemp <- terra::rast("esercizi/modulo2/data/VenetoCorrectedMODIS_LST_Avg2017.tif")
+
+
+```
+
+```{r transectb, eval=FALSE }
+plot(modisTemp)
+plot(t1, type="l", xlab="km", ylab="temperatura", ylim=c(0,15)) 
+lines(t2, col="red" )
+legend(270, 4, "t1", box.col = "lightgrey", bg = "#cccccc44" )
+legend(270, 14, "t2", box.col = "red", bg = "#ff000044" )
+
+```
+
+![](images/clipboard-4119654622.png){style="float:left;"}
+
+```{r transect2, echo=FALSE}
+plot(t1, type="l", xlab="km", ylab="temperatura", ylim=c(0,15)) 
+lines(t2, col="red" )
+legend(270, 4, "t1", box.col = "lightgrey", bg = "#cccccc44" )
+legend(270, 14, "t2", box.col = "red", bg = "#ff000044" )
+
+```
+
+\*Il sensore MODIS non misura la temperatura dell'aria ma l'emissione di
+calore delle superfici. Questa mappa è stata estratta con un fattore di
+correzione molto generico per renderla più simile alla temperatura
+dell'aria. Vedi [esercizio
+01](esercizi/modulo2/modulo2_es01_transetti.R) per replicare
+l'estrazione.
+
+## Varianza
+
+Vediamo come valutare alcuni momenti di una distribuzione - media e
+varianza ci danno il primo e secondo momento. X è la variabile
+aleatoria, nel nostro caso la temperatura.
+
+$$ M(Y)=\mu_Y=\mathbb E[Y]$$
+
+$$M(Y)=\mu_Y=\frac{1}{n}\sum_{j=1}^n{Y_j}$$
+
+$$Var(Y)=\sigma^2_Y=\mathbb{E}\Big[\big(Y-\mathbb{E}[Y]\big)^2\Big].$$
+$$Var(Y)=\sigma^2_Y=\frac{\sum_{j=1}^n(y_j-M_Y)^2}{n}$$
+
+Formula più pratica
+
+$$Var(Y)=\sigma^2_Y=\mathbb{E}[Y^2]-\mathbb{E}[Y]^2$$
+
+$$Var(Y)=\sigma^2_Y=M(Y^2)-M(Y)^2 $$
+
+## Varianza esempio
+
+Calcoliamo la varianza con tre formule diverse:
+
+```{r  load}
+
+MX<-mean(t2) 
+VarX <- var(t2)
+MX2<-mean(t2^2) 
+VarX2 <- MX2 - MX^2
+VarX3 <- mean((t2-MX)^2)
+ 
+paste("Media:", round(MX,3), " Varianza f1:", round(VarX,4), 
+      " Varianzaf2:", round(VarX2,4), " Varianzaf3:", round(VarX3,4) )
+ 
+
+plot(t2, xlab="km", ylab="temperatura", pch="+")
+abline(a = MX,0 )
+rect(0, MX-VarX^0.5, length(t2), 
+     MX+VarX^0.5, col = "#ff000045", border = "#ffffff00")
+# varianza  = (dev std)^2
+
+
+```
+
+## Varianza esempio (2)
+
+```{r varianza2}
+
+hist(t2)
+rug(t2)
+rect(MX-VarX^0.5, 10000, 
+     MX+VarX^0.5, 0, col = "#ff000045", border = "#ffffff00")
+abline(v=MX, col="red", lwd=2)
+
+plot(t2, xlab="km", ylab="temperatura", pch="+")
+abline(a = MX,0 )
+rect(0, MX-VarX^0.5, length(t2), 
+     MX+VarX^0.5, col = "#ff000045", border = "#ffffff00")
+# varianza  = (dev std)^2
+
+```
+
+## Covarianza {#covarianza}
+
+Tra due variabili, X e Y, come dice il nome stesso, se e quanto "variano
+insieme nella stessa direzione" (NB lineare e dello stesso segno).
+
+$$\mathrm{Cov}(Y1,Y2)=\mathbb{E}\Big[\big(Y1-\mathbb{E}[Y1]\big)(Y2-\mathbb{E}[Y2]\big)\Big]$$
+
+```{r covar}
+
+CovX<-cov(t2, t2)
+CovX
+VarX
+
+```
+
+## Covarianza (2)
+
+MA se misuriamo come "Co-varia" con la misura subito dopo lungo il
+transetto? Ovvero "trasliamo" di uno lungo X e correliamo con il dato
+originale...
+
+```{r covar2}
+nm <- length(t2)
+plot(t2[1:(nm-1)], type="l", xlab="km", ylab="temperatura") 
+lines(t2[2:nm], col="red" )
+cov(t2[1:(nm-1)], t2[2:nm] )
+plot(t2[1:(nm-1)], t2[2:nm], pch="x" )
+
+```
+
+## Covarianza (3) {#covarianza-3}
+
+Più aumentiamo la distanza del lag, come è ragionevole pensare per dati
+spazialmente correlati, più diminuisce il valore di covarianza (si
+allontana dal valore della varianza == covarianza ).
+
+```{r covar3}
+
+plot(t2[1:(nm-1)], t2[2:nm], pch="x", cex=0.5, xlab="km", ylab="Temperatura" )
+cc=1
+covs<-list("0"=CovX, "1"=cov(t2[1:(nm-1)], t2[2:nm] ) )
+
+for(lag in seq(6, 36, 10)){ 
+  covs[[as.character(lag)]]<-cov(t2[1:(nm-lag)], t2[(lag+1):nm])
+  points(t2[1:(nm-lag)], t2[(lag+1):nm], pch="x",cex=0.5, col=cc )
+  cc=cc+1
+}
+
+plot(names(covs),  unlist(covs), type="b", 
+     ylab="Co-Varianza", 
+     xlab="lag" )
+
+```
+
+## Covarianza (4) {#covarianza-4}
+
+Non ci crediamo? Rifacciamolo per un dato casuale con media e varianza
+uguale a quella del nostro dato:
+
+```{r covar4}
+
+t.rand <- rnorm(nm, mean = MX, sd = VarX^0.5)
+
+plot(t.rand[1:(nm-1)], t.rand[2:nm], pch="x", cex=0.5, xlab="km", ylab="Temperatura" )
+cc=1
+covs.rand<-list("0"=cov(t.rand, t.rand), "1"=cov(t.rand[1:(nm-1)], t.rand[2:nm] ) )
+
+for(lag in seq(6, 36, 10)){ 
+  covs.rand[[as.character(lag)]] <- cov(t.rand[1:(nm-lag)], t.rand[(lag+1):nm])
+  points(t.rand[1:(nm-lag)], t.rand[(lag+1):nm], cex=0.5, pch="x", col=cc )
+  cc=cc+1
+}
+
+  
+  
+plot(names(covs.rand),  unlist(covs.rand), type="b", 
+     ylab="Varianza", 
+     xlab="lag" )
+
+```
+
+## Correlazione
+
+Relazione lineare tra due variabili, cosiddetta di Pearson.
+Semplicemente normalizza per le deviazioni standard:
+
+$$-1\le\rho_{Y1Y2}=\frac{Cov(Y1Y2)}{\sqrt{Var(Y1)}\cdot\sqrt{Var(Y2)}}=\frac{\sum_{i=1}^n(Y1-{\mu_{Y1}})(Y2-{\mu_{Y2}})}{\sqrt{\sum_{i=1}^n(y_i-{\mu_{Y1}})^2}\sqrt{\sum_{i=1}^n(y_i-{\mu_{Y2}})^2}}\le+1$$
+
+## Autocorrelazione
+
+Come indicato anche nelle slide della Covarianza ([Covarianza
+(3)](#covarianza-3) e [Covarianza (4)](#covarianza-4)), indica quanto
+una variabile è correlata a se stessa data una modifica nel dominio dei
+valori. In una dimensione, che sia tempo o spazio come nel nostro
+transetto, si dice anche "lag" che può essere tradotto come "sfasamento"
+delle linee nel dominio spaziale o temporale. Viene analizzato con la
+funzione CCF :
+
+```{r autocorr}
+
+  #ccf(t2, t2, plot = F)
+  ccf(t2, t2)
+
+```
+
+## Fondamenti di algebra lineare nella regressione lineare
+
+Perchè iniziamo con la regressione lineare? Perchè molti fenomeni sono
+affetti da "trend" o tendenze di segno positivo o negativo. Ovvero
+all'aumentare di X la variabile Y aumenta o diminuisce (correlazione
+positiva o negativa). Vediamo i nostri 2 plot dei 2 transetti...
+
+![](images/clipboard-4119654622.png){style="float:left;"}
+![](images/clipboard-3490118236.png)
+
+## Fondamenti di algebra lineare nella regressione lineare (2)
+
+E' chiaro che ci sia un trend molto marcato nel transetto 1 (linea
+nera)... è dato dalla evidente correlazione tra temperatura e quota,
+muovendoci verso nord direttamente si intercettano le Alpi. Nota che ci
+possono essere trend diversi a seconda della finestra considerata nel
+dominio X. Come facciamo a capirlo?
+
+![](images/clipboard-4119654622.png){style="float:left;"}
+![](images/clipboard-3602532247.png)
+
+## Fondamenti di algebra lineare nella regressione lineare (3)
+
+Un metodo noto è il metodo dei minimi quadrati per stimare un modello
+lineare che "spiega" al meglio i valori osservati minimizzando gli
+errori espressi in valore assoluto o come quadrato degli scarti sotto
+illustrato\*
+
+$$Y_i = \beta_0 + \beta_1 X_i + u_i$$
+
+![](images/clipboard-2945833548.png)
+
+\*fonte: [wikipedia](https://it.wikipedia.org/wiki/Regressione_lineare)
+
+## Fondamenti di algebra lineare nella regressione lineare (4)
+
+Modelli lineari, nei pacchetti di base, (lm) emodelli lineari robusti,
+nel pacchetto MASS (rlm). Questi hanno un:
+
+-   lato sinistro: variabile/i (matematicamente) dipendente/i
+-   Operatore di formula \~, letto come "dipende da", "è funzione di".
+-   lato destro: variabile (matematicamente) indipendente (o variabili)
+
+```{r lineareReg }
+
+dati<- data.frame(Temperatura=t2, Distanza_Km=1:length(t2) )
+# modello.lm <- lm(data = dati)
+modello.lm <- lm(Temperatura~Distanza_Km, data = dati)
+#summary(modello.lm)
+# per riportare i parametri del modello meglio usare sjPlot ---- 
+sjPlot::tab_model(modello.lm)
+
+```
+
+Prova a trasformare la distanza da m a km e vedere il risultato - perchè
+può essere utile? [D.10](#d.10)
+
+## Fondamenti di algebra lineare nella regressione lineare (5)
+
+Modelli: Il lato destro può avere operatori che sembrano aritmetici ma
+sono interpretati in termini di struttura del modello:
+
+-   `+` effetto additivo
+
+-   `*` effetto di interazione
+
+-   `/` modello annidato
+
+-   `-` rimuovere i termini dal modello
+
+Per le formule aritmetiche all'interno del modello, è necessario
+utilizzare la funzione I "identità".
+
+Per illustrare l'uso degli operatori, ecco un modello della temperatura
+che è funzione di una potenza della quota.
+
+```{r lineareRegPlot }
+
+ggplot(dati, aes(x = Distanza_Km, y = Temperatura)) + 
+  geom_point() +
+  stat_smooth(method = "lm") + theme_bw()
+```
+
+## Let's go SPATIAL
+
+Invece del transetto campioniamo dei punti di temperatura e quota. Vedi
+[Esercizio 3 del Modulo 2](esercizi/modulo2/modulo2_es03_goSpatial.R)
+
+Per illustrare l'uso degli operatori e delle identità, proviamo modelli
+di temperatura funzione di varie potenze della quota e vediamo quello
+più performante.
+
+```{r spaceRegPlot }
+## leggiamo la quota
+temp <- terra::rast("GeospatialApp/data/VenetoCorrectedMODIS_LST_Avg2017.tif")
+## aggiungiamo una potenziale covariata - la quota!
+DEM <- terra::rast("GeospatialApp/data/VenetoDEM.tif")
+smpl <- terra::spatSample(temp, method="random",
+                        size=2000, na.rm=T, xy=T ) #as.points=T
+## NB quota in km! poi vediamo perchè
+smpl$altitude <- terra::extract(DEM, smpl[,1:2], ID=F )[[1]]/1000
+smpl$altitudeM <- terra::extract(DEM, smpl[,1:2], ID=F )[[1]]
+names(smpl)
+names(smpl)<-c("x","y","Temp", "Quota.km", "Quota.m") 
+smpl<-as_tibble(smpl) 
+
+```
+
+## Regressioni tra covariate
+
+```{r spaceRegPlot2 }
+
+
+modello.lm <- lm(Temp~`Quota.km`, data = smpl) 
+sjPlot::tab_model(modello.lm)
+
+modello.lm <- lm(Temp~`Quota.m`, data = smpl) 
+sjPlot::tab_model(modello.lm)
+
+modello.lm <- lm(Temp~I(`Quota.km`^0.5), data = smpl) 
+sjPlot::tab_model(modello.lm)
+
+ggplot(smpl, aes(x = `Quota.km`, y = Temp)) + 
+  geom_point() +
+  stat_smooth(data=smpl, method = "lm", formula = y~I(x^0.5) )  + theme_bw()
+ 
+```
+
+## Stazionarietà e isotropia
+
+L'interpolazione con kriging si basa su alcune assunzioni fondamentali
+riguardo alla natura dei dati spaziali. Tra queste, le più importanti
+sono la stazionarietà e l'isotropia. Queste assunzioni semplificano
+notevolmente i calcoli e consentono di modellare la variabilità spaziale
+dei dati in modo efficace. Tuttavia, nella realtà, queste condizioni
+sono spesso violate, rendendo necessario adottare approcci più
+flessibili.
+
+Si vuole studiare l'associazione tra le osservazioni della variabile
+analizzata in funzione di distanza e direzione. Le funzioni di
+[covarianza](#covarianza), il [correlogramma](#correlogramma) e il
+[variogramma](#variogramma) / il [semivariogramma](#semivariogramma)
+sono tutte funzioni che caratterizzano numericamente la forza di tali
+associazioni.
+
+Con la maggior parte dei dati spaziali, vengono fatte due ipotesi
+comuni, stazionarietà ed isotropia.
+
+1.  Stazionarietà "formale": le proprietà statistiche del processo
+    spaziale rimangono costanti in tutte le località. Si tratta di
+    un'ipotesi che raramente si verifica nei dati del mondo reale.
+2.  Stazionarietà "debole": si ipotizza che la media e la
+    varianza/covarianza siano costanti nella regione di interesse
+3.  Isotropia: l'autocorrelazione spaziale tra le risposte in 2 siti
+    dipende solo dalla distanza e non dalla direzione o
+    dall'orientamento. dipende solo dalla distanza e forse dalla
+    direzione dell'orientamento, non dalla posizione di questi siti
+    nella regione di interesse. siti sono situati nella regione di
+    interesse.
+4.  Continuità spaziale: l'autocorrelazione spaziale tra le risposte in
+    2 siti dipende solo dalla distanza e forse dalla direzione
+    dell'orientamento non dalla posizione di questi siti nella regione
+    di interesse. siti sono situati nella regione di interesse.
+
+## Stazionarietà
+
+L'ipotesi di stazionarietà è fondamentale per molte tecniche
+geostatistiche
+
+Quasi sempre rappresenta una semplificazione della realtà.
+
+La dimostrazione della stazionarietà in pratica è complesso per le
+seguenti ragioni:
+
+1.  **Dati limitati:** I dati geostatistici sono tipicamente sparsi e
+    irregolarmente distribuiti, rendendo difficile valutare le proprietà
+    statistiche sull'intera area di studio.
+
+2.  **Eterogeneità spaziale:** La maggior parte dei fenomeni naturali
+    presenta una certa variabilità spaziale.
+
+3.  **Dipendenza dalla scala:** I pattern spaziali possono cambiare con
+    la scala, complicando la valutazione della stazionarietà.
+
+Siccome abbiamo simulato un dataset completo, vediamo effettivamente la
+difficoltà nel soddisfare queste condizioni:
+
+![](images/clipboard-3602532247.png)
+
+## Stazionarietà: Approcci pratici
+
+Metodi per valutare il grado di stazionarietà:
+
+-   **Analisi esplorativa dei dati (EDA):**
+
+    -   Visualizzare i dati utilizzando istogrammi, scatter plot e mappe
+        per identificare potenziali trend o pattern.
+
+    -   Calcolare statistiche descrittive (media, varianza) per diversi
+        sottoinsiemi dei dati per verificare la consistenza.
+
+-   **Analisi del variogramma:**
+
+    -   Esaminare il variogramma per evidenziare la stazionarietà (ad
+        esempio, raggiungimento di un plateau, comportamento isotropo).
+
+    -   Considerare l'adattamento di diversi modelli di variogramma per
+        valutare la loro aderenza.
+
+## Stazionarietà: Considerazioni importanti
+
+-   **La stazionarietà è spesso un'approssimazione:** In pratica, spesso
+    si assume una stazionarietà approssimativa per applicare i metodi
+    geostatistici.
+
+-   **Stazionarietà locale:** Può essere ragionevole assumere la
+    stazionarietà all'interno di sottoregioni più piccole.
+
+-   **Metodi non stazionari:** Se la stazionarietà è chiaramente
+    violata, considerare l'utilizzo di metodi geostatistici non
+    stazionari o altre tecniche di analisi spaziale.
+
+**Ricorda:** L'obiettivo non è dimostrare la stazionarietà senza ombra
+di dubbio, ma valutare la sua plausibilità e prendere decisioni
+informate sull'adeguatezza dei metodi geostatistici
+
+## Stazionarietà: esercizio
+
+Testiamo sul transetto n. 2 (T2 ovvero quello rosso).
+
+Poi provato con T1, quali dei due processi è "più stazionario"?
+
+[Esercizio 2 del Modulo 2](esercizi/modulo2/modulo2_es02_trend.R)
+
+![](images/clipboard-3602532247.png)
+
+```{r}
+varianze.fin30 <- rollapplyr(t2, 30, var, by.column = FALSE, fill = NA)
+medie.fin30 <- rollapplyr(t2, 30, mean, by.column = FALSE, fill = NA)
+
+plot(medie.fin30)
+plot(varianze.fin30)
+
+
+```
+
+## Stazionarietà di primo ordine
+
+Stazionarietà della media, ovvero un campione in due aree diverse della
+regione di studio hanno media uguale.
+
+$$ \mathbb E[Y_i]== \mathbb E[Y_j] $$
+
+## Stazionarietà di secondo ordine
+
+Stazionarietà della varianza, ovvero un campione in due aree diverse
+della regione di studio hanno varianza uguale, che dipende solo.
+
+$$ \mathbb E[Y_i]== \mathbb E[Y_j] $$
+
+## Test di stazionarietà - variogramma
+
+Insomma... i miei dati soddisfano il presupposto di stazionarietà o no?
+O almeno quanto sono lontani da una perfetta stazionarietà?
+
+NB - La stazionarietà è una decisione, non un'ipotesi (cit. M. Pyrcz);
+pertanto non può essere testata. I dati possono dimostrare che non è una
+supposizione appropriata.
+
+La valutazione della stazionarietà dipende dalla scala. La scelta della
+scala deve basarsi sul problema specifico.
+
+![](images/clipboard-3602532247.png)
+
+Per indagare/valutare la stazionarietà dei dati spaziali, in pratica la
+cosa migliore è usare un variogramma o un autocorrelogramma: - nel primo
+caso è un grafico che mostra come aumenta la covarianza a diversi lag.
+Se il variogramma è delimitato (raggiunge un massimo tetto (sill) di
+varianza) si può decidere che i dati sono stazionari, ma se il
+variogramma non è delimitato (non raggiunge un massimo) - nel secondo
+caso è un grafico che mostra l'autocorrelazione dei valori dei dati a
+diversi lag (spaziali o temporali). Se l'autocorrelazione diminuisce
+rapidamente, è un indice di stazionarietà.
+
+## Test di stazionarietà - variogramma (2)
+
+```{r}
+library(gstat)
+ 
+myplots<-function(vrs){
+  add=F
+  for(name in names(vrs)){
+    vr <- vrs[[name]]
+      col=runif(1,min=1,max=10)
+  pch=runif(1,min=1,max=10)
+  if(!add) { 
+    plot(vr$dist/1000, vr$gamma, xlab="Distanza (km)", ylab="varianza",col=col, 
+       pch=pch)
+  }
+  else {
+    points(vr$dist, vr$gamma,col=col, 
+       pch=pch)
+    
+  } 
+  legend(min(vr$dist/1000), max(vr$gamma),bty = "n", name, col=col,  pch=pch  )
+  }
+ add=T
+}
+
+## trasformiamo da terra vect a oggetto sf, poi 
+## lo proiettiamo su un sistema cartografico
+## https://epsg.io/3035 
+## per avere le distanze in metri  
+smpl.spat <- smpl %>% sf::st_as_sf(coords = c("x","y"), crs=4326) %>%   
+                      sf::st_transform(32632)  
+plots  <- list() 
+plots[["Temp~1"]]  <- gstat::variogram(Temp~1, smpl.spat)
+ 
+smpl.spat$x<- sf::st_coordinates(smpl.spat)[,1]
+smpl.spat$y<- sf::st_coordinates(smpl.spat)[,2]
+
+## decisione di stazionarietà migliorata, variagramma con sill. 
+plots[["Temp~x+y"]] <-  gstat::variogram(Temp~x+y, na.omit(smpl.spat))
+ 
+ 
+plots[["Temp~Quota.km"]] <- gstat::variogram(Temp~Quota.km, data=as.data.frame(na.omit(smpl)), locations = ~x+y  )
+
+plots[["Temp~Quota.km+x+y"]] <- gstat::variogram(Temp~Quota.km+x+y, na.omit(smpl.spat))
+
+myplots(plots)
+
+```
+
+## Isotropia
+
+Direzionalità - si può testare fornendo un valore di *alpha* al
+variogramma.
+
+```{r anisotropy }
+
+vra <- gstat::variogram(Temp~1, na.omit(smpl.spat), alpha=seq(0,360, 20) )
+sp::plot(vra)
+
+```
+
+## Approcci per “rilassare” le condizioni
+
+### "Non" soddisfa il criterio di stazionarietà
+
+Se troviamo delle covariate (e.g. quota che spiega la temperatura)
+possiamo inserirle nel modello per eliminarne gli effetti ed isolare.
+
+NB: se ignoriamo la relazione temperatura - quota, vediamo la
+direzionalità.
+
+### "Non" soddisfa criterio di isotropia
+
+## Variabili regionalizzate - finestra
+
+Quando si lavora con un set di punti, è necessario specificare la
+regione spaziale o la finestra in cui si analizza il modello.
+
+Nel modulo **spatstat**, la finestra di osservazione è una parte parte
+integrante del lavoro.
+
+Un modell serve per stimare valori della variabile di studio in punti
+dove non sono presenti osservazioni. Anche qualcosa di semplice come la
+stima della distribuzione a pattern (raggruppate, casuali o griglia)
+dipende dalla finestra di osservazione considerata.
+
+I risultati saranno diversi analizzando finestre diverse. Ad esempio,
+calcolando la finestra di osservazione mediante l'area convessa dei
+punti.
+
+Solitamente la finestra di osservazione è un rettangolo, quindi
+bastaspecificare le dimensioni x e y del rettangolo ed i vertici.
+
+Finestre di osservazione con una forma più complessa possono essere
+facilmente rappresentate in **spatstat**, come descritto di seguito. Per
+le situazioni in cui la finestra è davvero sconosciuta, **spatstat**
+inltre fornisce la funzione *ripras* per calcolare lo stimatore di
+Ripley-Rasson della finestra, data solo la posizione dei punti.
+
+## Risposte alle domande
+
+### D.01 {#d.01}
+
+ffff
+
+### D.10 {#d.10}
+
+La distanza in metri ha un intervallo molto ampio rispetto alla
+temperatura, dunque i valori numerici degli intervalli di confidenza e
+pendenza sembrano zero in quanto la precisione dei decimali non cattura
+quanto varia la temperatura per UNITA' di distanza, ovvero il metro. Se
+trasformiamo in km questo diventa più evidente - per 1 km di distanza la
+temperatura sembra diminuire di 3 gradi. Ovviamente questo è l'effetto
+delle Alpi al nord, e quindi è una correlazione ma non una causazione.
+Vediamo che il valore di R rimane identico, ovviamente, con valore di
+0.34.
+
+```{r  d10}
+
+dati<- data.frame(Temperatura=t2, Distanza_Km=1:length(t2) )
+modello.lm <- lm(Temperatura~Distanza_Km, data = dati)
+sjPlot::tab_model(modello.lm)
+modello.lm <- lm(Temperatura~I(Distanza_Km/1000), data = dati)
+
+sjPlot::tab_model(modello.lm)
+
+```
+
+### D.11 {#d.11}
+
+La distanza in metri ha un intervallo molto ampio rispetto alla
+temperatura, dunque i valori numerici degli intervalli di confidenza e
+pendenza sembrano zero in quanto la precisione dei decimali non cattura
+quanto varia la temperatura per UNITA' di distanza, ovvero il metro. Se
+trasformiamo in km questo diventa più evidente - per 1 km di distanza la
+temperatura sembra diminuire di 3 gradi. Ovviamente questo è l'effetto
+delle Alpi al nord, e quindi è una correlazione ma non una causazione.
+Vediamo che il valore di R rimane identico, ovviamente, con valore di
+0.34.
