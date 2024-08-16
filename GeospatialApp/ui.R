@@ -132,8 +132,24 @@ in altitude... try it!",
         ),
 
         tabItem("variogr",
-                h3("Quadrat analysis"),
-                h4(" Divides the study area into quadrats and counts the number of points in each.")
+                h3("Variogram"),
+                fluidRow(
+                  column(width=6,
+                         div(title="Choose the distance in meters of the variogram analysis",
+                             numericInput("distance", "Distance of kernel", min = 1, value=1000) )
+                         ),
+                  column(width=6,
+                         div(title="Choose angles with respect to north",
+                             selectInput("angles", "Angles", choices = list(
+                              "0,90,180" = c(0,90,180) ,
+                              "0,45,90" = c(0,45,90) ,
+                              "0,23,45" = c(0,23,45)
+                             )
+                            )
+                           )
+                         )
+                ),
+                plotOutput("variogramPlot")
         ),
 
         tabItem("localmori",

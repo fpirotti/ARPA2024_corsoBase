@@ -31,6 +31,17 @@ function(input, output, session) {
          map@map
     })
 
+    output$variogramPlot<-renderPlot({
+
+      data = filteredData()
+      formula <- input$fitm
+
+      dir.vgm<-gstat::variogram(tot.precipitation.mm~training@coords, training,
+                         width=input$distance, alpha=c(0,45,90,135))
+
+
+    })
+
 
    observeEvent(input$fitmChoice, {
      # browser()
