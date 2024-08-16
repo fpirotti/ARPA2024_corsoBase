@@ -88,7 +88,7 @@ in altitude... try it!",
             tabItem("tmap",
 
                     fluidRow(
-                      column(width=3, shiny::numericInput("sampleN", "N. of samples", 100)  )
+                      column(width=3, shiny::numericInput("sampleN", "N. of samples", 1000)  )
                       ,column(width=6, shiny::selectInput("method", "Sample method", choices = c("regular" , "random")) )
 
                       ,column(width=3,
@@ -140,10 +140,10 @@ in altitude... try it!",
                          ),
                   column(width=6,
                          div(title="Choose angles with respect to north",
-                             selectInput("angles", "Angles", choices = list(
-                              "0,90,180" = c(0,90,180) ,
-                              "0,45,90" = c(0,45,90) ,
-                              "0,23,45" = c(0,23,45)
+                             shinyWidgets::pickerInput("angles", "Angles", choices = list(
+                              "0-90-180"   ,
+                              "0-45-90"   ,
+                              "0-23-45"
                              )
                             )
                            )

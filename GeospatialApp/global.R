@@ -26,21 +26,24 @@ mycolc <- rgb(255,165,0, alpha = 125,max=255)#magenta
 TempModis <- terra::rast("data/VenetoCorrectedMODIS_LST_Avg2017.tif")
 TempDEM <- terra::rast("data/VenetoDEM.tif")
 veneto <- sf::read_sf("../dati/venetoComuni.gpkg")
+map <- mapview::mapview(veneto, hide=T) +
+  mapview::mapview( raster::raster(TempModis),   layer.name="Temperature", query.digits=0 ) +
+  mapview::mapview(raster::raster(TempDEM),   hide=T,  layer.name="Quota", query.digits=0)
 
 #l1<-list( sf::as_Spatial(veneto),pch=16,col=2)
-er <- tryCatch({ load(file="data/data.rda") },
-                error = function(e){
-                  print("dd")
-                },
-               warning = function(e){
-                message("loading all")
-                 map <- mapview::mapview(veneto, hide=T) +
-                   mapview::mapview( raster::raster(TempModis),   layer.name="Temperature", query.digits=0 ) +
-                   mapview::mapview(raster::raster(TempDEM),   hide=T,  layer.name="Quota", query.digits=0)
-
-                 save(map, file="data/data.rda")
-
-               })
+# er <- tryCatch({ load(file="data/data.rda") },
+#                 error = function(e){
+#                   print("dd")
+#                 },
+#                warning = function(e){
+#                 message("loading all")
+#                  map <- mapview::mapview(veneto, hide=T) +
+#                    mapview::mapview( raster::raster(TempModis),   layer.name="Temperature", query.digits=0 ) +
+#                    mapview::mapview(raster::raster(TempDEM),   hide=T,  layer.name="Quota", query.digits=0)
+#
+#                  save(map, file="data/data.rda")
+#
+#                })
 
 
 

@@ -34,12 +34,22 @@ function(input, output, session) {
     output$variogramPlot<-renderPlot({
 
       data = filteredData()
+
+      coordinates(data) <- ~x+y
+      data.3035 <- sf::st_as_sf(data)
+      st_crs(data.3035) <- st_crs(4326)
+      data.3035 <- data.3035 %>% st_transform(3035)
+      data <- sf::as_Spatial(data.3035)
+      data <- cbind( data.3035, st_coordinates(data.3035) )
+      names(data)<- tolower(names(data))
+      data<- sf::as_Spatial(data)
+      # data<- as.data.frame(data)
       formula <- input$fitm
 
-      dir.vgm<-gstat::variogram(tot.precipitation.mm~training@coords, training,
+      dir.vgm<- variogram(formula=formula, data=data,
                          width=input$distance, alpha=c(0,45,90,135))
 
-
+      plot(dir.vgm)
     })
 
 
