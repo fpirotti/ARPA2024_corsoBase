@@ -21,37 +21,121 @@ function(input, output, session) {
          req(input$sample)
          va <- terra::spatSample(TempModis, method=input$method,
                                  size=input$sampleN, na.rm=T, xy=T)
-         names(va)<-c("x", "y", "temp")
+         names(va)<-c("X", "Y", "Temperature")
          q <- terra::extract(TempDEM, va[,1:2], ID=F )
-         va$altitude<- q$VenetoDEM
-         va
+         va$Altitude<- q$VenetoDEM
+
+
+         updateSelectInput(inputId = "attribute", choices = names(va) )
+         data<- na.omit(va)
+         xy <- data[,c("X","Y")]
+         data4326 <- sf::st_as_sf(data, coords=c("X","Y") )
+
+         st_crs(data4326) <- st_crs(4326)
+
+         data3035 <- data4326 %>% st_transform(3035)
+         bb<-sf::st_bbox(data3035)
+
+         diag <- ((bb[["xmax"]]-bb[["xmin"]])^2 +
+                  (bb[["ymax"]]-bb[["ymin"]])^2)^0.5
+         updateNumericInput(inputId = "cutoff",
+                            value= as.integer(diag/3) )
+
+
+         # data3035 <- sf::as_Spatial(data3035)
+         data3035 <- cbind( data3035, st_coordinates(data3035) )
+
+         data <- list("3035"=data3035,
+              "4326"=data4326)
+
+         data
+
+
     })
 
     output$mymap<-renderLeaflet({
-         map@map
+         map.map
     })
+
+
 
     output$variogramPlot<-renderPlot({
-
+      req(input$attribute)
       data = filteredData()
 
-      coordinates(data) <- ~x+y
-      data.3035 <- sf::st_as_sf(data)
-      st_crs(data.3035) <- st_crs(4326)
-      data.3035 <- data.3035 %>% st_transform(3035)
-      data <- sf::as_Spatial(data.3035)
-      data <- cbind( data.3035, st_coordinates(data.3035) )
-      names(data)<- tolower(names(data))
-      data<- sf::as_Spatial(data)
-      # data<- as.data.frame(data)
-      formula <- input$fitm
+       data<- data[["3035"]]
+      formula <- as.formula(input$fitm)
 
-      dir.vgm<- variogram(formula=formula, data=data,
-                         width=input$distance, alpha=c(0,45,90,135))
+      print(as.numeric(input$angles))
+      if(shiny::isTruthy(input$angles) ){
+        dir.vgm<- variogram(object=formula,
+                            data=data,
+                            width=input$distance,
+                            cutoff = input$cutoff,
+                            alpha = as.numeric(input$angles),
+                            covariogram=input$covariogram=="Covariogram",
+                            cloud=input$variogramCloud=="Cloud")
+      } else {
+        dir.vgm<- variogram(object=formula,
+                            data=data,
+                            width=input$distance,
+                            cutoff = input$cutoff,
 
-      plot(dir.vgm)
+                            covariogram=input$covariogram=="Covariogram",
+                            cloud=input$variogramCloud=="Cloud")
+      }
+
+      if(input$variogramCloud=="Cloud" || input$covariogram=="Covariogram"){
+          plot(dir.vgm)
+      } else {
+        t.fit<-tryCatch({
+          t.fit<-fit.variogram(dir.vgm, vgm(model=input$modelVariogram));
+
+        },
+        error=function(e){
+          shinyWidgets::show_alert("Error", text=e$message)
+        },
+        warning=function(w){
+          shinyWidgets::show_alert("Warning", text=w$message)
+        })
+
+
+        if(is.element("variogramModel", class(t.fit) ) ) {
+          plot(dir.vgm, t.fit)
+        } else {
+          plot(dir.vgm)
+        }
+      }
+
+            # use when don't have estimate of range, sill
+
+
+
+
     })
 
+    output$variogramPlotMap<-renderPlot({
+      req(input$attribute)
+      data = filteredData()
+
+      data<- data[["3035"]]
+      formula <- as.formula(input$fitm)
+
+      t.vgm3<- variogram(object=formula,
+                          data=data,
+                          width=input$distance,
+                          map=TRUE,
+                          cutoff = input$cutoff )
+      mm<-terra::rast(t.vgm3$map)
+      names(mm)<-c("Semivariances", "Number of point pairs")
+      #cutoff approx = range,  width = width of bins
+      if(shiny::isTruthy(input$angles)){
+        plot(mm)
+      } else {
+        plot(t.vgm3)
+      }
+
+      })
 
    observeEvent(input$fitmChoice, {
      # browser()
@@ -61,14 +145,14 @@ function(input, output, session) {
 
     observe({
       data = filteredData()
-      leafletProxy("mymap", data = data) %>%
+      leafletProxy("mymap", data = data[["4326"]]) %>%
         clearShapes() %>%
         clearMarkers() %>%
         leaflet::addCircleMarkers(radius = 4, weight = 1, color = "#ff0000",
                                   fillColor = "black", group="Samples",
-                                  lng = ~x, lat = ~y,
-                                  popup = ~paste("Temp:", round(temp,1),
-                                                 "<br>altitude:", round(altitude))
+                                  # lng = ~x, lat = ~y,
+                                  popup = ~paste("Temp:", round(Temperature,1),
+                                                 "<br>Altitude:", round(Altitude))
         )
     })
 
@@ -92,14 +176,14 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
       ### equal weight for all
       lw <- nb2listw(nb, style="W", zero.policy=TRUE)
 
-      inc.lag <- lag.listw(lw, spdf$temp)
+      inc.lag <- lag.listw(lw, spdf$Temperatureerature)
       inc.lag
-      plot(inc.lag ~ spdf$temp, pch=16, asp=1)
-      M1 <- lm(inc.lag ~ spdf$temp)
+      plot(inc.lag ~ spdf$Temperatureerature, pch=16, asp=1)
+      M1 <- lm(inc.lag ~ spdf$Temperatureerature)
       abline(M1, col="blue")
 
-      moran.temp<-moran.test(spdf.3035$temp, lw)
-      moran.temp.mc<-  moran.mc(spdf.3035$temp, lw, nsim=999)
+      moran.temp<-moran.test(spdf.3035$Temperature, lw)
+      moran.temp.mc<-  moran.mc(spdf.3035$Temperature, lw, nsim=999)
       plot(moran.temp.mc)
 
       sprintf(
@@ -141,20 +225,21 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
       v <- variogram(temp ~ 1, data = spdf)
       plot(v)
       nb2listw(spdf, style="W")
-      moran.test(spdf$temp)
+      moran.test(spdf$Temperature)
     }
 
 
 
     observeEvent({input$calc
-      input$scaleAltitude},
+      input$scaleAltitude },
                  {
 
 
         data = filteredData()
+        data <- data[["3035"]]
         formula <- input$fitm
         if(input$scaleAltitude){
-          formula <- gsub("altitude", "I(altitude/1000)", formula)
+          formula <- gsub("Altitude", "I(Altitude/1000)", formula)
         }
         print(formula)
         m.fit<- tryCatch(
@@ -177,17 +262,17 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
           ggplot( ) +
             ggtitle( eval(m.fit$call[[2]])) +
             geom_point( aes(y=m.fit$fitted.values,
-                            x=m.fit$model$temp) ) + ylab("Predicted (°C)") + xlab("Observed (°C)") + theme_bw()
+                            x=m.fit$model$Temperature) ) + ylab("Predicted (°C)") + xlab("Observed (°C)") + theme_bw()
         },res = 100)
 
         output$plotSJ3 <- shiny::renderPlot({
 
           ggplot( ) +
             ggtitle(""  ) +
-            geom_point( aes(y=data$temp,
-                            x=data$altitude/ifelse(input$scaleAltitude,1000,1) ) ) +
+            geom_point( aes(y=data$Temperature,
+                            x=data$Altitude/ifelse(input$scaleAltitude,1000,1) ) ) +
             geom_line( aes(y=m.fit$fitted.values,
-                            x=data$altitude/ifelse(input$scaleAltitude,1000,1) ) ) +
+                            x=data$Altitude/ifelse(input$scaleAltitude,1000,1) ) ) +
             ylab("Temperature (°C)") +
             xlab( ifelse(input$scaleAltitude, "Altitude (km)", "Altitude (m)")) +
             theme_bw()
@@ -204,5 +289,5 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
         })
 
 
-    } )
+    },ignoreInit = T )
 }

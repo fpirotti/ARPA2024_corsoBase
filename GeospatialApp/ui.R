@@ -15,6 +15,17 @@ dashboardPage(skin = "black",
         sidebarMenu(
           menuItem("Map", tabName = "tmap", icon=icon("map")),
           menuItem("Stats", tabName = "stats", icon=icon("bar-chart")),
+
+          div(width=6, shiny::selectInput("fitmChoice", "Fit function",
+                                          choices = list(
+                                            "linear"="Temperature~X+Y" ,
+                                            "No trend"="Temperature~1" ,
+                                            "linear with height"="Temperature~X+Y+Altitude" ,
+                                            "linear only height"="Temperature~Altitude" ,
+                                            "quadratic"="Temperature~X+Y+I(X^2)+I(Y^2)+X*Y"  ) )  ),
+          div(title="You can write your own function using R formula syntax",
+               shiny::textInput("fitm", "Custom Function")  ),
+
           menuItem("Neighbourhood", icon = icon("location"),
                    menuSubItem(tabName = "ripk", "Ripley's K"),
                    menuSubItem(tabName = "mori", "Moran's I"),
@@ -41,22 +52,14 @@ dashboardPage(skin = "black",
 
                   box(width = 6,collapsible = T,
                       title = "Statistics: tables",
-                      fluidRow(
-                        column(width=6, shiny::selectInput("fitmChoice", "Fit function",
-                                                           choices = list("No trends"="temp~1" ,
-                                                                          "linear"="temp~x+y" ,
-                                                                          "linear with height"="temp~lon+lat+altitude" ,
-                                                                          "linear only height"="temp~altitude" ,
-                                                                          "quadratic"="temp~x+y+I(x^2)+I(y^2)+lon*lat"  ,
-                                                                          "power with height"="temp~x+y+altitude+I(x^2)+I(y^2)+x*y",
-                                                                          "power only height"="temp~altitude+I(altitude^0.5)") )  )
-                        ,column(width=6,  shiny::textInput("fitm", "Custom Function")  )
-                      ),
+
+
+
                       fluidRow(
                         column(width=6, title="Altitude is in meters, temperature in °C,
 to make the two units comparable,
 we can scale meters to km
-in altitude... try it!",
+in Altitude... try it!",
                                 shiny::checkboxInput("scaleAltitude", "Scale x1000 Altitude",value = F)  )
 
                         ,column(width=6,  shinyWidgets::actionBttn("calc", "Calculate",
@@ -132,24 +135,63 @@ in altitude... try it!",
         ),
 
         tabItem("variogr",
-                h3("Variogram"),
-                fluidRow(
-                  column(width=6,
-                         div(title="Choose the distance in meters of the variogram analysis",
-                             numericInput("distance", "Distance of kernel", min = 1, value=1000) )
-                         ),
-                  column(width=6,
-                         div(title="Choose angles with respect to north",
-                             shinyWidgets::pickerInput("angles", "Angles", choices = list(
-                              "0-90-180"   ,
-                              "0-45-90"   ,
-                              "0-23-45"
-                             )
-                            )
-                           )
+                box( width=3, collapsible = T,
+                     title = "Params",
+                  # column(width=3,
+                         div(title="Choose the attribute",
+                             selectInput("attribute", "Attribute", choices = c(NULL, "---Please sample the area") ) )
+                  # ),
+                  # column(width=2,
+                         ,div(title="Choose the width of subsequent distance intervals
+ into which data point pairs are grouped for semivariance estimates",
+                             numericInput("distance", "Kernel distance", min = 1, value=5000) )
+                  #        ),
+                  ,div(title="Choose the spatial separation distance up to
+which point pairs are included in semivariance estimates;
+as a default, the length of the diagonal of the box spanning the data is
+divided by three.",
+                       numericInput("cutoff", "Cutoff distance", min = 1, step = 1,
+                                    value=1000) )
+                  #        ),
+                  # column(width=4,
+                         ,div(title="Choose angles with respect to north, don't choose any for generic variogram",
+                              selectizeInput("angles","Enter Angles",
+                                             choices=c("", 0,22.5,45,90,135) ,
+                                             options = list(create=TRUE))
+
+                          )
+                  #        ),
+                  # column(width=3,
+                         ,div(title="Should a variogram cloud be plotted instead of the empirical variogram?
+The variogram cloud plot is a raw visualization of the semi-variance values calculated
+for all possible pairs of data points within a specified distance.
+It's a scatterplot where:
+X-axis: Represents the distance between pairs of points.
+Y-axis: Represents the calculated semi-variance for each pair.",
+                             shinyWidgets::radioGroupButtons("variogramCloud",
+                                                              "Cloud or empirical",
+                                                             choices =
+                                                                c("Empirical", "Cloud" )  )
                          )
+                  ,div(title="compute covariogram or  variogram",
+                       shinyWidgets::radioGroupButtons("covariogram",
+                                                       "Variogram or Covariogram",
+                                                       choices =
+                                                         c("Variogram", "Covariogram" )  )
+                  )
+
+                  ,div(title="model type",
+                       shinyWidgets::pickerInput("modelVariogram",
+                                                       "Model",
+                                                       choices = setNames(vgm()[,1], vgm()[,2])  )
+                  )
                 ),
-                plotOutput("variogramPlot")
+               box(width=9,collapsible = T,
+                   title = "Semivariogram/Covariogram",
+                   plotOutput("variogramPlot") ),
+               box(width=12,collapsible = T,
+                   title = "Semivariogram/Covariance Surface",
+                   plotOutput("variogramPlotMap") )
         ),
 
         tabItem("localmori",

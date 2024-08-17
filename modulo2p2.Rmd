@@ -28,7 +28,6 @@ editor_options:
     wrap: 72
 ---
 
-
 # TECNICHE DI KRIGING: Parte 2 - Analisi spaziale dei dati {.Section1 .titlepage}
 
 ## Metodi deterministici
@@ -66,7 +65,33 @@ corretto:
 
 ## Covarianza, correlogramma
 
-jjj
+## Semivariogramma
+
+Grafico dove in X c'è la distanza tra ogni coppia di punti nel dataset,
+ed in Y il valore
+
+Il semivariogramma è un grafico della semivarianza in funzione della
+distanza tra le osservazioni ed è la fonte di informazioni utilizzata
+nel kriging per ottenere funzioni di ponderazione ottimali per la
+mappatura. Il kriging utilizza il semivariogramma, o meglio un modello
+matematico del semivariogramma, per calcolare le stime della superficie
+ai nodi della griglia. Queste stime di kriging sono le migliori stime
+lineari imparziali della superficie nelle posizioni specificate, a
+condizione che la superficie sia stazionaria e che sia stata determinata
+la forma corretta del semivariogramma.
+
+Ogni punto della nuvola rappresenta una coppia di punti nel set di dati,
+quindi il numero di punti nella nuvola aumenterà rapidamente
+all'aumentare del numero di punti nel set di dati. Per n punti nel set
+di dati, la nuvola di semivariogramma/covarianza visualizzerà
+
+$$\frac{n*(n-1)}{2}$$
+
+punti. Per questo motivo, non è consigliabile utilizzare set di dati con
+più di qualche migliaio di punti. Se il dataset contiene più di qualche
+migliaio di punti, è necessario utilizzare lo strumento Subset Features
+per prendere un campione casuale di punti e utilizzare questo
+sottoinsieme nella nuvola di semivariogrammi/covarianze.
 
 ## Variogramma {#variogramma}
 
@@ -108,26 +133,168 @@ fff
 
 # TECNICHE DI KRIGING: Parte 3 - Diversi Kriging {.Section1 .titlepage}
 
-## Ordinary Kriging (OK)
+## Ordinary & Simple Kriging (OK)
 
-kkk
+Ordinary: Assume che la media della variabile regionalizzata sia
+sconosciuta e costante. Ampiamente utilizzato per la maggior parte delle
+applicazioni. Fornisce stime e i relativi errori
+
+Simple: Presuppone che la media della variabile regionalizzata sia nota.
+Richiede una conoscenza accurata della media
 
 ## Universal Kriging (UK)
 
-kkkk
+Incorpora una superficie di tendenza (polinomiale) per modellare
+variazioni su larga scala. Utile quando c'è una chiara tendenza nei
+dati, come nel nostro caso studio.
 
 ## Co-Kriging (CK)
 
-kkkk
+Il **Co-kriging** è un'estensione del kriging ordinario che incorpora
+variabili aggiuntive, note come variabili secondarie o ausiliarie, per
+migliorare l'accuratezza della previsione della variabile primaria di
+interesse.
+
+### Come funziona:
+
+-   **Variabili multiple:** Considera più variabili contemporaneamente.
+    **Correlazione incrociata:** Utilizza la correlazione incrociata tra
+    le variabili primarie e secondarie.
+-   Previsione migliorata: Incorporando le informazioni provenienti da
+    variabili correlate, il co-kriging può spesso fornire previsioni più
+    accurate rispetto al kriging ordinario.
+
+### Differenze chiave rispetto al Kriging ordinario:
+
+**Dati:** Il kriging ordinario utilizza una sola variabile, mentre il
+co-kriging utilizza più variabili.
+
+**Complessità del modello:** Il co-kriging comporta la modellazione
+delle correlazioni incrociate tra le variabili, rendendolo più complesso
+del kriging ordinario.
+
+**Accuratezza della previsione:** Il co-kriging spesso porta a un
+miglioramento dell'accuratezza della previsione grazie alle informazioni
+aggiuntive fornite dalle variabili secondarie.
+
+### Vantaggi del Co-Kriging:
+
+-   **Miglioramento dell'accuratezza:** Come già detto, può migliorare
+    significativamente l'accuratezza della previsione.
+-   **Uso efficiente dei dati:** Sfrutta le informazioni provenienti da
+    più variabili, sfruttando al massimo i dati disponibili.
+-   Gestire i dati mancanti: può essere utilizzato per stimare i valori
+    mancanti in una variabile sulla base dei valori di altre variabili.
+
+### Applicazioni del Co-Kriging:
+
+-   **Scienze ambientali:** Previsione delle proprietà del suolo, dei
+    livelli di inquinamento atmosferico, ecc. **Idrologia:** Stima dei
+    livelli delle acque sotterranee, delle precipitazioni, ecc.
+    **Geostatistica:** Previsione dei gradi dei minerali, delle riserve
+    minerarie, ecc.
+
+**In sostanza, il co-kriging è uno strumento prezioso quando si hanno
+più variabili correlate e si vuole migliorare l'accuratezza delle
+proprie previsioni.**
 
 ## External drift Kriging (KED)
 
-kkkk
+**L'EDK (External Drift Kriging)** è una variante dell'Universal Kriging
+in cui la componente di tendenza o deriva è determinata da variabili
+esterne anziché dalle sole coordinate spaziali.
+
+### Come funziona:
+
+-   **Variabili esterne:** si tratta di variabili ausiliarie che
+    influenzano la variabile dipendente. Possono essere qualsiasi cosa,
+    dall'altitudine all'uso del suolo, dal tipo di terreno a qualsiasi
+    altro fattore rilevante.
+-   Un modello di regressione viene utilizzato per modellare la
+    relazione tra la variabile dipendente e le variabili esterne.
+-   I residui di questo modello di regressione rappresentano la
+    componente spazialmente correlata dei dati. **Kriging:** Il Kriging
+    ordinario viene quindi applicato a questi residui per interpolarli.
+-   La previsione finale in una località non campionata è la somma del
+    valore previsto dal modello di regressione e del residuo previsto
+    dal kriging.
+
+### Differenze chiave rispetto al Kriging universale:
+
+-   **Definizione della deriva:** Il kriging universale utilizza
+    funzioni polinomiali delle coordinate spaziali per modellare la
+    deriva, mentre l'EDK utilizza variabili esterne.
+-   **Flessibilità:** EDK offre una maggiore flessibilità in quanto può
+    incorporare vari tipi di variabili esterne, migliorando
+    potenzialmente l'accuratezza della previsione.
+
+### Vantaggi dell'EDK:
+
+-   **Migliore accuratezza:** Incorporando variabili esterne rilevanti,
+    EDK può spesso fornire previsioni più accurate rispetto a Universal
+    Kriging.
+
+-   **Migliore comprensione:** L'EDK aiuta a comprendere l'influenza dei
+    fattori esterni sulla variabile di interesse.
+
+-   **Versatilità:** Può essere applicato a un'ampia gamma di dati e
+    problemi spaziali.
+
+**In sostanza, l'External Drift Kriging è un potente strumento di
+previsione spaziale quando esiste una chiara relazione tra la variabile
+di interesse e altri fattori esterni.**
 
 ## Regression Kriging (RK)
 
-kkkk
+Il **Regression Kriging** è una tecnica di interpolazione spaziale che
+combina i punti di forza della regressione e del kriging. È
+essenzialmente un metodo ibrido.
+
+### Come funziona:
+
+1.  \*\*Un modello di regressione viene costruito per spiegare la
+    variazione della variabile target utilizzando variabili ausiliarie
+    (covariate).
+2.  \*\*I residui del modello di regressione rappresentano la parte non
+    spiegata della variazione.
+3.  \*\*I residui vengono interpolati con tecniche di kriging (come il
+    Kriging ordinario) per catturare l'autocorrelazione spaziale.
+4.  \*\*La previsione finale è la somma del valore previsto dal modello
+    di regressione e del residuo previsto dal kriging.
+
+### Differenze chiave rispetto ad altri metodi:
+
+-   **Combina regressione e kriging:** Questo approccio ibrido sfrutta i
+    punti di forza di entrambi i metodi.
+-   **Incorpora variabili ausiliarie:** Il kriging di regressione
+    utilizza esplicitamente variabili ausiliarie per migliorare
+    l'accuratezza della previsione.
+-   Il modello di regressione cattura le tendenze su larga scala, mentre
+    il kriging gestisce l'autocorrelazione spaziale su piccola scala.
+
+### Vantaggi della regressione kriging:
+
+-   **Migliore accuratezza:** Spesso fornisce previsioni più accurate
+    rispetto al semplice kriging o alla sola regressione.
+-   **Flessibilità:** Può adattarsi a vari tipi di modelli di
+    regressione e tecniche di kriging.
+-   Migliore comprensione:\*\* Aiuta a capire l'influenza delle
+    variabili ausiliarie sulla variabile target.
+
+### Applicazioni del kriging di regressione:
+
+-   **Scienze ambientali:** Previsione dell'inquinamento atmosferico,
+    delle proprietà del suolo, ecc.
+-   **Idrologia:** Stima dei livelli delle acque sotterranee, delle
+    precipitazioni, ecc. **Agricoltura:** Previsione della resa dei
+    raccolti, dell'umidità del suolo, ecc.
+
+**In sostanza, il Kriging di regressione è uno strumento potente quando
+esistono tendenze o modelli significativi nei dati che possono essere
+spiegati da variabili ausiliarie e quando esiste anche
+un'autocorrelazione spaziale nei residui.**
 
 ## Indicator Kriging (IK)
 
-kkkkk
+Tratta i dati come categorici (ad esempio, sopra o sotto una soglia).
+Utilizzato per la mappatura probabilistica e la valutazione del rischio.

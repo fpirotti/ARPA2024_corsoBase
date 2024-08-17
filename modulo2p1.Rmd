@@ -607,15 +607,51 @@ sp::plot(vra)
 
 ### "Non" soddisfa il criterio di stazionarietà
 
-Se troviamo delle covariate (e.g. quota che spiega la temperatura)
-possiamo inserirle nel modello per eliminarne gli effetti ed isolare.
+Trend spaziale: Si introduce un trend deterministico per modellare
+variazioni sistematiche della media. E.g. Se troviamo delle covariate
+(e.g. quota che spiega la temperatura) possiamo inserirle nel modello
+per eliminarne gli effetti ed isolare unicamente l'effetto spaziale
+separandolo da quello di altre covariate.
 
-NB: se ignoriamo la relazione temperatura - quota, vediamo la
-direzionalità.
+Covarianza locale: Si stimano parametri di covarianza diversi per
+diverse regioni dello spazio.
+
+Decomposizione della varianza: Si scompone la varianza in componenti
+stazionarie e non stazionarie.
 
 ### "Non" soddisfa criterio di isotropia
 
-## Variabili regionalizzate - finestra
+In questo caso bisogna t
+
+## Variabili regionalizzate
+
+Sono grandezze il cui valore dipende dalla localizzazione ovvero dal
+vettore delle [X Y] di coordinate spaziali.
+
+La teoria delle variabili regionalizzate non utilizza
+l'autocorrelazione, ma una proprietà correlata chiamata semivarianza per
+esprimere il grado di relazione tra i punti di una superficie.
+
+La semivarianza è semplicemente la metà della varianza delle differenze
+tra tutti i possibili punti distanziati da una distanza costante.
+
+La semivarianza a una distanza d = 0 dovrebbe essere pari a zero, perché
+non ci sono differenze tra punti che vengono confrontati con se stessi.
+Tuttavia, man mano che i punti vengono confrontati con punti sempre più
+distanti, la semivarianza aumenta. A una certa distanza, chiamata
+intervallo,
+
+la semivarianza diventerà approssimativamente uguale alla varianza della
+superficie stessa. Si tratta della massima distanza su cui il valore di
+un punto della superficie è correlato al valore di un altro punto.
+L'intervallo definisce il massimo vicinato su cui selezionare i punti di
+controllo per stimare un nodo della griglia, per sfruttare la
+correlazione statistica tra le osservazioni. Nel caso in cui il nodo
+della griglia e le osservazioni siano distanziate in modo tale che tutte
+le distanze superino l'intervallo, il kriging produce la stessa stima
+della statistica classica, ovvero la media.
+
+## Finestra
 
 Quando si lavora con un set di punti, è necessario specificare la
 regione spaziale o la finestra in cui si analizza il modello.
@@ -681,3 +717,4 @@ temperatura sembra diminuire di 3 gradi. Ovviamente questo è l'effetto
 delle Alpi al nord, e quindi è una correlazione ma non una causazione.
 Vediamo che il valore di R rimane identico, ovviamente, con valore di
 0.34.
+
