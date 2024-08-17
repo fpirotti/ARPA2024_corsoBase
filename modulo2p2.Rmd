@@ -55,6 +55,8 @@ wikipedia](images/clipboard-2657392152.png)](https://en.wikipedia.org/wiki/Krigi
 Importante dividere in tre gruppi il Kriging (K) per scegliere quello
 corretto:
 
+### geostatistica univariata
+
 -   **Simple K** - si presuppone una media costante nota nell'area di
     lavoro
 
@@ -62,6 +64,10 @@ corretto:
 
 -   **Universal K** - si presuppone una media ignota non costante ma con
     un trend lineare
+
+### geostatistica multivariata
+
+-   **CoKriging** -
 
 ## Covarianza, correlogramma
 
@@ -125,11 +131,10 @@ ff
 
 ## Modello di variogramma: range, sill e nugget
 
-ff
-
 ## Effetto nugget
 
-fff
+E' la varianza indipendente dall'autocorrelazione spaziale. Ad esempio
+dovuta agli errori di misura.
 
 # TECNICHE DI KRIGING: Parte 3 - Diversi Kriging {.Section1 .titlepage}
 
@@ -137,16 +142,40 @@ fff
 
 Ordinary: Assume che la media della variabile regionalizzata sia
 sconosciuta e costante. Ampiamente utilizzato per la maggior parte delle
-applicazioni. Fornisce stime e i relativi errori
+applicazioni. Fornisce stime e i relativi errori Si applica nel caso di
+funzioni aleatorie stazionarie, ossia nel caso in cui la media dei
+residui sia costante in tutto il dominio di studio
 
 Simple: Presuppone che la media della variabile regionalizzata sia nota.
-Richiede una conoscenza accurata della media
+Richiede una conoscenza accurata della media. Si applica nel caso di
+funzioni aleatorie stazionarie con media dei residui costante e nota.
+Necessita di un elevato numero di dati misurati.
+
+[E’ più preciso del KO *nel caso di un elevato numero di
+misurazioni.*]{.underline}
 
 ## Universal Kriging (UK)
 
 Incorpora una superficie di tendenza (polinomiale) per modellare
 variazioni su larga scala. Utile quando c'è una chiara tendenza nei
 dati, come nel nostro caso studio.
+
+Si applica nel caso di funzioni aleatorie non stazionarie intrinseche,
+ossia nel caso in cui la media dei residui non è costante e la legge di
+autocorrelazione presenta un trend.
+
+La funzione aleatoria Z(x) può essere considerata in ogni punto x del
+dominio come la sovrapposizione di due componenti:
+
+-   Il trend m(x) che rappresenta la parte deterministica
+
+-   Il residuo Y(x) che rappresenta la parte aleatoria
+
+$$Z(x) = Y(x) + m(x)$$
+
+Se il residuo Y(x) è una funzione stazionaria e non è correlata al trend
+allora è possibile applic are la procedura di Kriging al residuo e
+quindi effettuare lo Universal Kriging (UK).
 
 ## Co-Kriging (CK)
 
@@ -298,3 +327,26 @@ un'autocorrelazione spaziale nei residui.**
 
 Tratta i dati come categorici (ad esempio, sopra o sotto una soglia).
 Utilizzato per la mappatura probabilistica e la valutazione del rischio.
+
+## Alcune criticità
+
+I risultati possono risultare carenti quando:
+
+-   La geostatistica viene spesso applicata con pochi dati a
+    disposizione.
+-   Raramente viene indicato il modello di stima e di interpolazione
+    utilizzato.
+-   Spesso non vengono indicati i punti utilizzati per l’interpolazione
+    e/o i valori che la variabile assume in tali punti, né il dominio di
+    studio.
+-   A volte vengono utilizzate condizioni al contorno nell’area (punti
+    fittizi) che non rispecchiano dati reali misurati.  Raramente
+    vengono applicati più modelli di stima allo stesso set di dati ed
+    effettuato il confronto fra le varianze di stima.
+-   Quando vengono utilizzati modelli statistici (kriging), non viene
+    riportata la determinazione del variogramma sperimentale e del
+    variogramma modello utilizzato, né viene prodotta la mappa delle
+    incertezze.
+
+non limitarsi solo a fornire delle “mappe”, ma indicare tutte le
+valutazioni che le hanno prodotte oltre all’incertezza dei risultati.

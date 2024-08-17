@@ -57,16 +57,30 @@ function(input, output, session) {
          map.map
     })
 
-
+    output$npoints<-renderText({
+      data = filteredData()
+      data<- data[["3035"]]
+      np <- format(nrow(data)*(nrow(data)-1)/2, big.mark   = " ")
+      tt<-sprintf("Number of combinations in cloud variogram: %s" ,
+              np  )
+      print(tt)
+      tt
+    })
 
     output$variogramPlot<-renderPlot({
-      req(input$attribute)
       data = filteredData()
 
        data<- data[["3035"]]
       formula <- as.formula(input$fitm)
 
-      print(as.numeric(input$angles))
+    np<-nrow(data)*(nrow(data)-1)/2
+    if(np > 1e7){
+
+      shinyWidgets::show_alert("Warning",
+                               text=sprintf("Too many points! %s found",
+                                            format(np, big.mark   = " ") ))
+    }
+
       if(shiny::isTruthy(input$angles) ){
         dir.vgm<- variogram(object=formula,
                             data=data,
@@ -115,7 +129,7 @@ function(input, output, session) {
     })
 
     output$variogramPlotMap<-renderPlot({
-      req(input$attribute)
+
       data = filteredData()
 
       data<- data[["3035"]]
@@ -132,7 +146,7 @@ function(input, output, session) {
       if(shiny::isTruthy(input$angles)){
         plot(mm)
       } else {
-        plot(t.vgm3)
+        plot(mm)
       }
 
       })

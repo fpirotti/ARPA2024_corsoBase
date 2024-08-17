@@ -136,13 +136,16 @@ in Altitude... try it!",
 
         tabItem("variogr",
                 box( width=3, collapsible = T,
-                     title = "Params",
+                     title = "Params"
                   # column(width=3,
-                         div(title="Choose the attribute",
-                             selectInput("attribute", "Attribute", choices = c(NULL, "---Please sample the area") ) )
+                         # div(title="Choose the attribute",
+                         #     selectInput("attribute", "Attribute", choices = c(NULL, "---Please sample the area") ) )
                   # ),
                   # column(width=2,
-                         ,div(title="Choose the width of subsequent distance intervals
+                  #
+                  , div(title="Numer of combinations and average distance...",
+                      textOutput("npoints") )
+                  ,div(title="Choose the width of subsequent distance intervals
  into which data point pairs are grouped for semivariance estimates",
                              numericInput("distance", "Kernel distance", min = 1, value=5000) )
                   #        ),
@@ -189,7 +192,7 @@ Y-axis: Represents the calculated semi-variance for each pair.",
                box(width=9,collapsible = T,
                    title = "Semivariogram/Covariogram",
                    plotOutput("variogramPlot") ),
-               box(width=12,collapsible = T,
+               box(width=9,collapsible = T,
                    title = "Semivariogram/Covariance Surface",
                    plotOutput("variogramPlotMap") )
         ),
