@@ -638,14 +638,17 @@ length(dati)
 ## ma non necessariamente vero
 for(i in 1:length(dati)){
   print(dati[[i]])
-  break / next
+  break # esce dal ciclo
+  next #  continua il ciclo senza elaborare le righe successive
+  print("Questa riga non viene elaborata")
 }
 
 funz <- function(x){
   length(x)
 }
 # lapply/mapply/sapply/apply per righe/colonne
-# lapply(dati, funz)
+# togliete il commento alla riga sotto 
+# lapply(dati, funz)  
 
 
 ```
@@ -679,15 +682,14 @@ questi sono quelli di base.
 
 ## Iteratori: map
 
-L'operatore "map" è simile agli "apply" ma con più funzionalità. Vedi
-sotto, usando *map_df* i risultati vengono raccolti su una tabella
-(tibble)!
+L'operatore "map" è simile agli "apply" ma con più funzionalità. Usando
+*map_df* i risultati vengono raccolti su una tabella (tibble)!
 
 ```{r   message=FALSE, warning=FALSE,  results='hide'}
 library(tidyverse)
 ## i dati sono strutturati nell'oggetto "data" 
 ##  come liste dentro altre liste
-# as.data.frame(stazioni.meteo$data)
+ 
 dt <- map(.x = stazioni.meteo$data, .f = function(x){ x } ) 
 dtf <- map_df (.x = stazioni.meteo$data, .f = function(x){ x } ) 
 
@@ -695,10 +697,9 @@ dtf <- map_df (.x = stazioni.meteo$data, .f = function(x){ x } )
 
 ## Iteratori: map
 
-Mappando a data.frame con `map` abbiamo solo colonne di tipo
-character... come mai?\* NB con `map_df` questo non succede perchè la
-funzione `map_df` è "smart" e capisce qualche tipo usare per ogni
-colonna. TRANNE che per la colonna valore. Perché?\*\*
+Mappando a data.frame con `map` abbiamo colonne di tipo character che
+dovrebbero essere numeric dobbiamo in alcuni casi assegnare il tipo alla
+colonna come sotto.
 
 NB gli iteratori su tabelle (data.frame o tibble) lavorano per colonne
 (column-wise).
@@ -714,13 +715,24 @@ dtf$tipo <- as.factor(dtf$tipo)
 levels(dtf$tipo)
 ```
 
-\*Perchè raccoglie ogni elemento della lista in un vettore ed il vettore
-può avere solo valori di un tipo base (*character, numeric, integer,
-logical...*) - sceglie sempre il *character* se valori misti
+## Iteratori: map
+
+NOTA che *map* raccoglie ogni elemento della lista in un vettore ed il
+vettore può avere solo valori di un tipo base (*character, numeric,
+integer, logical...*) - sceglie sempre il *character* se trova diverse
+tipologie.
+
+NB con `map_df` questo non succede perchè la funzione `map_df` è "smart"
+e capisce qualche tipo usare per ogni colonna. TRANNE che per la colonna
+valore. Perché?\*\*
 
 \*\* Nota che nel JSON il numero in "valore" è tra virgolette, dunque
 viene visto come testo (character) e non come numerico. Confronta con
 latitudine e longitudine!
+
+```{r}
+str(stazioni.meteo$data[[1]])
+```
 
 ## Filter e select
 
@@ -964,8 +976,9 @@ strumenti R](https://github.com/rstudio/cheatsheets/)
 
 ## Esercizio 3
 
-Vedi i due file nella cartella "esercizi/modulo1" - eseguirete il
-seguente grafico estraendo i dati dalle API meteo ARPAV.
+Vedi file "modulo1_03a_esercizio_finale2.R" e
+"modulo1_03b_esercizio_finale2.R" nella cartella "esercizi/modulo1" -
+eseguirete il seguente grafico estraendo i dati dalle API meteo ARPAV.
 
 ![](images/clipboard-2574397239.png)
 
@@ -982,6 +995,9 @@ localizzazione in un sistema di riferimento, quindi delle coordinate.
 
 I dati vettoriali hanno tre primitive geometriche di base: punti linee e
 poligoni. La base è sempre il punto con una coordinate, in 2d o 3d.
+
+![By M. W. Toews - Own work, CC BY-SA
+4.0](images/clipboard-2368587503.png){width="298"}
 
 Ci sono decine di formati di file che rappresentano dati vettoriali. Ne
 abbiamo visto uno all'inizio, il file JSON! Per un riferimento vedete la
@@ -1002,4 +1018,21 @@ QUI](https://gdal.org/drivers/raster/index.html). Ad oggi la libreria di
 riferimento per leggere questi dati è la [libreria
 terra](https://rspatial.github.io/terra/).
 
-![](images/clipboard-3919052629.png)
+::: caption
+![fonte: appunti GIS Prof. Alberto
+Guarnieri](images/clipboard-3919052629.png)
+:::
+
+## Interpolazione
+
+Stimare valori di una variabile applicando un modello creato conoscendo
+valori misurati (e.g. campionamenti). E' ragionevole adottare un
+criterio spaziale, ovvero usare un criterio di spazio (il valore del
+punto sarà probabilmente più simile ad una misura vicina che una misura
+più lontana, [**a parità di altre condizioni)**]{.underline}. Da qui la
+geostatistica.
+
+::: caption
+![fonte: appunti GIS Prof. Alberto
+Guarnieri](images/clipboard-658366646.png)
+:::

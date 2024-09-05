@@ -12,41 +12,53 @@ dashboardPage(skin = "black",
     dashboardHeader(title = "Exploratory spatial data analysis (ESDA)", titleWidth = 450),
     dashboardSidebar(
 
-        sidebarMenu(
+        sidebarMenu(width=300,
           menuItem("Map", tabName = "tmap", icon=icon("map")),
           menuItem("Stats", tabName = "stats", icon=icon("bar-chart")),
 
           div(width=6, shiny::selectInput("fitmChoice", "Fit function",
                                           choices = list(
-                                            "linear"="Temperature~X+Y" ,
                                             "No trend"="Temperature~1" ,
-                                            "linear with height"="Temperature~X+Y+Altitude" ,
-                                            "linear only height"="Temperature~Altitude" ,
+                                            "linear"="Temperature~X+Y" ,
+                                            "linear with height"="Temperature~X+Y+Elevation" ,
+                                            "linear only height"="Temperature~Elevation" ,
                                             "quadratic"="Temperature~X+Y+I(X^2)+I(Y^2)+X*Y"  ) )  ),
           div(title="You can write your own function using R formula syntax",
                shiny::textInput("fitm", "Custom Function")  ),
 
-          menuItem("Neighbourhood", icon = icon("location"),
-                   menuSubItem(tabName = "ripk", "Ripley's K"),
-                   menuSubItem(tabName = "mori", "Moran's I"),
-                   menuSubItem(tabName = "gfun", "G-function"),
-                   menuSubItem(tabName = "ffun", "F-function"),
-                   menuSubItem(tabName = "quada", "Quadrat analysis")
-                   ),
+          # menuItem("Neighbourhood", icon = icon("location"),
+          #          menuSubItem(tabName = "ripk", "Ripley's K"),
+          #          menuSubItem(tabName = "mori", "Moran's I"),
+          #          menuSubItem(tabName = "gfun", "G-function"),
+          #          menuSubItem(tabName = "ffun", "F-function"),
+          #          menuSubItem(tabName = "quada", "Quadrat analysis")
+          #          ),
           menuItem("Spat. Autocorrelation", icon = icon("line-chart"),
                    menuSubItem(tabName = "variogr", "Variogram"),
-                   menuSubItem(tabName = "localmori", "Local Moran's I"),
-                   menuSubItem(tabName = "geary", "Geary's C"),
-                   menuSubItem(tabName = "lisa", "LISA (Local Indicators of Spatial Association)")
+                   # menuSubItem(tabName = "localmori", "Local Moran's I" ),
+                   # menuSubItem(tabName = "geary", "Geary's C"),
+                   menuSubItem(tabName = "lisa", "LISA")
           ),
-          menuItem("Spat. Regression", icon = icon("line-chart"),
-                   menuSubItem(tabName = "lagmodel", "Spatial lag model"),
-                   menuSubItem(tabName = "spatmodel", "Spatial error model"),
-                   menuSubItem(tabName = "gsam", "Generalized spatial autocorrelation model (GSAM)")
-          )
+          # menuItem("Spat. Regression", icon = icon("line-chart"),
+          #          menuSubItem(tabName = "lagmodel", "Spatial lag model"),
+          #          menuSubItem(tabName = "spatmodel", "Spatial error model"),
+          #          menuSubItem(tabName = "gsam", "Generalized spatial autocorrelation model (GSAM)")
+          # ),
+          menuItem("Spat. Interpolation", icon = icon("line-chart"),
+                   menuSubItem(tabName = "nearestneighbour", "Nearest N."),
+                   menuSubItem(tabName = "naturalneighbour", "Natural N."),
+                   menuSubItem(tabName = "idw", "IDW"),
+                   menuSubItem(tabName = "kriging", "Kriging")
+          ),
+          div(id="logdiv", "" )
         )
     ),
     dashboardBody(
+      useShinyjs(),
+      includeCSS("www/style.css"),
+      tags$head(
+        tags$script( " " )
+      ),
         tabItems(
           tabItem("stats",
 
@@ -56,11 +68,11 @@ dashboardPage(skin = "black",
 
 
                       fluidRow(
-                        column(width=6, title="Altitude is in meters, temperature in °C,
+                        column(width=6, title="Elevation is in meters, temperature in °C,
 to make the two units comparable,
 we can scale meters to km
-in Altitude... try it!",
-                                shiny::checkboxInput("scaleAltitude", "Scale x1000 Altitude",value = F)  )
+in Elevation... try it!",
+                                shiny::checkboxInput("scaleElevation", "Scale x1000 Elevation",value = F)  )
 
                         ,column(width=6,  shinyWidgets::actionBttn("calc", "Calculate",
                                                                    style="simple", color = "success") )
@@ -71,19 +83,19 @@ in Altitude... try it!",
 
                   box(width = 6,
                               title = "Statistics: plots"
-                              ,shinycssloaders::withSpinner(plotOutput("plotSJ2") )
+                              , plotOutput("plotSJ2")
                               # ,shinycssloaders::withSpinner(plotOutput("plotSJ3") )
                           ),
 
                   box(width = 6,
                       title = "Statistics: plots"
-                      ,shinycssloaders::withSpinner(plotOutput("plotSJ3") )
+                      , plotOutput("plotSJ3")
                       # ,shinycssloaders::withSpinner(plotOutput("plotSJ3") )
                   ),
 
                   box(width = 6,
                       title = "Statistics: plots"
-                      ,shinycssloaders::withSpinner(plotOutput("plotSJ1") )
+                      , plotOutput("plotSJ1")
                       # ,shinycssloaders::withSpinner(plotOutput("plotSJ3") )
                   )
 
@@ -91,18 +103,32 @@ in Altitude... try it!",
             tabItem("tmap",
 
                     fluidRow(
-                      column(width=3, shiny::numericInput("sampleN", "N. of samples", 1000)  )
-                      ,column(width=6, shiny::selectInput("method", "Sample method", choices = c("regular" , "random")) )
-
+                     column(width=2,
+                             shiny::numericInput("sampleN", "N. of samples", 1000) ,
+                             )
+                      ,column(width=2,
+                              shiny::selectInput("method", "Sample method", choices = c("regular" , "random")),
+                              )
                       ,column(width=3,
                               shinyWidgets::actionBttn("sample", "Sample", icon = icon("refresh"),
                                                        style="simple", inline=T,
-                                                       color = "success")
+                                                       color = "success"),
                               )
+                     ,column(width=5, "NB: if map is zoomed in, only visible area will be sampled (useful for analysis of smaller areas)"
+                     )
+                   ),
+                   fluidRow(
+                     column(width=6,
+                            leafletOutput("mymap")
+                            ),
+                     column(width=6,
+                            plotOutput("sampleDataPlot"),
+                            plotOutput("sampleDataPlot2")
+                     )
 
 
-                    ),
-                    leafletOutput("mymap")
+                     ),
+
                ),
 
         tabItem("ripk",
@@ -135,6 +161,7 @@ in Altitude... try it!",
         ),
 
         tabItem("variogr",
+
                 box( width=3, collapsible = T,
                      title = "Params"
                   # column(width=3,
@@ -189,12 +216,14 @@ Y-axis: Represents the calculated semi-variance for each pair.",
                                                        choices = setNames(vgm()[,1], vgm()[,2])  )
                   )
                 ),
-               box(width=9,collapsible = T,
-                   title = "Semivariogram/Covariogram",
-                   plotOutput("variogramPlot") ),
-               box(width=9,collapsible = T,
-                   title = "Semivariogram/Covariance Surface",
-                   plotOutput("variogramPlotMap") )
+                tabBox( width=9,title = "Semivariogram/Covariogram",
+                        # The id lets us use input$tabset1 on the server to find the current tab
+                        id = "tabset1", height = "250px",
+                        tabPanel("Plots", "Semivariogram/Covariogram",
+                                 plotOutput("variogramPlot") ),
+                        tabPanel("Maps", "Semivariogram/Covariance Surface",
+                                 plotOutput("variogramPlotMap"))
+                )
         ),
 
         tabItem("localmori",
@@ -225,7 +254,15 @@ Y-axis: Represents the calculated semi-variance for each pair.",
         tabItem("gsam",
                 h3("Generalized spatial autocorrelation model (GSAM)"),
                 h4("Combines spatial lag and error models.")
-        )
+        ),
+        tabItem(tabName = "nearestneighbour",
+                uiOutput("nearestneighbourPlot")),
+        tabItem(tabName = "naturalneighbour",
+                plotOutput("naturalneighbourPlot")),
+        tabItem(tabName = "idw",
+                plotOutput("idwPlot")),
+        tabItem(tabName = "kriging",
+                plotOutput("krigingPlot"))
     )
   )
 )

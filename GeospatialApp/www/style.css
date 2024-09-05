@@ -1,0 +1,10 @@
+#logdiv {
+
+    margin: 10px;
+    background: white;
+    height: 100px;
+    text-wrap: pretty;
+    overflow-y: scroll;
+    color: black;
+    padding: 2px;
+}

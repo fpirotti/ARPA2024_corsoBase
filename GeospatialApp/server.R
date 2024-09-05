@@ -12,18 +12,26 @@ library(shiny)
 # Define server logic required to draw a histogram
 function(input, output, session) {
 
+
+    logit("Log info")
+
+
     output$table<-shiny::renderUI({
       shiny::HTML("<b>Table with regression results</b>")
     })
 
-
+   ### DATA FILTER ----
     filteredData <- reactive({
          req(input$sample)
-         va <- terra::spatSample(TempModis, method=input$method,
+         bb <- isolate(input$mymap_bounds)
+         vv<-unname(unlist(bb))[c(4,2,3,1)]
+         bb2<-terra::ext(vv, xy=FALSE)
+
+         va <- terra::spatSample(TempModis, method=input$method, ext=bb2,
                                  size=input$sampleN, na.rm=T, xy=T)
          names(va)<-c("X", "Y", "Temperature")
          q <- terra::extract(TempDEM, va[,1:2], ID=F )
-         va$Altitude<- q$VenetoDEM
+         va$Elevation<- q$VenetoDEM
 
 
          updateSelectInput(inputId = "attribute", choices = names(va) )
@@ -44,7 +52,10 @@ function(input, output, session) {
 
          # data3035 <- sf::as_Spatial(data3035)
          data3035 <- cbind( data3035, st_coordinates(data3035) )
-
+         np <- format(nrow(data3035)*(nrow(data3035)-1)/2, big.mark   = " ")
+         tt<-sprintf("Number of combinations in cloud variogram: %s" ,
+                     np  )
+         logit(tt)
          data <- list("3035"=data3035,
               "4326"=data4326)
 
@@ -53,6 +64,7 @@ function(input, output, session) {
 
     })
 
+    ### MAP ----
     output$mymap<-renderLeaflet({
          map.map
     })
@@ -63,7 +75,6 @@ function(input, output, session) {
       np <- format(nrow(data)*(nrow(data)-1)/2, big.mark   = " ")
       tt<-sprintf("Number of combinations in cloud variogram: %s" ,
               np  )
-      print(tt)
       tt
     })
 
@@ -77,7 +88,8 @@ function(input, output, session) {
     if(np > 1e7){
 
       shinyWidgets::show_alert("Warning",
-                               text=sprintf("Too many points! %s found",
+                               text=sprintf("Many points might take a while or crash!
+%s combinations found",
                                             format(np, big.mark   = " ") ))
     }
 
@@ -121,10 +133,36 @@ function(input, output, session) {
         }
       }
 
-            # use when don't have estimate of range, sill
+    })
 
+    ###  sampleDataPlot  ----
+    output$nearestneighbourPlot<-renderUI({
+      data = filteredData()
+      data<- data[["3035"]]
 
+      tags$a("ahsdfasdf")
 
+    })
+
+    ###  sampleDataPlot  ----
+    output$sampleDataPlot<-renderPlot({
+      data = filteredData()
+      data<- data[["3035"]]
+
+      nn <- nabor::knn(data = st_coordinates(data),k = 30 )
+
+      plot(colMeans(nn$nn.dists[,-1]), 1:ncol(nn$nn.dists[,-1]),
+           type="b",
+           ylab="Nearest Neighbour N. (k)",
+           xlab="Distance (m)")
+
+    })
+
+    output$sampleDataPlot2<-renderPlot({
+      data = filteredData()
+      data<- data[["3035"]]
+
+      hist(data$Temperature )
 
     })
 
@@ -166,7 +204,7 @@ function(input, output, session) {
                                   fillColor = "black", group="Samples",
                                   # lng = ~x, lat = ~y,
                                   popup = ~paste("Temp:", round(Temperature,1),
-                                                 "<br>Altitude:", round(Altitude))
+                                                 "<br>Elevation:", round(Elevation))
         )
     })
 
@@ -245,15 +283,15 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
 
 
     observeEvent({input$calc
-      input$scaleAltitude },
+      input$scaleElevation },
                  {
 
 
         data = filteredData()
         data <- data[["3035"]]
         formula <- input$fitm
-        if(input$scaleAltitude){
-          formula <- gsub("Altitude", "I(Altitude/1000)", formula)
+        if(input$scaleElevation){
+          formula <- gsub("Elevation", "I(Elevation/1000)", formula)
         }
         print(formula)
         m.fit<- tryCatch(
@@ -264,9 +302,18 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
           shinyWidgets::show_alert("Errore", m.fit$message, type = "danger")
         }
 
+        if(length(coefficients(m.fit)) == 1){
+
+          shinyWidgets::alert(
+            sprintf("Only intercept was calculated with formula: %s", formula ) )
+          return(NULL)
+
+        }
+
         output$plotSJ1 <- shiny::renderPlot({
           # print(input$plotType)
-          input$scaleAltitude
+          browser()
+          input$scaleElevation
           plot_model(m.fit, type = "est", show.intercept = F,
                      show.values = TRUE,
                      show.p = TRUE, show.legend = TRUE  )
@@ -284,11 +331,11 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
           ggplot( ) +
             ggtitle(""  ) +
             geom_point( aes(y=data$Temperature,
-                            x=data$Altitude/ifelse(input$scaleAltitude,1000,1) ) ) +
+                            x=data$Elevation/ifelse(input$scaleElevation,1000,1) ) ) +
             geom_line( aes(y=m.fit$fitted.values,
-                            x=data$Altitude/ifelse(input$scaleAltitude,1000,1) ) ) +
+                            x=data$Elevation/ifelse(input$scaleElevation,1000,1) ) ) +
             ylab("Temperature (°C)") +
-            xlab( ifelse(input$scaleAltitude, "Altitude (km)", "Altitude (m)")) +
+            xlab( ifelse(input$scaleElevation, "Elevation (km)", "Elevation (m)")) +
             theme_bw()
         },res = 100)
 

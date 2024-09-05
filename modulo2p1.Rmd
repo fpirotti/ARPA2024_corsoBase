@@ -35,16 +35,26 @@ library(ggplot2)
 suppressMessages(library(sjPlot))
 ```
 
-# TECNICHE DI KRIGING: Parte 1 - Basi Teoriche {.Section1 .titlepage}
-
 ## Basi teoriche
 
 Proprietà specifiche delle misure geostatistiche di **variabilità
 spaziale**. Cosa si intende per variabilità spaziale? Cosa vogliamo
 studiare?
 
-Vogliamo un modello per "spiegare" la variabilità e dunque interpolare
-al meglio dove non abbiamo
+Vogliamo un modello per "spiegare" la variabilità e dunque poter stimare
+(interpolare) al meglio dove non abbiamo informazioni.
+
+Stimare valori di una variabile applicando un modello creato conoscendo
+valori misurati (e.g. campionamenti). E' ragionevole adottare un
+criterio spaziale, ovvero usare un criterio di spazio (il valore del
+punto sarà probabilmente più simile ad una misura vicina che una misura
+più lontana, [**a parità di altre condizioni)**]{.underline}. Da qui la
+geostatistica.
+
+::: caption
+![fonte: Appunti GIS Prof. Alberto
+Guarnieri](images/clipboard-658366646.png)
+:::
 
 E' possibile costruire un modello di regressione utilizzando le
 coordinate dei dati come covariate per descrivere la variazione spaziale
@@ -94,21 +104,22 @@ l'estrazione.
 ## Varianza
 
 Vediamo come valutare alcuni momenti di una distribuzione - media e
-varianza ci danno il primo e secondo momento. X è la variabile
+varianza ci danno il primo e secondo momento. Z è la variabile
 aleatoria, nel nostro caso la temperatura.
 
-$$ M(Y)=\mu_Y=\mathbb E[Y]$$
+$$M(Z)=\mu_Z=\mathbb E[Z]$$
 
-$$M(Y)=\mu_Y=\frac{1}{n}\sum_{j=1}^n{Y_j}$$
+$$M(Z)=\mu_Z=\frac{1}{n}\sum_{j=1}^n{Z_j}$$
 
-$$Var(Y)=\sigma^2_Y=\mathbb{E}\Big[\big(Y-\mathbb{E}[Y]\big)^2\Big].$$
-$$Var(Y)=\sigma^2_Y=\frac{\sum_{j=1}^n(y_j-M_Y)^2}{n}$$
+$$Var(Z)=\sigma^2_Z=\mathbb{E}\Big[\big(Z-\mathbb{E}[Z]\big)^2\Big].$$
+
+$$Var(Z)=\sigma^2_Z=\frac{\sum_{j=1}^n(Z_j-M_Z)^2}{n}$$
 
 Formula più pratica
 
-$$Var(Y)=\sigma^2_Y=\mathbb{E}[Y^2]-\mathbb{E}[Y]^2$$
+$$Var(Z)=\sigma^2_Z=\mathbb{E}[Z^2]-\mathbb{E}[Z]^2$$
 
-$$Var(Y)=\sigma^2_Y=M(Y^2)-M(Y)^2 $$
+$$Var(Z)=\sigma^2_Z=M(Z^2)-M(Z)^2 $$
 
 ## Varianza esempio
 
@@ -155,10 +166,11 @@ rect(0, MX-VarX^0.5, length(t2),
 
 ## Covarianza {#covarianza}
 
-Tra due variabili, X e Y, come dice il nome stesso, se e quanto "variano
-insieme nella stessa direzione" (NB lineare e dello stesso segno).
+Tra due variabili, Z1 e Z2, come dice il nome stesso, se e quanto
+"variano insieme nella stessa direzione" (NB lineare e dello stesso
+segno).
 
-$$\mathrm{Cov}(Y1,Y2)=\mathbb{E}\Big[\big(Y1-\mathbb{E}[Y1]\big)(Y2-\mathbb{E}[Y2]\big)\Big]$$
+$$\mathrm{Cov}(Z1,Z2)=\mathbb{E}\Big[\big(Z1-\mathbb{E}[Z1]\big)(Z2-\mathbb{E}[Z2]\big)\Big]$$
 
 ```{r covar}
 
@@ -239,7 +251,7 @@ plot(names(covs.rand),  unlist(covs.rand), type="b",
 Relazione lineare tra due variabili, cosiddetta di Pearson.
 Semplicemente normalizza per le deviazioni standard:
 
-$$-1\le\rho_{Y1Y2}=\frac{Cov(Y1Y2)}{\sqrt{Var(Y1)}\cdot\sqrt{Var(Y2)}}=\frac{\sum_{i=1}^n(Y1-{\mu_{Y1}})(Y2-{\mu_{Y2}})}{\sqrt{\sum_{i=1}^n(y_i-{\mu_{Y1}})^2}\sqrt{\sum_{i=1}^n(y_i-{\mu_{Y2}})^2}}\le+1$$
+$$-1\le\rho_{Z1Z2}=\frac{Cov(Z1Z2)}{\sqrt{Var(Z1)}\cdot\sqrt{Var(Z2)}}=\frac{\sum_{i=1}^n(Z1-{\mu_{Z1}})(Z2-{\mu_{Z2}})}{\sqrt{\sum_{i=1}^n(y_i-{\mu_{Z1}})^2}\sqrt{\sum_{i=1}^n(y_i-{\mu_{Z2}})^2}}\le+1$$
 
 ## Autocorrelazione
 
@@ -262,7 +274,7 @@ funzione CCF :
 
 Perchè iniziamo con la regressione lineare? Perchè molti fenomeni sono
 affetti da "trend" o tendenze di segno positivo o negativo. Ovvero
-all'aumentare di X la variabile Y aumenta o diminuisce (correlazione
+all'aumentare di X la variabile Z aumenta o diminuisce (correlazione
 positiva o negativa). Vediamo i nostri 2 plot dei 2 transetti...
 
 ![](images/clipboard-4119654622.png){style="float:left;"}
@@ -286,7 +298,7 @@ lineare che "spiega" al meglio i valori osservati minimizzando gli
 errori espressi in valore assoluto o come quadrato degli scarti sotto
 illustrato\*
 
-$$Y_i = \beta_0 + \beta_1 X_i + u_i$$
+$$Z_i = \beta_0 + \beta_1 X_i + u_i$$
 
 ![](images/clipboard-2945833548.png)
 
@@ -390,25 +402,23 @@ ggplot(smpl, aes(x = `Quota.km`, y = Temp)) +
 
 L'interpolazione con kriging si basa su alcune assunzioni fondamentali
 riguardo alla natura dei dati spaziali. Tra queste, le più importanti
-sono la stazionarietà e l'isotropia. Queste assunzioni semplificano
-notevolmente i calcoli e consentono di modellare la variabilità spaziale
-dei dati in modo efficace. Tuttavia, nella realtà, queste condizioni
-sono spesso violate, rendendo necessario adottare approcci più
-flessibili.
+sono la stazionarietà e l'isotropia.
 
-Si vuole studiare l'associazione tra le osservazioni della variabile
-analizzata in funzione di distanza e direzione. Le funzioni di
-[covarianza](#covarianza), il [correlogramma](#correlogramma) e il
-[variogramma](#variogramma) / il [semivariogramma](#semivariogramma)
-sono tutte funzioni che caratterizzano numericamente la forza di tali
-associazioni.
-
-Con la maggior parte dei dati spaziali, vengono fatte due ipotesi
-comuni, stazionarietà ed isotropia.
+I due presupposti principali affinché il kriging fornisca la migliore
+previsione lineare imparziale sono quelli della stazionarietà e
+dell'isotropia, sebbene esistano varie forme e metodi di kriging che
+consentono di allentare la forma più rigorosa di ciascuno di questi
+presupposti. Tuttavia, nella realtà, queste condizioni sono spesso
+violate, rendendo necessario adottare approcci più flessibili.
 
 1.  Stazionarietà "formale": le proprietà statistiche del processo
-    spaziale rimangono costanti in tutte le località. Si tratta di
-    un'ipotesi che raramente si verifica nei dati del mondo reale.
+    spaziale rimangono costanti in tutte le località. La distribuzione
+    di probabilità congiunta non varia nello spazio di studio. Di
+    conseguenza, i parametri (come la media complessiva dei valori,
+    l'intervallo e la soglia del variogramma) non variano nello spazio
+    di studio. Si presume che lo stesso modello di variogramma sia
+    valido in tutto lo spazio di studio. Si tratta di un'ipotesi che
+    raramente si verifica nei dati del mondo reale.
 2.  Stazionarietà "debole": si ipotizza che la media e la
     varianza/covarianza siano costanti nella regione di interesse
 3.  Isotropia: l'autocorrelazione spaziale tra le risposte in 2 siti
@@ -509,19 +519,19 @@ plot(varianze.fin30)
 Stazionarietà della media, ovvero un campione in due aree diverse della
 regione di studio hanno media uguale.
 
-$$ \mathbb E[Y_i]== \mathbb E[Y_j] $$
+$$ \mathbb E[Z_i]== \mathbb E[Z_j] $$
 
 ## Stazionarietà di secondo ordine
 
 Stazionarietà della varianza, ovvero un campione in due aree diverse
 della regione di studio hanno varianza uguale, che dipende solo.
 
-$$ \mathbb E[Y_i]== \mathbb E[Y_j] $$
+$$ \mathbb E[Z_i]== \mathbb E[Z_j] $$
 
 ## Test di stazionarietà - variogramma
 
-Insomma... i miei dati soddisfano il presupposto di stazionarietà o no?
-O almeno quanto sono lontani da una perfetta stazionarietà?
+Insomma... i miei dati 2D soddisfano il presupposto di stazionarietà o
+no? O almeno quanto sono lontani da una perfetta stazionarietà?
 
 NB - La stazionarietà è una decisione, non un'ipotesi (cit. M. Pyrcz);
 pertanto non può essere testata. I dati possono dimostrare che non è una
@@ -533,14 +543,21 @@ scala deve basarsi sul problema specifico.
 ![](images/clipboard-3602532247.png)
 
 Per indagare/valutare la stazionarietà dei dati spaziali, in pratica la
-cosa migliore è usare un variogramma o un autocorrelogramma: - nel primo
-caso è un grafico che mostra come aumenta la covarianza a diversi lag.
-Se il variogramma è delimitato (raggiunge un massimo tetto (sill) di
-varianza) si può decidere che i dati sono stazionari, ma se il
+cosa migliore è usare un **variogramma o un autocorrelogramma**: - nel
+primo caso è un grafico che mostra come aumenta la covarianza a diversi
+lag. Se il variogramma è delimitato (raggiunge un massimo tetto (sill)
+di varianza) si può decidere che i dati sono stazionari, ma se il
 variogramma non è delimitato (non raggiunge un massimo) - nel secondo
 caso è un grafico che mostra l'autocorrelazione dei valori dei dati a
 diversi lag (spaziali o temporali). Se l'autocorrelazione diminuisce
 rapidamente, è un indice di stazionarietà.
+
+Si vuole studiare l'associazione tra le osservazioni della variabile
+analizzata in funzione di distanza e direzione. Le funzioni di
+[covarianza](#covarianza), il [correlogramma](#correlogramma) e il
+[variogramma](#variogramma) / il [semivariogramma](#semivariogramma)
+sono tutte funzioni che caratterizzano numericamente la forza di tali
+associazioni.
 
 ## Test di stazionarietà - variogramma (2)
 
@@ -572,7 +589,7 @@ myplots<-function(vrs){
 ## https://epsg.io/3035 
 ## per avere le distanze in metri  
 smpl.spat <- smpl %>% sf::st_as_sf(coords = c("x","y"), crs=4326) %>%   
-                      sf::st_transform(32632)  
+                      sf::st_transform(3035)  
 plots  <- list() 
 plots[["Temp~1"]]  <- gstat::variogram(Temp~1, smpl.spat)
  
@@ -590,6 +607,11 @@ plots[["Temp~Quota.km+x+y"]] <- gstat::variogram(Temp~Quota.km+x+y, na.omit(smpl
 myplots(plots)
 
 ```
+
+## Test di stazionarietà - variogramma (3)
+
+Vedi portale interattivo [Geospatial
+App](https://www.cirgeo.unipd.it/app01/GeospatialApp/){target="_blank"}
 
 ## Isotropia
 
@@ -659,7 +681,7 @@ regione spaziale o la finestra in cui si analizza il modello.
 Nel modulo **spatstat**, la finestra di osservazione è una parte parte
 integrante del lavoro.
 
-Un modell serve per stimare valori della variabile di studio in punti
+Un modello serve per stimare valori della variabile di studio in punti
 dove non sono presenti osservazioni. Anche qualcosa di semplice come la
 stima della distribuzione a pattern (raggruppate, casuali o griglia)
 dipende dalla finestra di osservazione considerata.
@@ -668,8 +690,8 @@ I risultati saranno diversi analizzando finestre diverse. Ad esempio,
 calcolando la finestra di osservazione mediante l'area convessa dei
 punti.
 
-Solitamente la finestra di osservazione è un rettangolo, quindi
-bastaspecificare le dimensioni x e y del rettangolo ed i vertici.
+Solitamente la finestra di osservazione è un rettangolo, quindi basta
+specificare le dimensioni x e y del rettangolo ed i vertici.
 
 Finestre di osservazione con una forma più complessa possono essere
 facilmente rappresentate in **spatstat**, come descritto di seguito. Per
@@ -677,13 +699,47 @@ le situazioni in cui la finestra è davvero sconosciuta, **spatstat**
 inltre fornisce la funzione *ripras* per calcolare lo stimatore di
 Ripley-Rasson della finestra, data solo la posizione dei punti.
 
-## Risposte alle domande
+# Interpolazione {.Section1 .titlepage}
 
-### D.01 {#d.01}
+## Metodi deterministici vs stocastici
+
+I metodi deterministici non considerano la componente aleatoria dei
+dati, ma si basano su assunzioni deterministiche per stimare i valori in
+punti non campionati
+
+Vogliamo dunque stimare il valore Z\* in un punto dove non abbiamo una
+misura. Utilizziamo misure vicine, ma come?
+
+## Vicino più prossimo (Nearest Neighbour - NN)
+
+-   Vicino più prossimo (Nearest Neighbour - NN) - poligoni di Thiessen
+    danno l'area di influenza. $$ Z*= Z_i$$ Dove $Z_i$ è il vicino più
+    prossimo e $Z_*$ il punto da interpolare
+
+## Vicino Naturale (Natural Neighbour - NatN)
+
+-   Vicino Naturale (Natural Neighbour - NatN) - poligoni di Thiessen
+    danno l'area di influenza.
+
+$$ Z*= $$
+
+![By Markluffel - Own work, CC BY-SA
+3.0](images/clipboard-2554189090.png)
+
+-   IWD (inverso pesato sulla distanza)
+
+$$Z* = F(x,y) = \sum_{i=2}^n w_i Z_i$$ dove il peso dipende dalla
+distanza $h$
+
+$$w_i = \frac {h_i^{-p}}{\displaystyle \sum_{j=i}^n h_j^{-p}}$$
+
+# Risposte alle domande {.Section1 .titlepage}
+
+## D.01 {#d.01}
 
 ffff
 
-### D.10 {#d.10}
+## D.10 {#d.10}
 
 La distanza in metri ha un intervallo molto ampio rispetto alla
 temperatura, dunque i valori numerici degli intervalli di confidenza e
@@ -706,7 +762,7 @@ sjPlot::tab_model(modello.lm)
 
 ```
 
-### D.11 {#d.11}
+## D.11 {#d.11}
 
 La distanza in metri ha un intervallo molto ampio rispetto alla
 temperatura, dunque i valori numerici degli intervalli di confidenza e
@@ -717,4 +773,3 @@ temperatura sembra diminuire di 3 gradi. Ovviamente questo è l'effetto
 delle Alpi al nord, e quindi è una correlazione ma non una causazione.
 Vediamo che il valore di R rimane identico, ovviamente, con valore di
 0.34.
-

@@ -10,3 +10,7 @@ code:not([class]) {
   text-align: center;
   color:green;
 }
+
+.caption{
+  font-size:small;
+}
