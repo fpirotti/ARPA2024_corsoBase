@@ -304,15 +304,15 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
 
         if(length(coefficients(m.fit)) == 1){
 
-          shinyWidgets::alert(
-            sprintf("Only intercept was calculated with formula: %s", formula ) )
+          shinyWidgets::show_alert("Warning",
+            sprintf("No plots with only intercept was calculated with formula: %s", formula ) )
           return(NULL)
 
         }
 
         output$plotSJ1 <- shiny::renderPlot({
           # print(input$plotType)
-          browser()
+
           input$scaleElevation
           plot_model(m.fit, type = "est", show.intercept = F,
                      show.values = TRUE,
@@ -330,9 +330,9 @@ Moran I: Questa statistica misura l'autocorrelazione spaziale globale.
 
           ggplot( ) +
             ggtitle(""  ) +
-            geom_point( aes(y=data$Temperature,
+            geom_point( aes(colour = "Measured", y=data$Temperature,
                             x=data$Elevation/ifelse(input$scaleElevation,1000,1) ) ) +
-            geom_line( aes(y=m.fit$fitted.values,
+            geom_point(aes(colour =  "Estimated", y=m.fit$fitted.values,
                             x=data$Elevation/ifelse(input$scaleElevation,1000,1) ) ) +
             ylab("Temperature (°C)") +
             xlab( ifelse(input$scaleElevation, "Elevation (km)", "Elevation (m)")) +

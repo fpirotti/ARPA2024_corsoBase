@@ -32,6 +32,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse) 
 library(zoo)
 library(ggplot2)
+library(gstat)
+library(sp)
 suppressMessages(library(sjPlot))
 ```
 
@@ -56,6 +58,10 @@ geostatistica.
 Guarnieri](images/clipboard-658366646.png)
 :::
 
+## Dati di esempio
+
+VEDI anche <https://www.cirgeo.unipd.it/app01/GeospatialApp/>
+
 E' possibile costruire un modello di regressione utilizzando le
 coordinate dei dati come covariate per descrivere la variazione spaziale
 della variabile di interesse. In molti casi, per descrivere
@@ -68,11 +74,9 @@ estratta da sensore MODIS\*. Carichiamo i valori di temperatura dei due
 transetti:
 
 ```{r transect }
-library(terra)
+suppressMessages(library(terra))
 load("esercizi/modulo2/data/modulo2.rda")
 modisTemp <- terra::rast("esercizi/modulo2/data/VenetoCorrectedMODIS_LST_Avg2017.tif")
-
-
 ```
 
 ```{r transectb, eval=FALSE }
@@ -156,11 +160,7 @@ rect(MX-VarX^0.5, 10000,
      MX+VarX^0.5, 0, col = "#ff000045", border = "#ffffff00")
 abline(v=MX, col="red", lwd=2)
 
-plot(t2, xlab="km", ylab="temperatura", pch="+")
-abline(a = MX,0 )
-rect(0, MX-VarX^0.5, length(t2), 
-     MX+VarX^0.5, col = "#ff000045", border = "#ffffff00")
-# varianza  = (dev std)^2
+
 
 ```
 
@@ -201,13 +201,17 @@ Più aumentiamo la distanza del lag, come è ragionevole pensare per dati
 spazialmente correlati, più diminuisce il valore di covarianza (si
 allontana dal valore della varianza == covarianza ).
 
+Se si abbassa per poi rialzarsi, può indicare un pattern ricorrente
+(provate sostituendo i valori di t2 con un valore ciclico come
+`t2 <- sin((1:200)/10)` .
+
 ```{r covar3}
 
 plot(t2[1:(nm-1)], t2[2:nm], pch="x", cex=0.5, xlab="km", ylab="Temperatura" )
 cc=1
 covs<-list("0"=CovX, "1"=cov(t2[1:(nm-1)], t2[2:nm] ) )
 
-for(lag in seq(6, 36, 10)){ 
+for(lag in seq(6, nm, 5)){ 
   covs[[as.character(lag)]]<-cov(t2[1:(nm-lag)], t2[(lag+1):nm])
   points(t2[1:(nm-lag)], t2[(lag+1):nm], pch="x",cex=0.5, col=cc )
   cc=cc+1
@@ -324,9 +328,6 @@ sjPlot::tab_model(modello.lm)
 
 ```
 
-Prova a trasformare la distanza da m a km e vedere il risultato - perchè
-può essere utile? [D.10](#d.10)
-
 ## Fondamenti di algebra lineare nella regressione lineare (5)
 
 Modelli: Il lato destro può avere operatori che sembrano aritmetici ma
@@ -434,8 +435,16 @@ violate, rendendo necessario adottare approcci più flessibili.
 
 ## Stazionarietà
 
-L'ipotesi di stazionarietà è fondamentale per molte tecniche
+La caratteristica di stazionarietà è fondamentale per molte tecniche
 geostatistiche
+
+[Stazionarietà di primo ordine]{.underline}: stazionarietà della media,
+ovvero un campione in due aree diverse della regione di studio hanno
+media uguale.
+
+[Stazionarietà di secondo ordine]{.underline}: stazionarietà della
+varianza, ovvero un campione in due aree diverse della regione di studio
+hanno varianza uguale.
 
 Quasi sempre rappresenta una semplificazione della realtà.
 
@@ -514,20 +523,6 @@ plot(varianze.fin30)
 
 ```
 
-## Stazionarietà di primo ordine
-
-Stazionarietà della media, ovvero un campione in due aree diverse della
-regione di studio hanno media uguale.
-
-$$ \mathbb E[Z_i]== \mathbb E[Z_j] $$
-
-## Stazionarietà di secondo ordine
-
-Stazionarietà della varianza, ovvero un campione in due aree diverse
-della regione di studio hanno varianza uguale, che dipende solo.
-
-$$ \mathbb E[Z_i]== \mathbb E[Z_j] $$
-
 ## Test di stazionarietà - variogramma
 
 Insomma... i miei dati 2D soddisfano il presupposto di stazionarietà o
@@ -545,12 +540,61 @@ scala deve basarsi sul problema specifico.
 Per indagare/valutare la stazionarietà dei dati spaziali, in pratica la
 cosa migliore è usare un **variogramma o un autocorrelogramma**: - nel
 primo caso è un grafico che mostra come aumenta la covarianza a diversi
-lag. Se il variogramma è delimitato (raggiunge un massimo tetto (sill)
-di varianza) si può decidere che i dati sono stazionari, ma se il
-variogramma non è delimitato (non raggiunge un massimo) - nel secondo
-caso è un grafico che mostra l'autocorrelazione dei valori dei dati a
-diversi lag (spaziali o temporali). Se l'autocorrelazione diminuisce
-rapidamente, è un indice di stazionarietà.
+lag.
+
+## Variogramma {#variogramma}
+
+Immagina di avere una mappa che mostra il valore di una variabile (e.g.
+temperatura). I valori varieranno da punto a punto, e questa variabilità
+non è casuale: punti vicini tendono ad avere valori più simili rispetto
+a punti lontani. Il variogramma è uno strumento grafico che permette di
+visualizzare e quantificare questa relazione tra la distanza e la
+variabilità di un fenomeno spaziale.
+
+Per ogni coppia di punti a una determinata distanza, si calcola la metà
+della differenza al quadrato dei loro valori. Questa quantità è chiamata
+**semivarianza**. Il variogramma mette nell'asse X la distanza e
+nell'asse Y la semivarianza.
+
+Elementi:
+
+-   **Nugget:** Il valore iniziale del variogramma, indica la
+    variabilità a brevissima distanza. Un nugget elevato suggerisce una
+    componente casuale significativa.
+
+-   **Sill:** Il valore massimo a cui tende il variogramma, rappresenta
+    la variabilità totale.
+
+-   **Portata:** La distanza alla quale il variogramma raggiunge il
+    sill, indica la distanza oltre la quale i valori sono considerati
+    indipendenti.
+
+Il variogramma si dice delimitato se raggiunge un massimo tetto (sill)
+di varianza e si può decidere che i dati sono stazionari, ma se il
+variogramma non è delimitato (non raggiunge un massimo) .
+
+Proviamo con il nostro transetto...
+
+```{r variogrammaTransetto}
+dati = data.frame(Temperatura=t2)
+dati$X=1:nrow(dati)
+dati$Y=1:nrow(dati)
+coordinates(dati)<-  ~X+Y
+ 
+vr=gstat::variogram(Temperatura~1, data=dati)
+plot(vr)
+
+vr=gstat::variogram(Temperatura~1, data=dati, width=3)
+plot(vr)
+ 
+vr=gstat::variogram(Temperatura~1, data=dati,alpha=90, width=3)
+plot(vr)
+```
+
+## Autocorrelogramma
+
+nel secondo caso è un grafico che mostra l'autocorrelazione dei valori
+dei dati a diversi lag (spaziali o temporali).
 
 Si vuole studiare l'associazione tra le osservazioni della variabile
 analizzata in funzione di distanza e direzione. Le funzioni di
@@ -559,7 +603,21 @@ analizzata in funzione di distanza e direzione. Le funzioni di
 sono tutte funzioni che caratterizzano numericamente la forza di tali
 associazioni.
 
-## Test di stazionarietà - variogramma (2)
+## Stazionarietà - variogramma
+
+Il variogramma può aiutare a decidere se il
+
+**Forma coerente:** La forma complessiva del variogramma (ad esempio,
+sferica, esponenziale) deve rimanere coerente in diverse parti dell'area
+di studio.
+
+**Nessuna tendenza sistematica:** Il variogramma non deve presentare
+tendenze chiare verso l'alto o verso il basso all'aumentare della
+distanza.
+
+**Nessuna dipendenza dalla posizione:** Il variogramma non deve variare
+in modo significativo a seconda della posizione delle coppie di punti
+all'interno dell'area di studio.
 
 ```{r}
 library(gstat)
@@ -571,7 +629,7 @@ myplots<-function(vrs){
       col=runif(1,min=1,max=10)
   pch=runif(1,min=1,max=10)
   if(!add) { 
-    plot(vr$dist/1000, vr$gamma, xlab="Distanza (km)", ylab="varianza",col=col, 
+    plot(vr$dist/1000, vr$gamma, xlab="Distanza (km)", ylab="semivariance",col=col, 
        pch=pch)
   }
   else {
@@ -710,66 +768,67 @@ punti non campionati
 Vogliamo dunque stimare il valore Z\* in un punto dove non abbiamo una
 misura. Utilizziamo misure vicine, ma come?
 
+$$Z* = F(x,y) = \sum_{i=2}^n w_i Z_i$$ dove il peso del punto $1$
+dipende dalla distanza $h$ di un $i-esimo$ numero di punti $n$
+
 ## Vicino più prossimo (Nearest Neighbour - NN)
 
--   Vicino più prossimo (Nearest Neighbour - NN) - poligoni di Thiessen
-    danno l'area di influenza. $$ Z*= Z_i$$ Dove $Z_i$ è il vicino più
-    prossimo e $Z_*$ il punto da interpolare
+Semplicemente quello più vicino\
+$$ Z*= Z_i $$ Dove $Z_i$ è il vicino più prossimo e $Z_*$ il punto da
+interpolare
+
+![](images/clipboard-3998271010.png){width="250"}
+![](images/clipboard-3683404905.png){width="250"}
+![](images/clipboard-3155380353.png){width="250"}
+![](images/clipboard-3332915623.png){width="250"}
 
 ## Vicino Naturale (Natural Neighbour - NatN)
 
--   Vicino Naturale (Natural Neighbour - NatN) - poligoni di Thiessen
-    danno l'area di influenza.
+poligoni di Thiessen danno l'area di influenza.
 
-$$ Z*= $$
+$$ Z*= Z_i $$ dove ilpeso è indicato da Sibson
+
+$$
+Z_i(\mathbf{x})=\frac{A(\mathbf{x}_i)}{A(\mathbf{x})}
+$$
+
+dove $A(x)$ è il volume della nuova cella centrata in x e A(xi) è il
+volume dell'intersezione tra la nuova cella centrata in x e la vecchia
+cella centrata in xi.
 
 ![By Markluffel - Own work, CC BY-SA
 3.0](images/clipboard-2554189090.png)
 
--   IWD (inverso pesato sulla distanza)
+-    interpolatore esatto: i valori dei dati originali vengono mantenuti
+    nei punti di riferimento.
+
+-   crea una superficie liscia priva di discontinuità.
+
+-   è interamente locale, in quanto si basa su un sottoinsieme minimo di
+    posizioni dei dati che esclude le posizioni che, pur essendo vicine,
+    sono più distanti di un'altra posizione in una direzione simile.
+
+-   è adattivo dal punto di vista spaziale e si adatta automaticamente
+    alle variazioni locali della densità dei dati o della disposizione
+    spaziale.
+
+-   privo di ipotesi statistiche (puramente deterministico).
+
+-   può essere applicato a insiemi di dati molto piccoli, poiché non è
+    basato su dati statistici.
+
+-   privo di parametri, quindi semplice
+
+## Inverso pesato sulla distanza (IWD)
 
 $$Z* = F(x,y) = \sum_{i=2}^n w_i Z_i$$ dove il peso dipende dalla
 distanza $h$
 
 $$w_i = \frac {h_i^{-p}}{\displaystyle \sum_{j=i}^n h_j^{-p}}$$
 
-# Risposte alle domande {.Section1 .titlepage}
+e da una potenza $p$ che va inserita dall'utente e può essere oggetto di
+ottimizzazione.
 
-## D.01 {#d.01}
-
-ffff
-
-## D.10 {#d.10}
-
-La distanza in metri ha un intervallo molto ampio rispetto alla
-temperatura, dunque i valori numerici degli intervalli di confidenza e
-pendenza sembrano zero in quanto la precisione dei decimali non cattura
-quanto varia la temperatura per UNITA' di distanza, ovvero il metro. Se
-trasformiamo in km questo diventa più evidente - per 1 km di distanza la
-temperatura sembra diminuire di 3 gradi. Ovviamente questo è l'effetto
-delle Alpi al nord, e quindi è una correlazione ma non una causazione.
-Vediamo che il valore di R rimane identico, ovviamente, con valore di
-0.34.
-
-```{r  d10}
-
-dati<- data.frame(Temperatura=t2, Distanza_Km=1:length(t2) )
-modello.lm <- lm(Temperatura~Distanza_Km, data = dati)
-sjPlot::tab_model(modello.lm)
-modello.lm <- lm(Temperatura~I(Distanza_Km/1000), data = dati)
-
-sjPlot::tab_model(modello.lm)
-
-```
-
-## D.11 {#d.11}
-
-La distanza in metri ha un intervallo molto ampio rispetto alla
-temperatura, dunque i valori numerici degli intervalli di confidenza e
-pendenza sembrano zero in quanto la precisione dei decimali non cattura
-quanto varia la temperatura per UNITA' di distanza, ovvero il metro. Se
-trasformiamo in km questo diventa più evidente - per 1 km di distanza la
-temperatura sembra diminuire di 3 gradi. Ovviamente questo è l'effetto
-delle Alpi al nord, e quindi è una correlazione ma non una causazione.
-Vediamo che il valore di R rimane identico, ovviamente, con valore di
-0.34.
+::: caption
+![By Hassan Hadji CC-BY-SA Wiki](images/clipboard-1558596244.png)
+:::
