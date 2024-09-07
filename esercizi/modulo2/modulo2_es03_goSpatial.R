@@ -6,11 +6,11 @@ library(tidyterra)
 # NB se usate un progetto in RStudio la cartella di riferimento (radice)
 # da cui parte il percorso è quella del progetto!
 # E' ..........
-temperature <- terra::rast("esercizi/data/VenetoCorrectedMODIS_LST_Avg2017.tif")
+temperature <- terra::rast("esercizi/modulo2/data/VenetoCorrectedMODIS_LST_Avg2017.tif")
 ## aggiungiamo una potenziale covariata - la quota!
-DEM <- terra::rast("esercizi/data/VenetoDEM.tif")
+DEM <- terra::rast("esercizi/modulo2/data/VenetoDEM.tif")
 # comuni del Veneto (non serve per ora)
-#veneto <- sf::read_sf("esercizi/data/veneto.gpkg")
+#veneto <- sf::read_sf("esercizi/modulo2/data/veneto.gpkg")
 
 ## sample 1000 points
 smpl <- terra::spatSample(temperature, method="random",
