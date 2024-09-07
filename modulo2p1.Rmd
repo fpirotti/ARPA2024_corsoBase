@@ -37,6 +37,18 @@ library(sp)
 suppressMessages(library(sjPlot))
 ```
 
+## Riferimenti utili
+
+CRS - coordinate reference system\
+<https://r.geocompx.org/spatial-class#crs-intro>\
+<https://r-spatial.org/book/02-Spaces.html#sec-crs>\
+\
+meuse dataset\
+<https://cloud.r-project.org/web/packages/gstat/vignettes/gstat.pdf>\
+\
+metodi di interpolazione geografica\
+<https://r-spatial.org/book/12-Interpolation.html>
+
 ## Basi teoriche
 
 Proprietà specifiche delle misure geostatistiche di **variabilità
@@ -358,6 +370,7 @@ ggplot(dati, aes(x = Distanza_Km, y = Temperatura)) +
 
 Invece del transetto campioniamo dei punti di temperatura e quota. Vedi
 [Esercizio 3 del Modulo 2](esercizi/modulo2/modulo2_es03_goSpatial.R)
+"modulo2_es03_goSpatial.R".
 
 Per illustrare l'uso degli operatori e delle identità, proviamo modelli
 di temperatura funzione di varie potenze della quota e vediamo quello
@@ -683,9 +696,7 @@ sp::plot(vra)
 
 ```
 
-## Approcci per “rilassare” le condizioni
-
-### "Non" soddisfa il criterio di stazionarietà
+## Rilassare” le condizioni - **stazionarietà**
 
 Trend spaziale: Si introduce un trend deterministico per modellare
 variazioni sistematiche della media. E.g. Se troviamo delle covariate
@@ -699,9 +710,24 @@ diverse regioni dello spazio.
 Decomposizione della varianza: Si scompone la varianza in componenti
 stazionarie e non stazionarie.
 
-### "Non" soddisfa criterio di isotropia
+Applicazione di trasformazioni matematiche ai dati per renderli più
+stazionari (es. logaritmo, potenza).
 
-In questo caso bisogna t
+Modelli geostatistici più complessi che tengano conto della non
+stazionarietà (Kriging specifico).
+
+Analisi locale: Dividere lo spazio in sottoregioni più omogenee e
+analizzare separatamente il variogramma in ciascuna sottoregione
+
+## Rilassare” le condizioni - **isotropia**
+
+Trasformare le coordinate e.g. Si ruota il sistema di riferimento in
+modo che gli assi coincidano con le direzioni principali di anisotropia.
+In questo modo, si può ottenere un variogramma più circolare nelle nuove
+coordinate.
+
+Utilizzare modelli di variogramma anisotropi più semplici, come quelli
+con un angolo di rotazione fisso o con un'anisotropia geometrica.
 
 ## Variabili regionalizzate
 
@@ -799,7 +825,7 @@ cella centrata in xi.
 ![By Markluffel - Own work, CC BY-SA
 3.0](images/clipboard-2554189090.png)
 
--    interpolatore esatto: i valori dei dati originali vengono mantenuti
+-   interpolatore esatto: i valori dei dati originali vengono mantenuti
     nei punti di riferimento.
 
 -   crea una superficie liscia priva di discontinuità.
