@@ -425,16 +425,28 @@ consentono di allentare la forma più rigorosa di ciascuno di questi
 presupposti. Tuttavia, nella realtà, queste condizioni sono spesso
 violate, rendendo necessario adottare approcci più flessibili.
 
+## Stazionarietà e isotropia
+
 1.  Stazionarietà "formale": le proprietà statistiche del processo
-    spaziale rimangono costanti in tutte le località. La distribuzione
-    di probabilità congiunta non varia nello spazio di studio. Di
-    conseguenza, i parametri (come la media complessiva dei valori,
-    l'intervallo e la soglia del variogramma) non variano nello spazio
-    di studio. Si presume che lo stesso modello di variogramma sia
-    valido in tutto lo spazio di studio. Si tratta di un'ipotesi che
-    raramente si verifica nei dati del mondo reale.
+    spaziale rimangono costanti **in tutte le località**. La
+    distribuzione di probabilità congiunta non varia nello spazio di
+    studio. Di conseguenza, i parametri (come la media complessiva dei
+    valori, l'intervallo e la soglia del variogramma\*) non variano
+    nello spazio di studio. Si presume che lo stesso modello di
+    variogramma\* sia valido in tutto lo spazio di studio. Si tratta di
+    un'ipotesi che raramente si verifica nei dati del mondo reale.
 2.  Stazionarietà "debole": si ipotizza che la media e la
     varianza/covarianza siano costanti nella regione di interesse
+
+\* Spoiler: il variogramma è un grafico con l'asse delle x che
+rappresenta la distanza tra due punti e l'asse delle y che rappresenta
+la varianza delle differenze tra i valori misurati in quei due punti.
+Solitamente si usa il SEMIvariogramma, ovvero la semivarianza, i.e. metà
+della media di tutte le differenze tra valori di punti che si trovano
+entro una certa distanza reciproca.
+
+## Stazionarietà e isotropia
+
 3.  Isotropia: l'autocorrelazione spaziale tra le risposte in 2 siti
     dipende solo dalla distanza e non dalla direzione o
     dall'orientamento. dipende solo dalla distanza e forse dalla
@@ -444,7 +456,7 @@ violate, rendendo necessario adottare approcci più flessibili.
 4.  Continuità spaziale: l'autocorrelazione spaziale tra le risposte in
     2 siti dipende solo dalla distanza e forse dalla direzione
     dell'orientamento non dalla posizione di questi siti nella regione
-    di interesse. siti sono situati nella regione di interesse.
+    di interesse.
 
 ## Stazionarietà
 
@@ -552,8 +564,8 @@ scala deve basarsi sul problema specifico.
 
 Per indagare/valutare la stazionarietà dei dati spaziali, in pratica la
 cosa migliore è usare un **variogramma o un autocorrelogramma**: - nel
-primo caso è un grafico che mostra come aumenta la covarianza a diversi
-lag.
+primo caso è un grafico che mostra come cambia il valore la covarianza a
+diversi lag.
 
 ## Variogramma {#variogramma}
 
@@ -585,6 +597,33 @@ Elementi:
 Il variogramma si dice delimitato se raggiunge un massimo tetto (sill)
 di varianza e si può decidere che i dati sono stazionari, ma se il
 variogramma non è delimitato (non raggiunge un massimo) .
+
+## Semivariogramma - cloud vs. plot
+
+![Fonte: Dr. Gaufeng Cao - University of Colorado
+Boulder](images/clipboard-1990818548.png)
+
+## Semivariogramma - esempi 1
+
+![Fonte: Dr. Gaufeng Cao - University of Colorado
+Boulder](images/clipboard-3595471897.png)
+
+## Semivariogramma - esempi 2
+
+![Fonte: Dr. Gaufeng Cao - University of Colorado
+Boulder](images/clipboard-1802194980.png)
+
+## Semivariogramma - esempi 3
+
+![Fonte: Dr. Gaufeng Cao - University of Colorado
+Boulder](images/clipboard-806171150.png)
+
+## Semivariogramma - esempi 4
+
+![Fonte: Dr. Gaufeng Cao - University of Colorado
+Boulder](images/clipboard-3963613121.png)
+
+## Semivariogramma - test
 
 Proviamo con il nostro transetto...
 
