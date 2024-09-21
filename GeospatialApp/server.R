@@ -4,7 +4,7 @@
 #
 # Find out more about building applications with Shiny here:
 #
-#    https://shiny.posit.co/
+#    https://sh lol okiny.posit.co/
 #
 
 library(shiny)
@@ -12,7 +12,7 @@ library(shiny)
 # Define server logic required to draw a histogram
 function(input, output, session) {
 
-
+    source("functions_auth.R", local=T)
     logit("Log info")
 
 
@@ -163,6 +163,15 @@ function(input, output, session) {
       data<- data[["3035"]]
 
       hist(data$Temperature )
+
+    })
+
+
+    output$pppkfunctionPlot<-renderPlot(  {
+      data = filteredData()
+      data<- data[["3035"]]
+      ppp=as.ppp(data)
+      plot(envelope(ppp, Kest, nsim=30), main=sprintf("K-function num. di simulazioni = %d", 30))
 
     })
 

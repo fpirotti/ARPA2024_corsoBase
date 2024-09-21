@@ -596,7 +596,7 @@ Elementi:
 
 Il variogramma si dice delimitato se raggiunge un massimo tetto (sill)
 di varianza e si può decidere che i dati sono stazionari, ma se il
-variogramma non è delimitato (non raggiunge un massimo) .
+variogramma non è delimitato (non raggiunge un massimo) no.
 
 ## Semivariogramma - cloud vs. plot
 
@@ -735,7 +735,7 @@ sp::plot(vra)
 
 ```
 
-## Rilassare” le condizioni - **stazionarietà**
+## Rilassare le condizioni - **stazionarietà**
 
 Trend spaziale: Si introduce un trend deterministico per modellare
 variazioni sistematiche della media. E.g. Se troviamo delle covariate
@@ -758,7 +758,7 @@ stazionarietà (Kriging specifico).
 Analisi locale: Dividere lo spazio in sottoregioni più omogenee e
 analizzare separatamente il variogramma in ciascuna sottoregione
 
-## Rilassare” le condizioni - **isotropia**
+## Rilassare le condizioni - **isotropia**
 
 Trasformare le coordinate e.g. Si ruota il sistema di riferimento in
 modo che gli assi coincidano con le direzioni principali di anisotropia.
@@ -851,7 +851,7 @@ interpolare
 
 poligoni di Thiessen danno l'area di influenza.
 
-$$ Z*= Z_i $$ dove ilpeso è indicato da Sibson
+$$ Z*= Z_i $$ dove il peso è indicato da Sibson
 
 $$
 Z_i(\mathbf{x})=\frac{A(\mathbf{x}_i)}{A(\mathbf{x})}

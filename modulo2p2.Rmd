@@ -43,15 +43,13 @@ nell'area Bayesiana di maggiore probabilità (zona grigia nella figura)
         dalla **distanza** tra coppie di punti e non dalla loro
         posizione
 
-[![Fonte:
-wikipedia](images/clipboard-2657392152.png)](https://en.wikipedia.org/wiki/Kriging)
+![Fonte: wikipedia](images/clipboard-2657392152.png)
 
 ## Kriging: tipologie
 
-Importante dividere in tre gruppi il Kriging (K) per scegliere quello
-corretto:
+### Geostatistica uni-(co)variata
 
-### geostatistica univariata
+Una variabile sola considerata o con multivariata (co-kriging)
 
 -   **Simple K** - si presuppone una media costante nota nell'area di
     lavoro
@@ -61,11 +59,8 @@ corretto:
 -   **Universal K** - si presuppone una media ignota non costante ma con
     un trend lineare
 
-### geostatistica multivariata
-
--   **CoKriging** -
-
-## Covarianza, correlogramma
+![gstat albero decisionale (Applied Spatial Data Analysis with R,
+2013)](images/clipboard-1965914475.png)
 
 ## Semivariogramma
 
@@ -78,9 +73,17 @@ nel kriging per ottenere funzioni di ponderazione ottimali per la
 mappatura. Il kriging utilizza il semivariogramma, o meglio un modello
 matematico del semivariogramma, per calcolare le stime della superficie
 ai nodi della griglia. Queste stime di kriging sono le migliori stime
-lineari imparziali della superficie nelle posizioni specificate, a
+lineari oggettive della superficie nelle posizioni specificate, a
 condizione che la superficie sia stazionaria e che sia stata determinata
 la forma corretta del semivariogramma.
+
+$$
+\gamma(h) = 0.5 * average((Z_i – Z_j)^2)^*
+$$
+
+\*per coppia di punti $Z$ a distanza $h$
+
+## Semivariogramma
 
 Ogni punto della nuvola rappresenta una coppia di punti nel set di dati,
 quindi il numero di punti nella nuvola aumenterà rapidamente
@@ -90,12 +93,9 @@ di dati, la nuvola di semivariogramma/covarianza visualizzerà
 $$\frac{n*(n-1)}{2}$$
 
 punti. Per questo motivo, non è consigliabile utilizzare set di dati con
-più di qualche migliaio di punti. Se il dataset contiene più di qualche
-migliaio di punti, è necessario utilizzare lo strumento Subset Features
-per prendere un campione casuale di punti e utilizzare questo
-sottoinsieme nella nuvola di semivariogrammi/covarianze.
+più di qualche migliaio di punti.
 
-## Variogramma {#variogramma}
+## Semivariogramma
 
 Il semivariogramma... \|h\| indica la distanza di lag dove la covarianza
 rimane costante. Questo viene rappresentato in modelli
@@ -112,18 +112,6 @@ https://www.gstat.org/gstat.pdf](images/clipboard-407483668.png)](https://www.gs
 
 [![Courtesy of E.J. Pebesma -
 https://www.gstat.org/gstat.pdf](images/clipboard-101695801.png)](https://www.gstat.org/gstat.pdf)
-
-## Kriging variance, come viene calcolata
-
-ff
-
-## Studio variografico di una variabile georeferenziata
-
-ff
-
-## Variogramma sperimentale
-
-ff
 
 ## Modello di variogramma: range, sill e nugget
 

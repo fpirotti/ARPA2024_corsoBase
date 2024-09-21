@@ -17,6 +17,8 @@ library(gstat)
 library(sp)
 library(spdep)
 library(nabor)
+
+library("spatstat")
 library(shinyjs)
 
 mycolb <- rgb(0,0,255, alpha = 125,max=255)#blu

@@ -26,13 +26,13 @@ dashboardPage(skin = "black",
           div(title="You can write your own function using R formula syntax",
                shiny::textInput("fitm", "Custom Function")  ),
 
-          # menuItem("Neighbourhood", icon = icon("location"),
-          #          menuSubItem(tabName = "ripk", "Ripley's K"),
-          #          menuSubItem(tabName = "mori", "Moran's I"),
-          #          menuSubItem(tabName = "gfun", "G-function"),
-          #          menuSubItem(tabName = "ffun", "F-function"),
-          #          menuSubItem(tabName = "quada", "Quadrat analysis")
-          #          ),
+          menuItem("Point Pattern Analysis", tabName = "ppptab", icon = icon("location")
+                   # menuSubItem(tabName = "ripk", "Ripley's K"),
+                   # menuSubItem(tabName = "mori", "Moran's I"),
+                   # menuSubItem(tabName = "gfun", "G-function"),
+                   # menuSubItem(tabName = "ffun", "F-function"),
+                   # menuSubItem(tabName = "quadana", "Quadrat analysis")
+                   ),
           menuItem("Spat. Autocorrelation", icon = icon("line-chart"),
                    menuSubItem(tabName = "variogr", "Variogram"),
                    # menuSubItem(tabName = "localmori", "Local Moran's I" ),
@@ -131,34 +131,46 @@ in Elevation... try it!",
 
                ),
 
-        tabItem("ripk",
-                h3("Ripley's K"),
-                h4("Ripley's K test determines if points are clustered, dispersed, or randomly distributed.
-                   It considers density of point patterns. Does not consider the values at those points")
-        ),
-
-        tabItem("mori",
-                h3("Moran's I test"),
-                h4("A global spatial autocorrelation statistic used to measure the
+      tabItem("ppptab",
+          tabBox( width=12,
+                  # The id lets us use input$tabset1 on the server to find the current tab
+                  id = "tabset2", height = "250px",
+                  tabPanel("Ripley's K",
+                           div("Ripley's K test determines if points are clustered, dispersed, or randomly distributed.
+                   It considers density of point patterns. Does not consider the values at those points"),
+                           plotOutput("pppkfunctionPlot") ),
+                  tabPanel("F-Function",    plotOutput("pppffunctionPlot")),
+                  tabPanel( "Moran's I test" ,
+                          "A global spatial autocorrelation statistic used to measure the
                    spatial dependence between features in a dataset.
-                   It assesses whether similar values are clustered together or dispersed..")
-        ),
+                   It assesses whether similar values are clustered together or dispersed.."
+                  )
+#
+#
+#                   tabPanel( "G Function" ,
+#                           h4("Similar to the K-function of Ripley, but focuses on the number of points outside a given distance.")
+#                   ),
+#
+#                   tabPanel( "F-function" ,
+#                           h4("Compares the distribution of distances between pairs of points
+#                    in the observed pattern to that expected under CSR (Complete Spatial Randomness).")
+#                   ),
+#
+#                   tabPanel( "Quadrat analysis" ,
+#                           div(" Divides the study area into quadrats and counts the number
+#                 of points in each cell, comparing the expected number vs the
+#                 observed number. The difference is used in the classical
+#                 Chi-squared test to assess
+# if the difference between observed and expected is enough
+#                     to reject the null hypothesis dependin on the user-defined
+#                     confidence level (usually 95% or 99%).")
+#                   )
+          )
+),
 
-        tabItem("gfun",
-                h3("G Function"),
-                h4("Similar to the K-function of Ripley, but focuses on the number of points outside a given distance.")
-        ),
 
-        tabItem("gfun",
-                h3("F-function"),
-                h4("Compares the distribution of distances between pairs of points
-                   in the observed pattern to that expected under CSR (Complete Spatial Randomness).")
-        ),
 
-        tabItem("quadana",
-                h3("Quadrat analysis"),
-                h4(" Divides the study area into quadrats and counts the number of points in each.")
-        ),
+
 
         tabItem("variogr",
 

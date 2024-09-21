@@ -9,20 +9,33 @@ library(sp)
 # to load necessary data
 
 # plot clearly shows that detrending is needed regarding Y and Quota
-sjPlot::plot_model(modello.lm2,
-                   show.values = TRUE )
+# sjPlot::plot_model(modello.lm2,
+#                    show.values = TRUE )
+
+smpl.sf = smpl %>%  sf::st_as_sf() %>% na.omit()
+# coordinates(smpl.df) <- ~x+y
+# crs(smpl.df)<-CRS("epsg:4326")
+
+x <- variogram(Temp~1, data= smpl.sf[1:100,], cloud=TRUE)
+plot(plot(x, identify = TRUE), smpl.sf[1:100,])
+
+x <- variogram(Temp~Quota.m, data= smpl.sf[1:100,], cloud=TRUE)
+plot(plot(x, identify = TRUE), smpl.sf[1:100,])
 
 
-coordinates(smpl.df) <- ~x+y
-crs(smpl.df)<-CRS("epsg:4326")
+#plot empirical variogram
+t.vgm<-variogram(Temp~1,data=smpl.sf)
+plot(t.vgm)
 
-x <- variogram(Temp~1, data= smpl.df[1:100,], cloud=TRUE)
+t.fit<-fit.variogram(t.vgm, vgm("Sph"));
+t.fit        # use when don't have estimate of range, sill
 
-plot(plot(x, identify = TRUE), smpl.df[1:100,])
-plot(plot(x, digitize = TRUE), smpl.df[1:100,])
+t.vgm<-variogram(Temp~1,data=smpl.sf)
+plot(t.vgm)
+
+plot(t.vgm, t.fit)  #got a nice fit?
 
 
-cov(smpl.df[1:500,]$Temp, smpl.df[1:500,]$Temp)
+t.dvg1<-variogram( Temp~ Quota.m, data= smpl.sf )
+plot(t.dvg1)
 
-x <- variogram(Temp~1, data= smpl.df[1:100,])
-plot(x)
