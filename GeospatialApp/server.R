@@ -14,13 +14,22 @@ function(input, output, session) {
 
     source("functions_auth.R", local=T)
     logit("Log info")
-
+    print("df")
 
     output$table<-shiny::renderUI({
       shiny::HTML("<b>Table with regression results</b>")
     })
 
-   ### DATA FILTER ----
+
+    output$nearestneighbourPlot <-shiny::renderUI({
+      print(input$nn1plot)
+      req(input$nn1plot)
+      print(input$nn1plot)
+      shiny::HTML("<b>hello</b>",
+                  input$nnplot)
+    })
+
+    ## DATA FILTER ----
     filteredData <- reactive({
          req(input$sample)
          bb <- isolate(input$mymap_bounds)

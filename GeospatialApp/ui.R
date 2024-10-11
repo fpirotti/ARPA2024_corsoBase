@@ -268,12 +268,16 @@ Y-axis: Represents the calculated semi-variance for each pair.",
                 h4("Combines spatial lag and error models.")
         ),
         tabItem(tabName = "nearestneighbour",
+                actionButton("nn1plot", "Run NN Plot"),
                 uiOutput("nearestneighbourPlot")),
         tabItem(tabName = "naturalneighbour",
+                actionButton("nn2plot", "Run"),
                 plotOutput("naturalneighbourPlot")),
         tabItem(tabName = "idw",
+                actionButton("idwplot", "Run"),
                 plotOutput("idwPlot")),
         tabItem(tabName = "kriging",
+                actionButton("krigplot", "Run"),
                 plotOutput("krigingPlot"))
     )
   )

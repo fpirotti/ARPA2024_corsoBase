@@ -1,12 +1,12 @@
 library(terra)
-
+#raster temperatura
 temperature <- terra::rast("esercizi/modulo2/data/VenetoCorrectedMODIS_LST_Avg2017.tif")
-## aggiungiamo una potenziale covariata - la quota!
+## aggiungiamo una potenziale covariata - la quota! - vedi slide "External Drift Kriging"
 DEM <- terra::rast("esercizi/modulo2/data/VenetoDEM.tif")
 
 smpl <- terra::spatSample(temperature, method="random",
                           size=1000, na.rm=T,  as.points=T)
-
+# estraggo i valori di quota
 q <- terra::extract(DEM, smpl, ID=F )
 smpl$altitude <- q$VenetoDEM
 
@@ -15,7 +15,7 @@ xy <- terra::geom(smpl)[,3:4]
 names(smpl)  <-  c("Temp", "Quota.m" )
 # na.omit elimina eventuali righe con NA o NaN
 smpl.df <-  na.omit( as_tibble( cbind(smpl, xy) ) )
-
+save(smpl.df, file="esercizi/modulo2/smpl.df.rda")
 library(tidyverse)
 smpl.df2 <- smpl %>% cbind(xy) %>% as_tibble %>% na.omit
 

@@ -265,15 +265,14 @@ essenzialmente un metodo ibrido.
 
 ### Come funziona:
 
-1.  \*\*Un modello di regressione viene costruito per spiegare la
-    variazione della variabile target utilizzando variabili ausiliarie
-    (covariate).
-2.  \*\*I residui del modello di regressione rappresentano la parte non
+1.  Un modello di regressione viene costruito per spiegare la variazione
+    della variabile target utilizzando variabili ausiliarie (covariate).
+2.  I residui del modello di regressione rappresentano la parte non
     spiegata della variazione.
-3.  \*\*I residui vengono interpolati con tecniche di kriging (come il
+3.  I residui vengono interpolati con tecniche di kriging (come il
     Kriging ordinario) per catturare l'autocorrelazione spaziale.
-4.  \*\*La previsione finale è la somma del valore previsto dal modello
-    di regressione e del residuo previsto dal kriging.
+4.  La previsione finale è la somma del valore previsto dal modello di
+    regressione e del residuo previsto dal kriging.
 
 ### Differenze chiave rispetto ad altri metodi:
 
@@ -324,13 +323,13 @@ I risultati possono risultare carenti quando:
     e/o i valori che la variabile assume in tali punti, né il dominio di
     studio.
 -   A volte vengono utilizzate condizioni al contorno nell’area (punti
-    fittizi) che non rispecchiano dati reali misurati.  Raramente
-    vengono applicati più modelli di stima allo stesso set di dati ed
-    effettuato il confronto fra le varianze di stima.
+    fittizi) che non rispecchiano dati reali misurati.
+-   Raramente vengono applicati più modelli di stima allo stesso set di
+    dati ed effettuato il confronto fra le varianze di stima.
 -   Quando vengono utilizzati modelli statistici (kriging), non viene
     riportata la determinazione del variogramma sperimentale e del
     variogramma modello utilizzato, né viene prodotta la mappa delle
     incertezze.
 
-non limitarsi solo a fornire delle “mappe”, ma indicare tutte le
-valutazioni che le hanno prodotte oltre all’incertezza dei risultati.
+**non limitarsi solo a fornire delle “mappe”, ma indicare tutte le
+valutazioni che le hanno prodotte oltre all’incertezza dei risultati.**

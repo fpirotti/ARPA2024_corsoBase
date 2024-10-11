@@ -6,7 +6,7 @@
   <meta http-equiv="Content-Style-Type" content="text/css" />
   <meta name="generator" content="pandoc" />
   <meta name="author" content="Francesco Pirotti" />
-  <meta name="date" content="2024-09-20" />
+  <meta name="date" content="2024-10-11" />
   <meta name="copyright" content="2024, Prof. Francesco Pirotti" />
   <title>Modulo 2 parte 2 - TECNICHE DI KRIGING GEOSTATISTICA LIVELLO BASE</title>
   <style type="text/css">
@@ -401,7 +401,7 @@ LIVELLO BASE</h1>
   <p class="author">
 Francesco Pirotti
   </p>
-  <p class="date">2024-09-20</p>
+  <p class="date">2024-10-11</p>
 </div>
 <div id="tecniche-di-kriging-parte-2---analisi-spaziale-dei-dati" class="title-slide slide section level1 Section1 titlepage">
 <h1 class="Section1 titlepage">TECNICHE DI KRIGING: Parte 2 - Analisi
@@ -636,14 +636,14 @@ interpolazione spaziale che combina i punti di forza della regressione e
 del kriging. È essenzialmente un metodo ibrido.</p>
 <h3 id="come-funziona-2">Come funziona:</h3>
 <ol style="list-style-type: decimal">
-<li>**Un modello di regressione viene costruito per spiegare la
-variazione della variabile target utilizzando variabili ausiliarie
+<li>Un modello di regressione viene costruito per spiegare la variazione
+della variabile target utilizzando variabili ausiliarie
 (covariate).</li>
-<li>**I residui del modello di regressione rappresentano la parte non
+<li>I residui del modello di regressione rappresentano la parte non
 spiegata della variazione.</li>
-<li>**I residui vengono interpolati con tecniche di kriging (come il
+<li>I residui vengono interpolati con tecniche di kriging (come il
 Kriging ordinario) per catturare l’autocorrelazione spaziale.</li>
-<li>**La previsione finale è la somma del valore previsto dal modello di
+<li>La previsione finale è la somma del valore previsto dal modello di
 regressione e del residuo previsto dal kriging.</li>
 </ol>
 <h3 id="differenze-chiave-rispetto-ad-altri-metodi">Differenze chiave
@@ -699,17 +699,17 @@ utilizzato.</li>
 e/o i valori che la variabile assume in tali punti, né il dominio di
 studio.</li>
 <li>A volte vengono utilizzate condizioni al contorno nell’area (punti
-fittizi) che non rispecchiano dati reali misurati.  Raramente vengono
-applicati più modelli di stima allo stesso set di dati ed effettuato il
-confronto fra le varianze di stima.</li>
+fittizi) che non rispecchiano dati reali misurati.</li>
+<li>Raramente vengono applicati più modelli di stima allo stesso set di
+dati ed effettuato il confronto fra le varianze di stima.</li>
 <li>Quando vengono utilizzati modelli statistici (kriging), non viene
 riportata la determinazione del variogramma sperimentale e del
 variogramma modello utilizzato, né viene prodotta la mappa delle
 incertezze.</li>
 </ul>
-<p>non limitarsi solo a fornire delle “mappe”, ma indicare tutte le
-valutazioni che le hanno prodotte oltre all’incertezza dei
-risultati.</p>
+<p><strong>non limitarsi solo a fornire delle “mappe”, ma indicare tutte
+le valutazioni che le hanno prodotte oltre all’incertezza dei
+risultati.</strong></p>
 </div>
 
   <!-- dynamically load mathjax for compatibility with self-contained -->

@@ -53,12 +53,13 @@ plot(x=smpl.df$Temp,
      pch="+",
      xlab="Temperature Measured",
      ylab="Temperature Modelled")
+
 points(x=smpl.df$Temp,
        y=modello.lm2$fitted.values,
        pch="°", col="blue")
 abline(a=0, b=1, col="red", lwd=3)
 
-
+save(smpl.df, file="esercizi/modulo2/smpl.df.rda")
 # oppure librerie più sofisticate come
 sjPlot::plot_model(modello.lm2,
                    show.values = TRUE )
