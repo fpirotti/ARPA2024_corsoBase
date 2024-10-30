@@ -3,17 +3,17 @@ title: "Modulo 2 parte 1 - TECNICHE DI KRIGING GEOSTATISTICA LIVELLO BASE"
 author: "Francesco Pirotti"
 date: "`r Sys.Date()`"
 output:
-  slidy_presentation:
-    fig_width: 6
-    fig_height: 4
-    footer: 2024, Prof. Francesco Pirotti
-    css: style.css
   pdf_document:
     toc: true
     number_sections: true
     toc_depth: 3
     fig_width: 6
     fig_height: 4
+  slidy_presentation:
+    fig_width: 6
+    fig_height: 4
+    footer: 2024, Prof. Francesco Pirotti
+    css: style.css
   html_document:
     toc: true
     toc_depth: 2
